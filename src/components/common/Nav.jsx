@@ -64,8 +64,6 @@ const NavContainerStyle = styled.div`
       color: #767676;
       font-size: 12px;
       box-shadow: inset 0 0 10px red;
-
-      /* text-align: center; */
     }
 
     .nav-btn::before {

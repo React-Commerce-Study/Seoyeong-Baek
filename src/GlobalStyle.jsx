@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
 
  img{
    width: inherit;
+
  }
 
  button {
