@@ -2,10 +2,16 @@ import React from 'react';
 import InstaImg from '../../assets/icon/icon-insta.svg';
 import FacebookImg from '../../assets/icon/icon-fb.svg';
 import YoutubeImg from '../../assets/icon/icon-yt.svg';
+import styled from 'styled-components';
+
+const LinkBtnContainerStyle = styled.ul`
+  box-shadow: inset 0 0 10px red;
+  display: flex;
+`;
 
 export default function LinkSnsBtn() {
   return (
-    <ul className="link-sns-nav">
+    <LinkBtnContainerStyle>
       <li>
         <a href="#">
           <img src={InstaImg} alt="인스타 이미지" />
@@ -21,6 +27,6 @@ export default function LinkSnsBtn() {
           <img src={YoutubeImg} alt="유튜브 이미지" />
         </a>
       </li>
-    </ul>
+    </LinkBtnContainerStyle>
   );
 }
