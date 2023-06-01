@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ProductItem from './ProductItem';
+import styled from 'styled-components';
+
+const MainStyle = styled.main`
+  max-width: 1280px;
+  margin: 80px auto;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 10px red;
+`;
 
 export default function ProductList() {
   const [fetchPage, setFetchPage] = useState(1);
@@ -24,11 +32,11 @@ export default function ProductList() {
     }
   }
 
-  // console.log(productList.results);
+  console.log(productList);
 
   return (
-    <main>
+    <MainStyle>
       <ProductItem productList={productList} />
-    </main>
+    </MainStyle>
   );
 }

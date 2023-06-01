@@ -4,10 +4,19 @@ const { default: reset } = require('styled-reset');
 const GlobalStyle = createGlobalStyle`
  ${reset}
 
+ @font-face {
+      font-family: 'Pretendard-Regular';
+      src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+  }
+
  :root{
+    font-family: 'Pretendard-Regular';
+    
     --point-color: #21BF48;
-  
  }
+
 
  li{
     list-style: none;
@@ -23,7 +32,6 @@ const GlobalStyle = createGlobalStyle`
     background:none;
     border:none;
  }
-
 
 `;
 
