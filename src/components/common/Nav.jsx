@@ -6,6 +6,36 @@ import User from '../../assets/icon/icon-user.svg';
 import SearchImg from '../../assets/icon/search.svg';
 import styled from 'styled-components';
 
+export default function Nav() {
+  return (
+    <NavContainerStyle>
+      <nav className="navbar">
+        <h1>
+          <Link to="/">
+            <img src={LogoImg} className="logo" Logo alt="로고 이미지" />
+          </Link>
+        </h1>
+
+        <form className="search-form">
+          <input type="search" placeholder="상품을 검색해보세요!" className="search-input" />
+          <button type="submit" className="search-btn">
+            <img src={SearchImg} alt="" />
+          </button>
+        </form>
+
+        <ul className="nav-menu">
+          <li>
+            <button className="nav-btn">장바구니</button>
+          </li>
+          <li>
+            <button className="nav-btn login">로그인</button>
+          </li>
+        </ul>
+      </nav>
+    </NavContainerStyle>
+  );
+}
+
 const NavContainerStyle = styled.div`
   padding: 22px 0;
   box-shadow: inset 0 0 10px red;
@@ -25,6 +55,10 @@ const NavContainerStyle = styled.div`
     width: 124px;
     height: 38px;
     box-shadow: inset 0 0 10px red;
+
+    .logo {
+      width: 100%;
+    }
   }
 
   .search-form {
@@ -69,6 +103,7 @@ const NavContainerStyle = styled.div`
 
     .nav-btn::before {
       display: block;
+      margin: 0 auto;
       background: url(${ShoppingCart}) no-repeat center;
       background-size: contain;
       content: '';
@@ -82,33 +117,3 @@ const NavContainerStyle = styled.div`
     }
   }
 `;
-
-export default function Nav() {
-  return (
-    <NavContainerStyle>
-      <nav className="navbar">
-        <Link to="/">
-          <h1>
-            <img src={LogoImg} className="logo" Logo alt="로고 이미지" />
-          </h1>
-        </Link>
-
-        <form className="search-form">
-          <input type="search" placeholder="상품을 검색해보세요!" className="search-input" />
-          <button type="submit" className="search-btn">
-            <img src={SearchImg} alt="" />
-          </button>
-        </form>
-
-        <ul className="nav-menu">
-          <li>
-            <button className="nav-btn">장바구니</button>
-          </li>
-          <li>
-            <button className="nav-btn login">로그인</button>
-          </li>
-        </ul>
-      </nav>
-    </NavContainerStyle>
-  );
-}
