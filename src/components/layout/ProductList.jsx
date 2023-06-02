@@ -37,8 +37,7 @@ export default function ProductList() {
       console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
     }
   }
-
-  console.log(productList);
+  // console.log(productList);
 
   return (
     <MainStyle>

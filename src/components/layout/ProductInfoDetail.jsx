@@ -1,32 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProductInfoDetail from './ProductInfoDetail';
-import { useNavigate } from 'react-router-dom';
 
-export default function ProductItem({ productList }) {
-  const navigate = useNavigate();
-
+export default function ProductInfoDetail({ product }) {
+  //   console.log(product);
   return (
-    <ProductListContainerStyle>
-      {productList &&
-        productList.map((product) => {
-          return (
-            <li key={product.product_id} onClick={() => navigate(`/product/${product.product_id}`, { state: product })}>
-              <ProductInfoDetail product={product} />
-            </li>
-          );
-        })}
-    </ProductListContainerStyle>
+    <ProductInfoDetailStyle>
+      <div className="img-box">
+        <img src={product.image} alt={product.product_name} />
+      </div>
+      <div className="info-box">
+        <p className="store-name">{product.store_name}</p>
+        <p className="product-name">{product.product_name}</p>
+        <p className="product-price">
+          <strong>{product.price.toLocaleString()}</strong>원
+        </p>
+      </div>
+    </ProductInfoDetailStyle>
   );
 }
 
-const ProductListContainerStyle = styled.ul`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 70px;
-
-  /* .img-box {
+const ProductInfoDetailStyle = styled.div`
+  .img-box {
     overflow: hidden;
     width: 380px;
     height: 380px;
@@ -65,5 +59,5 @@ const ProductListContainerStyle = styled.ul`
       font-size: 24px;
       line-height: 30px;
     }
-  } */
+  }
 `;

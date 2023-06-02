@@ -12,7 +12,7 @@ export default function Nav() {
       <nav className="navbar">
         <h1>
           <Link to="/">
-            <img src={LogoImg} className="logo" Logo alt="로고 이미지" />
+            <img src={LogoImg} className="logo" alt="로고 이미지" />
           </Link>
         </h1>
 
