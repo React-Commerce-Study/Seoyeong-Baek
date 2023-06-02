@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export default function ProductItem({ productList }) {
   return (
@@ -8,16 +9,18 @@ export default function ProductItem({ productList }) {
         productList.map((product) => {
           return (
             <li key={product.product_id}>
-              <div className="img-box">
-                <img src={product.image} alt={product.product_info} />
-              </div>
-              <div className="info-box">
-                <p className="store-name">{product.store_name}</p>
-                <p className="product-name">{product.product_name}</p>
-                <p className="product-price">
-                  <strong>{product.price.toLocaleString()}</strong>원
-                </p>
-              </div>
+              <Link to={`/product/${product.product_id}`} className="product-link">
+                <div className="img-box">
+                  <img src={product.image} alt={product.product_info} />
+                </div>
+                <div className="info-box">
+                  <p className="store-name">{product.store_name}</p>
+                  <p className="product-name">{product.product_name}</p>
+                  <p className="product-price">
+                    <strong>{product.price.toLocaleString()}</strong>원
+                  </p>
+                </div>
+              </Link>
             </li>
           );
         })}

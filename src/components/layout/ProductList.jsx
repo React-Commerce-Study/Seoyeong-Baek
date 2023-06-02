@@ -38,7 +38,7 @@ export default function ProductList() {
     }
   }
 
-  // console.log(productList);
+  console.log(productList);
 
   return (
     <MainStyle>

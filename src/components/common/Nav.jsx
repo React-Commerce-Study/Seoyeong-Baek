@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import LogoImg from '../../assets/icon/Logo-hodu.png';
 import ShoppingCart from '../../assets/icon/icon-shopping-cart.svg';
 import User from '../../assets/icon/icon-user.svg';
@@ -86,9 +87,11 @@ export default function Nav() {
   return (
     <NavContainerStyle>
       <nav className="navbar">
-        <h1>
-          <img src={LogoImg} className="logo" Logo alt="로고 이미지" />
-        </h1>
+        <Link to="/">
+          <h1>
+            <img src={LogoImg} className="logo" Logo alt="로고 이미지" />
+          </h1>
+        </Link>
 
         <form className="search-form">
           <input type="search" placeholder="상품을 검색해보세요!" className="search-input" />
