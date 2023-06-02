@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export default function Footer() {
   return (
-    <footer className="footer">
+    <FooterStyle>
       <div className="container">
         <section className="link-section">
           <ul className="link-footer-nav">
@@ -30,15 +30,61 @@ export default function Footer() {
           <LinkSnsBtn />
         </section>
 
-        <section className="about-hp">
-          <p>(주)HODU SHOP</p>
-          <address>
-            <p>제주특별자치도 제주시 동광고 137</p>
-            <p>제주코딩베이스캠프 사업자 번호 : 000-0000-0000 | 통신판매업</p>
-          </address>
-          <p>대표 : 김호두 </p>
+        <section className="about-section">
+          <strong>(주)HODU SHOP</strong>
+          <br />
+          제주특별자치도 제주시 동광고 137 제주코딩베이스캠프 <br />
+          사업자 번호 : 000-0000-0000 | 통신판매업
+          <br />
+          대표 : 김호두{' '}
         </section>
       </div>
-    </footer>
+    </FooterStyle>
   );
 }
+
+const FooterStyle = styled.footer`
+  width: 100%;
+  padding: 60px 0 63px;
+  box-sizing: border-box;
+  background-color: #f2f2f2;
+
+  .container {
+    width: 1280px;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+
+    .link-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      box-shadow: inset 0 0 10px red;
+
+      .link-footer-nav {
+        display: flex;
+        color: #000;
+
+        li:not(:last-child) {
+          border-right: 1px solid #000;
+          padding-right: 14px;
+        }
+        li:not(:first-child) {
+          padding-left: 14px;
+        }
+      }
+    }
+
+    .about-section {
+      border-top: 1px solid #c4c4c4;
+      padding-top: 20px;
+      color: #767676;
+      line-height: 24px;
+
+      strong {
+        font-weight: 700;
+      }
+    }
+  }
+`;

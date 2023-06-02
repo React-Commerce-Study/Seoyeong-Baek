@@ -49,7 +49,7 @@ export default function ProductList() {
 
 const MainStyle = styled.main`
   max-width: 1280px;
-  margin: 80px auto;
+  margin: 80px auto 180px;
   box-sizing: border-box;
   box-shadow: inset 0 0 10px red;
 `;

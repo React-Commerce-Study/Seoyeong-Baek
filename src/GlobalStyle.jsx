@@ -17,6 +17,10 @@ const GlobalStyle = createGlobalStyle`
     --point-color: #21BF48;
  }
 
+a{
+    text-decoration: none;
+    color: inherit;
+}
 
  li{
     list-style: none;
