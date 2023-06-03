@@ -1,29 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import PurchaseButton from '../common/Buttons/Button';
 import styled from 'styled-components';
 
-export default function ProductPurchase({ productCount }) {
+export default function ProductPurchase({ productPrice }) {
+  const [count, setCount] = useState(1);
+  console.log(productPrice);
+
   return (
     <PurchaseContainerStyle>
       <p className="text">택배배송 / 무료배송</p>
       {/* 구매수량 */}
       <div className="product-count-wrapper">
-        <ProductCountButton />
+        <ProductCountButton count={count} setCount={setCount} />
       </div>
       {/* 총 금액 */}
       <ProductTotalPriceStyle>
         <p>총 상품 금액</p>
         <div className="total-price-wrapper">
           <p className="total-count">
-            총 수량 <strong>{/*{productCount}*/}1</strong>개
+            총 수량 <strong>{count}</strong>개
           </p>
           <p className="total-price">
-            <strong>
-              {productCount * 1000}
-              {/* productCount.price */}
-            </strong>
-            원
+            <strong>{(count * productPrice).toLocaleString()}</strong>원
           </p>
         </div>
       </ProductTotalPriceStyle>
@@ -103,4 +102,8 @@ const ProductTotalPriceStyle = styled.div`
 const ButtonWrapperStyle = styled.div`
   display: flex;
   gap: 14px;
+
+  button:last-child {
+    flex-basis: 45%;
+  }
 `;

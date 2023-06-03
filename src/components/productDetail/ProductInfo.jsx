@@ -27,7 +27,7 @@ export default function ProductInfo() {
             </p>
           </div>
           {/* 구매부분 */}
-          <ProductPurchase />
+          <ProductPurchase productPrice={product.price} />
         </div>
       </ProductInfoCardRowStyle>
       <ProductInfoDescription />

@@ -3,14 +3,24 @@ import MinusImg from '../../../assets/icon/icon-minus-line.svg';
 import plusImg from '../../../assets/icon/icon-plus-line.svg';
 import styled from 'styled-components';
 
-export default function ProductCount() {
+export default function ProductCount({ count, setCount }) {
+  const decreaseCount = () => {
+    if (count <= 1) return;
+    setCount(count - 1);
+  };
+
+  const increaseCount = () => {
+    if (count > 100) return;
+    setCount(count + 1);
+  };
+
   return (
     <ProductCountStyle>
-      <button type="button" className="minus">
+      <button type="button" className="minus" onClick={decreaseCount}>
         <img src={MinusImg} alt="마이너스 버튼 이미지" />
       </button>
-      <p>1</p>
-      <button type="button" className="plus">
+      <p>{count}</p>
+      <button type="button" className="plus" onClick={increaseCount}>
         <img src={plusImg} alt="플러스 버튼 이미지" />
       </button>
     </ProductCountStyle>
