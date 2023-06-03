@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProductInfoDetail from '../common/product/ProductInfoDetail';
+import ProductInfoCard from '../common/product/ProductInfoCard';
 import { useNavigate } from 'react-router-dom';
 
 export default function ProductItem({ productList }) {
@@ -12,7 +12,7 @@ export default function ProductItem({ productList }) {
         productList.map((product) => {
           return (
             <li key={product.product_id} onClick={() => navigate(`/product/${product.product_id}`, { state: product })}>
-              <ProductInfoDetail product={product} />
+              <ProductInfoCard product={product} />
             </li>
           );
         })}

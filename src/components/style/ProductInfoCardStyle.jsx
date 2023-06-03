@@ -1,25 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
 
-export default function ProductInfoDetail({ product }) {
-  //   console.log(product);
-  return (
-    <ProductInfoDetailStyle>
-      <div className="img-box">
-        <img src={product.image} alt={product.product_name} />
-      </div>
-      <div className="info-box">
-        <p className="store-name">{product.store_name}</p>
-        <p className="product-name">{product.product_name}</p>
-        <p className="product-price">
-          <strong>{product.price.toLocaleString()}</strong>원
-        </p>
-      </div>
-    </ProductInfoDetailStyle>
-  );
-}
+const ProductInfoCardStyle = styled.div`
+  box-shadow: inset 0 0 10px red;
 
-const ProductInfoDetailStyle = styled.div`
   .img-box {
     overflow: hidden;
     width: 380px;
@@ -61,3 +44,5 @@ const ProductInfoDetailStyle = styled.div`
     }
   }
 `;
+
+export { ProductInfoCardStyle };

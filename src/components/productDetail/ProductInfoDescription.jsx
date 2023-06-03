@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import ProductDescriptionBtn from '../common/Buttons/ProductDescriptionBtn';
 
 export default function ProductInfoDescription() {
+  // const clickHandler = () => {};
+
   return (
     <DescriptionStyle>
       <ProductDescriptionBtn>버튼</ProductDescriptionBtn>
