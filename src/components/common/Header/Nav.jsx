@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LogoImg from '../../assets/icon/Logo-hodu.png';
-import ShoppingCart from '../../assets/icon/icon-shopping-cart.svg';
-import User from '../../assets/icon/icon-user.svg';
-import SearchImg from '../../assets/icon/search.svg';
+import LogoImg from '../../../assets/icon/Logo-hodu.png';
+import ShoppingCart from '../../../assets/icon/icon-shopping-cart.svg';
+import User from '../../../assets/icon/icon-user.svg';
+import SearchImg from '../../../assets/icon/search.svg';
 import styled from 'styled-components';
 
 export default function Nav() {

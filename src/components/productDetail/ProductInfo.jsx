@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import ProductInfoDetail from './ProductInfoDetail';
+import ProductInfoDetail from '../common/product/ProductInfoDetail';
 import ProductInfoDescription from './ProductInfoDescription';
 
 export default function ProductInfo() {

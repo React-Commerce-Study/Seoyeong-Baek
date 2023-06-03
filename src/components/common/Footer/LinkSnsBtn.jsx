@@ -1,7 +1,7 @@
 import React from 'react';
-import InstaImg from '../../assets/icon/icon-insta.svg';
-import FacebookImg from '../../assets/icon/icon-fb.svg';
-import YoutubeImg from '../../assets/icon/icon-yt.svg';
+import InstaImg from '../../../assets/icon/icon-insta.svg';
+import FacebookImg from '../../../assets/icon/icon-fb.svg';
+import YoutubeImg from '../../../assets/icon/icon-yt.svg';
 import styled from 'styled-components';
 
 const LinkBtnContainerStyle = styled.ul`

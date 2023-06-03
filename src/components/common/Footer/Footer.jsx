@@ -1,5 +1,5 @@
 import React from 'react';
-import LinkSnsBtn from '../common/LinkSnsBtn';
+import LinkSnsBtn from './LinkSnsBtn';
 import styled from 'styled-components';
 
 export default function Footer() {

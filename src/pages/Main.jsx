@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../components/layout/Header';
-import Carousel from '../components/layout/Carousel';
-import ProductList from '../components/layout/ProductList';
-import Footer from '../components/layout/Footer';
+import Header from '../components/common/Header/Header';
+import Carousel from '../components/carousel/Carousel';
+import ProductList from '../components/productList/ProductList';
+import Footer from '../components/common/Footer/Footer';
 
 export default function main() {
   return (
