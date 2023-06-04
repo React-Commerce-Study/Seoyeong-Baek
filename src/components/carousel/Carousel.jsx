@@ -7,6 +7,29 @@ import Img4 from '../../assets/slide/4.jpeg';
 import Left from '../../assets/icon/icon-swiper-1.svg';
 import Right from '../../assets/icon/icon-swiper-2.svg';
 
+export default function Carousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [Img1, Img2, Img3, Img4];
+
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+  };
+
+  return (
+    <CarouselStyle>
+      <button className="pre-btn" type="button" onClick={handlePrevious}></button>
+      <div className="carousel-box">
+        <img src={images[currentIndex]} alt="Slideshow" />
+      </div>
+      <button className="next-btn" type="button" onClick={handleNext}></button>
+    </CarouselStyle>
+  );
+}
+
 const CarouselStyle = styled.div`
   width: 100%;
   position: relative;
@@ -46,26 +69,3 @@ const CarouselStyle = styled.div`
     }
   }
 `;
-
-export default function Carousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [Img1, Img2, Img3, Img4];
-
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-  };
-
-  return (
-    <CarouselStyle>
-      <button className="pre-btn" type="button" onClick={handlePrevious}></button>
-      <div className="carousel-box">
-        <img src={images[currentIndex]} alt="Slideshow" />
-      </div>
-      <button className="next-btn" type="button" onClick={handleNext}></button>
-    </CarouselStyle>
-  );
-}

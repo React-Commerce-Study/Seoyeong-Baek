@@ -36,6 +36,7 @@ export default function ProductPurchase({ productPrice }) {
     </PurchaseContainerStyle>
   );
 }
+
 const PurchaseContainerStyle = styled.div`
   box-shadow: inset 0 0 10px red;
   width: 100%;

@@ -4,12 +4,6 @@ import FacebookImg from '../../../assets/icon/icon-fb.svg';
 import YoutubeImg from '../../../assets/icon/icon-yt.svg';
 import styled from 'styled-components';
 
-const LinkBtnContainerStyle = styled.ul`
-  box-shadow: inset 0 0 10px red;
-  display: flex;
-  gap: 14px;
-`;
-
 export default function LinkSnsBtn() {
   return (
     <LinkBtnContainerStyle>
@@ -31,3 +25,9 @@ export default function LinkSnsBtn() {
     </LinkBtnContainerStyle>
   );
 }
+
+const LinkBtnContainerStyle = styled.ul`
+  box-shadow: inset 0 0 10px red;
+  display: flex;
+  gap: 14px;
+`;
