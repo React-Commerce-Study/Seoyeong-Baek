@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export default function ProductDescriptionBtn(props) {
   return (
@@ -14,10 +14,14 @@ const DescriptionBtnStyle = styled.button`
   width: 320px;
   padding: 18px 0;
   color: #767676;
-  color: ${(props) => props.color || '#767676'};
   font-weight: 500;
-  /* var(--point-color) */
   box-shadow: 0 6px 0 0 #e0e0e0;
   font-size: 18px;
-  /* box-shadow: inset 0 0 10px red; */
+  ${(props) => props.className.includes('active') && activeStyles}
+`;
+
+const activeStyles = css`
+  /* Additional styles for the active class */
+  color: var(--point-color);
+  box-shadow: 0 6px 0 0 var(--point-color);
 `;

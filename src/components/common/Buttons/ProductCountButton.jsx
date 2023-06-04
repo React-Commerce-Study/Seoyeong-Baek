@@ -10,7 +10,7 @@ export default function ProductCount({ count, setCount }) {
   };
 
   const increaseCount = () => {
-    if (count > 100) return;
+    if (count >= 100) return;
     setCount(count + 1);
   };
 
@@ -44,7 +44,7 @@ const ProductCountStyle = styled.div`
 
   p {
     border: 1px solid #c4c4c4;
-    padding: 14px 21px;
+    padding: 14px 0;
     font-size: 18px;
     color: #000;
     box-shadow: inset 0 0 10px red;

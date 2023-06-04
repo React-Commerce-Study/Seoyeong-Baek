@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ProductDescriptionBtn from '../common/Buttons/ProductDescriptionBtn';
 
 export default function ProductInfoDescription() {
-  // const clickHandler = () => {};
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const buttons = ['버튼', '리뷰', 'Q&A', '반품/교환정보'];
+
+  const handleClick = (index) => {
+    setActiveIndex(index);
+  };
 
   return (
     <DescriptionStyle>
-      <ProductDescriptionBtn>버튼</ProductDescriptionBtn>
-      <ProductDescriptionBtn>리뷰</ProductDescriptionBtn>
-      <ProductDescriptionBtn>Q&A</ProductDescriptionBtn>
-      <ProductDescriptionBtn>반품/교환정보 </ProductDescriptionBtn>
+      {buttons.map((button, index) => (
+        <ProductDescriptionBtn key={index} className={activeIndex === index ? 'active' : ''} onClick={() => handleClick(index)}>
+          {button}
+        </ProductDescriptionBtn>
+      ))}
     </DescriptionStyle>
   );
 }
