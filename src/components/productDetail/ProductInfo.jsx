@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 export default function ProductInfo() {
   const location = useLocation();
-  console.log(location.state);
+  // console.log(location.state);
   const product = location.state;
 
   return (
@@ -27,7 +27,7 @@ export default function ProductInfo() {
             </p>
           </div>
           {/* 구매부분 */}
-          <ProductPurchase productPrice={product.price} />
+          <ProductPurchase product={product} />
         </div>
       </ProductInfoCardRowStyle>
       <ProductInfoDescription />

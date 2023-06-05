@@ -3,14 +3,14 @@ import MinusImg from '../../../assets/icon/icon-minus-line.svg';
 import plusImg from '../../../assets/icon/icon-plus-line.svg';
 import styled from 'styled-components';
 
-export default function ProductCount({ count, setCount }) {
+export default function ProductCount({ count, setCount, productStock }) {
   const decreaseCount = () => {
     if (count <= 1) return;
     setCount(count - 1);
   };
 
   const increaseCount = () => {
-    if (count >= 100) return;
+    if (count >= productStock) return alert('상품의 재고가 부족합니다.');
     setCount(count + 1);
   };
 
