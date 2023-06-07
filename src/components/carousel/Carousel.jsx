@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Img1 from '../../assets/slide/1.jpeg';
-import Img2 from '../../assets/slide/2.jpeg';
-import Img3 from '../../assets/slide/3.png';
-import Img4 from '../../assets/slide/4.jpeg';
+import Img1 from '../../assets/slide/img1.jpg';
+import Img2 from '../../assets/slide/img2.jpg';
+import Img3 from '../../assets/slide/img3.jpg';
+import Img4 from '../../assets/slide/img4.jpg';
+import Img5 from '../../assets/slide/img5.jpg';
+import Img6 from '../../assets/slide/img6.jpg';
+import Img7 from '../../assets/slide/img7.jpg';
+import Img8 from '../../assets/slide/img8.jpg';
+import Img9 from '../../assets/slide/img9.jpg';
+import Img10 from '../../assets/slide/img10.jpg';
 import Left from '../../assets/icon/icon-swiper-1.svg';
 import Right from '../../assets/icon/icon-swiper-2.svg';
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [Img1, Img2, Img3, Img4];
+  const images = [Img1, Img2, Img3, Img4, Img5, Img6, Img7, Img8, Img9, Img10];
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
@@ -24,6 +30,11 @@ export default function Carousel() {
       <button className="pre-btn" type="button" onClick={handlePrevious}></button>
       <div className="carousel-box">
         <img src={images[currentIndex]} alt="Slideshow" />
+      </div>
+      <div className="dots-box">
+        {images.map((_, index) => (
+          <DotStyle key={index} bgColor={index === currentIndex}></DotStyle>
+        ))}
       </div>
       <button className="next-btn" type="button" onClick={handleNext}></button>
     </CarouselStyle>
@@ -68,4 +79,23 @@ const CarouselStyle = styled.div`
       object-fit: cover;
     }
   }
+
+  .dots-box {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    /* box-shadow: inset 0 0 10px red; */
+  }
+`;
+
+const DotStyle = styled.div`
+  background: ${(props) => (props.bgColor ? '#fff' : '#767676')};
+  border-radius: 100%;
+  height: 10px;
+  width: 10px;
+
+  margin-left: 20px;
 `;
