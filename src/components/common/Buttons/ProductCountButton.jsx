@@ -4,6 +4,10 @@ import plusImg from '../../../assets/icon/icon-plus-line.svg';
 import styled from 'styled-components';
 
 export default function ProductCount({ count, setCount, productStock }) {
+  if (productStock === 0) {
+    return <ZeroCount>해당상품은 재고가 없습니다.</ZeroCount>;
+  }
+
   const decreaseCount = () => {
     if (count <= 1) return;
     setCount(count - 1);
@@ -26,6 +30,10 @@ export default function ProductCount({ count, setCount, productStock }) {
     </ProductCountStyle>
   );
 }
+
+const ZeroCount = styled.div`
+  font-size: 18px;
+`;
 
 const ProductCountStyle = styled.div`
   box-shadow: inset 0 0 10px red;

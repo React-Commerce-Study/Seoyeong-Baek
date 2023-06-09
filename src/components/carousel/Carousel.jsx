@@ -44,14 +44,12 @@ export default function Carousel() {
 const CarouselStyle = styled.div`
   width: 100%;
   position: relative;
-  box-shadow: inset 0 0 10px red;
   background: #f2f2f2;
 
   button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    box-shadow: inset 0 0 10px red;
     padding: 20px;
   }
 
@@ -87,7 +85,6 @@ const CarouselStyle = styled.div`
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
-    /* box-shadow: inset 0 0 10px red; */
   }
 `;
 
@@ -96,6 +93,5 @@ const DotStyle = styled.div`
   border-radius: 100%;
   height: 10px;
   width: 10px;
-
   margin-left: 20px;
 `;

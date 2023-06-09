@@ -9,7 +9,7 @@ export default function ProductPurchase({ product }) {
 
   return (
     <PurchaseContainerStyle>
-      <p className="text">택배배송 / {product.shipping_fee}</p>
+      <p className="text">택배배송 / {product.shipping_fee.toLocaleString()}원</p>
       {/* 구매수량 */}
       <div className="product-count-wrapper">
         <ProductCountButton count={count} setCount={setCount} productStock={product.stock} />

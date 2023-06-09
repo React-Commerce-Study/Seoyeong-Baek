@@ -48,6 +48,11 @@ a{
     border:none;
  }
 
+ input{
+    border:none;
+ 
+ }
+
 `;
 
 export default GlobalStyle;
