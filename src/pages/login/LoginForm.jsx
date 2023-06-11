@@ -44,22 +44,26 @@ export default function LoginForm({ loginType }) {
   return (
     <div>
       <LoginFormStyle action="" onSubmit={handleSubmit}>
-        <label htmlFor="id"></label>
-        <input
-          type="text"
-          id="id"
-          placeholder="아이디"
-          value={loginData.username}
-          onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-        />
-        <label htmlFor="pw"></label>
-        <input
-          type="password"
-          id="pw"
-          placeholder="비밀번호"
-          value={loginData.password}
-          onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-        />
+        <label htmlFor="id">
+          <input
+            type="text"
+            id="id"
+            placeholder="아이디"
+            value={loginData.username}
+            onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+          />
+        </label>
+
+        <label htmlFor="pw">
+          <input
+            type="password"
+            id="pw"
+            placeholder="비밀번호"
+            value={loginData.password}
+            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+          />
+        </label>
+
         <div className="btn-box">
           <Button type="submit">로그인</Button>
         </div>
@@ -71,7 +75,6 @@ export default function LoginForm({ loginType }) {
 const LoginFormStyle = styled.form`
   display: flex;
   flex-direction: column;
-  box-shadow: inset 0 0 10px aqua;
   padding: 34px 35px 36px;
   border: 1px solid #c4c4c4;
   border-radius: 10px;
@@ -94,6 +97,6 @@ const LoginFormStyle = styled.form`
 
   .btn-box {
     margin-top: 36px;
-    box-shadow: inset 0 0 10px red;
+    /* box-shadow: inset 0 0 10px red; */
   }
 `;
