@@ -38,7 +38,7 @@ export default function Login() {
         <LoginForm loginType={loginType} />
 
         <div className="join-find-wrapper">
-          <Link to="">회원가입</Link>
+          <Link to="/signup">회원가입</Link>
           <Link to="">비밀번호 찾기</Link>
         </div>
       </LoginContainerStyle>
