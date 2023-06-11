@@ -22,11 +22,11 @@ export default function LoginForm({ loginType }) {
         body: JSON.stringify(loginData),
       });
 
-      // const json = await res.json();
-      // console.log(json);
       if (res.ok) {
         console.log('Login successful!');
-        // 홈 화면으로 이동
+        const json = await res.json();
+        const token = json.token;
+        localStorage.setItem('token', token);
         navigate('/');
       } else {
         throw new Error();
