@@ -25,10 +25,14 @@ export default function Nav() {
 
         <ul className="nav-menu">
           <li>
-            <button className="nav-btn">장바구니</button>
+            <Link to="/cart">
+              <button className="nav-btn">장바구니</button>
+            </Link>
           </li>
           <li>
-            <button className="nav-btn login">로그인</button>
+            <Link to="/login">
+              <button className="nav-btn login">로그인</button>
+            </Link>
           </li>
         </ul>
       </nav>
