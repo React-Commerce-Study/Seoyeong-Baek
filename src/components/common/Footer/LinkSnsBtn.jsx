@@ -27,7 +27,6 @@ export default function LinkSnsBtn() {
 }
 
 const LinkBtnContainerStyle = styled.ul`
-  box-shadow: inset 0 0 10px red;
   display: flex;
   gap: 14px;
 `;

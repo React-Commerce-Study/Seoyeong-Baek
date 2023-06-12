@@ -42,7 +42,6 @@ export default function Nav() {
 
 const NavContainerStyle = styled.div`
   padding: 22px 0;
-  box-shadow: inset 0 0 10px red;
   box-sizing: border-box;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
 
@@ -52,13 +51,12 @@ const NavContainerStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 0 10px red;
   }
 
   h1 {
+    flex-shrink: 0;
     width: 124px;
     height: 38px;
-    box-shadow: inset 0 0 10px red;
 
     .logo {
       width: 100%;
@@ -68,7 +66,6 @@ const NavContainerStyle = styled.div`
   .search-form {
     width: 400px;
     margin: 0 598px 0 30px;
-    box-shadow: inset 0 0 10px red;
     box-sizing: border-box;
     position: relative;
 
@@ -78,11 +75,9 @@ const NavContainerStyle = styled.div`
       border: 2px solid var(--point-color);
       border-radius: 50px;
       color: #767676;
-      box-shadow: inset 0 0 10px red;
     }
 
     .search-btn {
-      box-shadow: inset 0 0 10px red;
       width: 28px;
       height: 28px;
       position: absolute;
@@ -102,7 +97,6 @@ const NavContainerStyle = styled.div`
     .nav-btn {
       color: #767676;
       font-size: 12px;
-      box-shadow: inset 0 0 10px red;
     }
 
     .nav-btn::before {
@@ -113,7 +107,6 @@ const NavContainerStyle = styled.div`
       content: '';
       width: 32px;
       height: 32px;
-      box-shadow: inset 0 0 10px red;
     }
 
     .login::before {

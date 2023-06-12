@@ -50,7 +50,7 @@ const FooterStyle = styled.footer`
   background-color: #f2f2f2;
 
   .container {
-    width: 1280px;
+    max-width: 1280px;
     margin: 0 auto;
     font-size: 14px;
     font-weight: 400;
@@ -60,7 +60,6 @@ const FooterStyle = styled.footer`
       justify-content: space-between;
       align-items: center;
       margin-bottom: 22px;
-      box-shadow: inset 0 0 10px red;
 
       .link-footer-nav {
         display: flex;

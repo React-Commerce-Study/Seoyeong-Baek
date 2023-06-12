@@ -36,7 +36,6 @@ const ZeroCount = styled.div`
 `;
 
 const ProductCountStyle = styled.div`
-  box-shadow: inset 0 0 10px red;
   width: 150px;
   display: flex;
   box-sizing: border-box;
@@ -47,7 +46,6 @@ const ProductCountStyle = styled.div`
   .minus,
   .plus {
     padding: 0 14px;
-    box-shadow: inset 0 0 10px red;
   }
 
   p {
@@ -55,6 +53,5 @@ const ProductCountStyle = styled.div`
     padding: 14px 0;
     font-size: 18px;
     color: #000;
-    box-shadow: inset 0 0 10px red;
   }
 `;

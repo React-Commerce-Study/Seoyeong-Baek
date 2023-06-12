@@ -66,7 +66,6 @@ const CarouselStyle = styled.div`
   .carousel-box {
     max-height: 500px;
     max-width: 1280px;
-    box-shadow: inset 0 0 10px red;
     margin: 0 auto;
 
     img {
