@@ -19,10 +19,10 @@ export default function ProductPurchase({ product }) {
         <p>총 상품 금액</p>
         <div className="total-price-wrapper">
           <p className="total-count">
-            총 수량 <strong>{count}</strong>개
+            총 수량 <strong>{product.stock === 0 ? 0 : count}</strong>개
           </p>
           <p className="total-price">
-            <strong>{(count * product.price).toLocaleString()}</strong>원
+            <strong>{product.stock === 0 ? 0 : (count * product.price).toLocaleString()}</strong>원
           </p>
         </div>
       </ProductTotalPriceStyle>
