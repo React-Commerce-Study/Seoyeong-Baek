@@ -2,7 +2,7 @@ import GlobalStyle from './GlobalStyle.jsx';
 import { Routes, Route } from 'react-router-dom';
 import Main from './pages/Main.jsx';
 import Login from './pages/login/Login.jsx';
-import Signup from './pages/SignUp.jsx';
+import Signup from './pages/signUp/SignUp.jsx';
 import Cart from './pages/Cart.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
 

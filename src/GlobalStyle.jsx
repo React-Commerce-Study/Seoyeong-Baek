@@ -50,7 +50,7 @@ a{
 
  input{
     border:none;
- 
+    
  }
 
 `;
