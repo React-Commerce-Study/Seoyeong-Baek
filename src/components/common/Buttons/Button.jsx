@@ -11,8 +11,8 @@ const ButtonStyle = styled.button`
   background-color: ${(props) => props.bgColor || 'var(--point-color)'};
   color: #fff;
   font-size: ${(props) => props.fontSize || '18px'};
-  font-weight: ${(props) => props.fontSize || '700'};
-  padding: 19px 0;
+  font-weight: ${(props) => props.fontWeight || '700'};
+  padding: ${(props) => props.padding || '19px 0'};
   border-radius: 5px;
   box-sizing: border-box;
 `;

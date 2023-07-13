@@ -62,99 +62,121 @@ export default function SignUpForm() {
   return (
     <SignUpFormContainer action="" onSubmit={handleSubmit}>
       <SignUpFormStyle>
-        <label htmlFor="id">아이디</label>
         <IdContainer>
+          <label htmlFor="id">아이디</label>
+          <IdBoxStyle>
+            <input
+              type="text"
+              id="id"
+              value={signUpData.username}
+              onChange={(e) => setSignUpData({ ...signUpData, username: e.target.value })}
+            />
+            <Button type="button" fontWeight="500" padding="17px 0">
+              중복확인
+            </Button>
+          </IdBoxStyle>
+          {/* <MessageError display={isUsernameError}>이미 사용 중인 아이디입니다.</MessageError> */}
+        </IdContainer>
+        <PasswordContainer>
+          <label htmlFor="pw">비밀번호</label>
+          <input
+            type="password"
+            id="pw"
+            value={signUpData.password}
+            onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+          />
+          {/* <MessageError display={isPasswordError}>비밀번호를 입력해 주세요.</MessageError> */}
+        </PasswordContainer>
+        <Password2Container>
+          <label htmlFor="check-pw">비밀번호 재확인</label>
+          <input
+            type="password"
+            id="check-pw"
+            value={signUpData.password2}
+            onChange={(e) => setSignUpData({ ...signUpData, password2: e.target.value })}
+          />
+          {/* <MessageError display={isPasswordError}>비밀번호가 일치하지 않습니다.</MessageError> */}
+        </Password2Container>
+
+        <NameContainer>
+          <label htmlFor="name">이름</label>
           <input
             type="text"
-            id="id"
-            placeholder="아이디"
-            value={signUpData.username}
-            onChange={(e) => setSignUpData({ ...signUpData, username: e.target.value })}
+            id="name"
+            value={signUpData.name}
+            onChange={(e) => setSignUpData({ ...signUpData, name: e.target.value })}
           />
-          <Button type="submit">중복확인</Button>
-        </IdContainer>
+        </NameContainer>
 
-        {/* <MessageError display={isUsernameError}>이미 사용 중인 아이디입니다.</MessageError> */}
-
-        <label htmlFor="pw">비밀번호</label>
-        <input
-          type="password"
-          id="pw"
-          placeholder="비밀번호"
-          value={signUpData.password}
-          onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
-        />
-        {/* <MessageError display={isPasswordError}>비밀번호를 입력해 주세요.</MessageError> */}
-
-        <label htmlFor="check-pw">비밀번호 재확인</label>
-        <input
-          type="password"
-          id="check-pw"
-          placeholder="비밀번호"
-          value={signUpData.password2}
-          onChange={(e) => setSignUpData({ ...signUpData, password2: e.target.value })}
-        />
-        {/* <MessageError display={isPasswordError}>비밀번호가 일치하지 않습니다.</MessageError> */}
-
-        <label htmlFor="name">이름</label>
-        <input
-          type="text"
-          id="name"
-          value={signUpData.name}
-          onChange={(e) => setSignUpData({ ...signUpData, name: e.target.value })}
-        />
-
-        <label htmlFor="phone-number">휴대폰 번호</label>
-        <input
-          type="tel"
-          id="phone-number"
-          value={signUpData.phone_number}
-          onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
-        />
+        <PhoneNumberContainer>
+          <label htmlFor="phone-number">휴대폰 번호</label>
+          <input
+            type="tel"
+            id="phone-number"
+            value={signUpData.phone_number}
+            onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
+          />
+        </PhoneNumberContainer>
       </SignUpFormStyle>
 
-      <label htmlFor="agree">
-        <input type="checkbox" id="agreer" />
+      <AgreeCheckBox>
+        <label htmlFor="agree"></label>
+        <input type="checkbox" id="agree" />
         호두샵의 <strong>이용약관</strong> 및 <strong>개인정보처리방침</strong>에 대한 내용을 확인하였고 동의합니다.
-      </label>
+      </AgreeCheckBox>
       <Button type="submit">가입하기</Button>
     </SignUpFormContainer>
   );
 }
-const SignUpFormContainer = styled.form``;
+const SignUpFormContainer = styled.form`
+  box-shadow: inset 0 0 10px blue;
+  color: #767676;
+`;
 
 const SignUpFormStyle = styled.div`
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
   padding: 34px 35px 36px;
   border: 1px solid #c4c4c4;
   border-radius: 10px;
-  box-sizing: border-box;
   box-shadow: inset 0 0 10px red;
+
+  div {
+    text-align: start;
+  }
 
   input {
     width: 100%;
-    border-bottom: 1px solid #c4c4c4;
-    padding: 20px 0;
+    border-radius: 5px;
+    border: 1px solid #c4c4c4;
+    padding: 17px 16px;
     font-size: 16px;
-  }
-
-  input::placeholder {
-    color: #767676;
-  }
-
-  input:first-child {
-    margin-bottom: 6px;
-  }
-
-  .btn-box {
-    margin-top: 36px;
-    /* box-shadow: inset 0 0 10px red; */
+    box-sizing: border-box;
   }
 `;
 
-const IdContainer = styled.div`
+const IdContainer = styled.div``;
+const PasswordContainer = styled.div``;
+const Password2Container = styled.div``;
+const NameContainer = styled.div``;
+const PhoneNumberContainer = styled.div``;
+const AgreeCheckBox = styled.div`
+  margin: 34px auto;
+  max-width: 454px;
+  box-shadow: inset 0 0 10px red;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.03px;
+
+  strong {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+`;
+
+const IdBoxStyle = styled.div`
   display: flex;
+  gap: 12px;
 `;
 
 const MessageError = styled.p`
