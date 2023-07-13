@@ -61,7 +61,7 @@ const LoginContainerStyle = styled.div`
 `;
 
 const LoginBtnStyle = styled.button`
-  margin-bottom: -20px;
+  margin-bottom: -10px;
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;

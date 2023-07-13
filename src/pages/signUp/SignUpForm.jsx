@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
+import checkOffIcon from '../../assets/icon/icon-check-off.svg';
+import checkOnIcon from '../../assets/icon/icon-check-on.svg';
 
 export default function SignUpForm() {
   const navigate = useNavigate();
@@ -87,7 +89,7 @@ export default function SignUpForm() {
           />
           {/* <MessageError display={isPasswordError}>비밀번호를 입력해 주세요.</MessageError> */}
         </PasswordContainer>
-        <Password2Container>
+        <PasswordContainer>
           <label htmlFor="check-pw">비밀번호 재확인</label>
           <input
             type="password"
@@ -96,7 +98,7 @@ export default function SignUpForm() {
             onChange={(e) => setSignUpData({ ...signUpData, password2: e.target.value })}
           />
           {/* <MessageError display={isPasswordError}>비밀번호가 일치하지 않습니다.</MessageError> */}
-        </Password2Container>
+        </PasswordContainer>
 
         <NameContainer>
           <label htmlFor="name">이름</label>
@@ -110,42 +112,61 @@ export default function SignUpForm() {
 
         <PhoneNumberContainer>
           <label htmlFor="phone-number">휴대폰 번호</label>
-          <input
-            type="tel"
-            id="phone-number"
-            value={signUpData.phone_number}
-            onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
-          />
+          <PhoneNumberBoxStyle>
+            <select name="tel" id="phone-number" required>
+              <option value="010">010</option>
+              <option value="011">011</option>
+              <option value="016">016</option>
+              <option value="017">017</option>
+              <option value="python">Python</option>
+            </select>
+            <input
+              type="tel"
+              id="phone-number"
+              required
+              value={signUpData.phone_number}
+              onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
+            />
+            <input
+              type="tel"
+              id="phone-number"
+              required
+              value={signUpData.phone_number}
+              onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
+            />
+          </PhoneNumberBoxStyle>
         </PhoneNumberContainer>
       </SignUpFormStyle>
 
       <AgreeCheckBox>
-        <label htmlFor="agree"></label>
         <input type="checkbox" id="agree" />
-        호두샵의 <strong>이용약관</strong> 및 <strong>개인정보처리방침</strong>에 대한 내용을 확인하였고 동의합니다.
+        <label htmlFor="agree">
+          호두샵의 <strong>이용약관</strong> 및 <strong>개인정보처리방침</strong>에 대한 내용을 확인하였고 동의합니다.
+        </label>
       </AgreeCheckBox>
       <Button type="submit">가입하기</Button>
     </SignUpFormContainer>
   );
 }
 const SignUpFormContainer = styled.form`
-  box-shadow: inset 0 0 10px blue;
+  /* box-shadow: inset 0 0 10px blue; */
   color: #767676;
 `;
 
 const SignUpFormStyle = styled.div`
   /* display: flex; */
   /* flex-direction: column; */
-  padding: 34px 35px 36px;
+  padding: 50px 35px 36px;
   border: 1px solid #c4c4c4;
   border-radius: 10px;
-  box-shadow: inset 0 0 10px red;
+  /* box-shadow: inset 0 0 10px red; */
 
   div {
     text-align: start;
   }
 
-  input {
+  input,
+  select {
     width: 100%;
     border-radius: 5px;
     border: 1px solid #c4c4c4;
@@ -153,30 +174,83 @@ const SignUpFormStyle = styled.div`
     font-size: 16px;
     box-sizing: border-box;
   }
+
+  label:not(:last-child) {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
 `;
 
-const IdContainer = styled.div``;
-const PasswordContainer = styled.div``;
-const Password2Container = styled.div``;
-const NameContainer = styled.div``;
+const IdContainer = styled.div`
+  box-shadow: inset 0 0 10px red;
+  margin-bottom: 12px;
+`;
+const IdBoxStyle = styled.div`
+  display: flex;
+  gap: 12px;
+
+  input {
+    flex-basis: 346px;
+  }
+
+  button {
+    flex-basis: 122px;
+  }
+`;
+
+const PasswordContainer = styled.div`
+  position: relative;
+  margin-bottom: 12px;
+
+  &::after {
+    position: absolute;
+    content: '';
+    background: url(${checkOffIcon}) center no-repeat;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    bottom: 13px;
+    right: 16px;
+    background-size: contain;
+  }
+`;
+
+const NameContainer = styled.div`
+  margin: 50px 0 16px;
+`;
+
 const PhoneNumberContainer = styled.div``;
+const PhoneNumberBoxStyle = styled.div`
+  display: flex;
+  gap: 12px;
+
+  select {
+    text-align: center;
+  }
+`;
+
 const AgreeCheckBox = styled.div`
   margin: 34px auto;
-  max-width: 454px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 480px;
   box-shadow: inset 0 0 10px red;
   font-size: 16px;
   font-weight: 400;
   line-height: 20.03px;
 
+  label {
+    display: inline-block;
+    box-shadow: inset 0 0 10px red;
+    text-align: start;
+  }
+
   strong {
     font-weight: 700;
-    text-decoration: underline;
+    border-bottom: 1px solid;
+    /* text-decoration: underline; */
   }
-`;
-
-const IdBoxStyle = styled.div`
-  display: flex;
-  gap: 12px;
 `;
 
 const MessageError = styled.p`
