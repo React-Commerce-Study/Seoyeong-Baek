@@ -3,7 +3,13 @@ import MinusImg from '../../../assets/icon/icon-minus-line.svg';
 import plusImg from '../../../assets/icon/icon-plus-line.svg';
 import styled from 'styled-components';
 
-export default function ProductCount({ count, setCount, productStock }) {
+interface ProductCountProps {
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  productStock: number;
+}
+
+export default function ProductCount({ count, setCount, productStock }: ProductCountProps) {
   if (productStock === 0) {
     return <ZeroCount>해당상품은 재고가 없습니다.</ZeroCount>;
   }

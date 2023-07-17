@@ -7,7 +7,7 @@ export default function ProductInfoDescription() {
 
   const buttons = ['버튼', '리뷰', 'Q&A', '반품/교환정보'];
 
-  const handleClick = (index) => {
+  const handleClick = (index: number) => {
     setActiveIndex(index);
   };
 

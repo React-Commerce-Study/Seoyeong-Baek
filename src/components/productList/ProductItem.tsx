@@ -3,7 +3,15 @@ import styled from 'styled-components';
 import ProductInfoCard from '../common/product/ProductInfoCard';
 import { useNavigate } from 'react-router-dom';
 
-export default function ProductItem({ productList }) {
+interface Product {
+  product_id: number;
+}
+
+interface ProductItemProps {
+  productList: Product[];
+}
+
+export default function ProductItem({ productList }: ProductItemProps) {
   const navigate = useNavigate();
   console.log(productList);
 

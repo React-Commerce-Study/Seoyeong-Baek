@@ -3,7 +3,21 @@ import ProductCountButton from '../common/Buttons/ProductCountButton';
 import PurchaseButton from '../common/Buttons/Button';
 import styled from 'styled-components';
 
-export default function ProductPurchase({ product }) {
+interface Product {
+  product_id: number;
+  image: string;
+  product_name: string;
+  store_name: string;
+  price: number;
+  shipping_fee: boolean;
+  stock: number;
+}
+
+interface ProductPurchaseProps {
+  product: Product;
+}
+
+export default function ProductPurchase({ product }: ProductPurchaseProps) {
   const [count, setCount] = useState(1);
   console.log(product);
 

@@ -1,5 +1,5 @@
-const { createGlobalStyle } = require('styled-components');
-const { default: reset } = require('styled-reset');
+import { createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}

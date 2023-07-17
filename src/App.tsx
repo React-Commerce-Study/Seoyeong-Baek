@@ -1,10 +1,10 @@
-import GlobalStyle from './GlobalStyle.jsx';
+import GlobalStyle from './GlobalStyle';
 import { Routes, Route } from 'react-router-dom';
-import Main from './pages/Main.jsx';
-import Login from './pages/login/Login.jsx';
-import Signup from './pages/signUp/SignUp.jsx';
-import Cart from './pages/Cart.jsx';
-import ProductDetails from './pages/ProductDetails.jsx';
+import Main from './pages/Main';
+import Login from './pages/login/Login';
+import SignUp from './pages/signUp/SignUp';
+import Cart from './pages/Cart';
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (
@@ -13,11 +13,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </>
   );
 }
+
 export default App;

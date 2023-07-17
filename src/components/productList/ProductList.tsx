@@ -3,9 +3,19 @@ import ProductItem from './ProductItem';
 import UseScrollChecker from '../../hooks/UseScrollChecker';
 import styled from 'styled-components';
 
+interface Product {
+  product_id: number;
+  image: string;
+  product_name: string;
+  store_name: string;
+  price: number;
+  shipping_fee: boolean;
+  stock: number;
+}
+
 export default function ProductList() {
-  const [fetchPage, setFetchPage] = useState(1);
-  const [productList, setProductList] = useState([]);
+  const [fetchPage, setFetchPage] = useState<number>(1);
+  const [productList, setProductList] = useState<Product[]>([]);
   const URL = 'https://openmarket.weniv.co.kr/products';
 
   const isBottom = UseScrollChecker();
