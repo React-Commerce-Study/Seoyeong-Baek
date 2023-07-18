@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
+import { type } from 'os';
 
-export default function LoginForm({ loginType }) {
+type LoginFormProps = {
+  loginType: string;
+};
+
+interface LoginData {
+  [key: string]: string;
+}
+
+export default function LoginForm({ loginType }: LoginFormProps) {
   const navigate = useNavigate();
   const URL = 'https://openmarket.weniv.co.kr/';
   const reqPath = 'accounts/login/';
 
-  const [loginData, setLoginData] = useState({
+  const [loginData, setLoginData] = useState<LoginData>({
     username: '',
     password: '',
     login_type: loginType,
   });
 
-  async function handleLogin(loginData) {
+  async function handleLogin(loginData: LoginData) {
     try {
       const res = await fetch(URL + reqPath, {
         method: 'POST',
@@ -49,7 +58,7 @@ export default function LoginForm({ loginType }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleLogin(loginData);
   };
@@ -123,5 +132,5 @@ const MessageError = styled.p`
   color: red;
   margin-top: 26px;
   text-align: left;
-  display: ${(props) => (props.display ? 'block' : 'none')};
+  display: ${(props: { display?: boolean }) => (props.display ? 'block' : 'none')};
 `;
