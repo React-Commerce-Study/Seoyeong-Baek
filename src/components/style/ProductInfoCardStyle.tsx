@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 const ProductInfoCardStyle = styled.div`
+  box-shadow: inset 0 0 20px #767676;
+
   .img-box {
     overflow: hidden;
     width: 380px;

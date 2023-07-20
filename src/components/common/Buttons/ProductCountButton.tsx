@@ -54,8 +54,15 @@ const ProductCountStyle = styled.div`
     padding: 0 14px;
   }
 
+  .minus {
+    border-right: 1px solid #c4c4c4;
+  }
+
+  .plus {
+    border-left: 1px solid #c4c4c4;
+  }
+
   p {
-    border: 1px solid #c4c4c4;
     padding: 14px 0;
     font-size: 18px;
     color: #000;

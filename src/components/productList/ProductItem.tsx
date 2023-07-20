@@ -5,6 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 interface Product {
   product_id: number;
+  image: string;
+  product_name: string;
+  store_name: string;
+  price: number;
+  shipping_fee: boolean;
+  stock: number;
 }
 
 interface ProductItemProps {
