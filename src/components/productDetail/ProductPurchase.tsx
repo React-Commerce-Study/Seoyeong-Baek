@@ -52,7 +52,6 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
 
 const PurchaseContainerStyle = styled.div`
   width: 100%;
-  box-shadow: inset 0 0 10px green;
 
   .text {
     font-weight: 400;
@@ -65,7 +64,6 @@ const PurchaseContainerStyle = styled.div`
     border-bottom: 2px solid #c4c4c4;
     padding: 30px 0;
     margin: 20px 0 32px;
-    box-shadow: inset 0 0 10px purple;
   }
 `;
 
@@ -75,7 +73,6 @@ const ProductTotalPriceStyle = styled.div`
   align-items: center;
   margin-bottom: 22px;
   font-size: 18px;
-  box-shadow: inset 0 0 10px blue;
 
   p {
     font-weight: 500;

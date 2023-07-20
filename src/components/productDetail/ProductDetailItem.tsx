@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import ProductPurchase from './ProductPurchase';
-import ProductImg from './ProductImg';
-import ProductInfoText from './ProductInfoText';
-import { ProductInfoCardStyle } from '../style/ProductInfoCardStyle';
+import ProductDataImg from '../common/product/ProductDataImg';
+import ProductDataInfo from '../common/product/ProductDataInfo';
+import { ProductListItemStyle } from '../style/ProductListItemStyle';
 
 interface Product {
   product_id: number;
@@ -20,21 +20,20 @@ interface ProductItemBoxProps {
 
 export default function ProductItemBox({ product }: ProductItemBoxProps) {
   return (
-    <ProductInfoCardRowStyle>
-      <ProductImg productImg={product.image} imgName={product.product_name} />
+    <ProductDetailItemStyle>
+      <ProductDataImg productImg={product.image} imgName={product.product_name} />
       <div className="product-info-wrapper">
-        <ProductInfoText product={product} isDelivery={true} />
+        <ProductDataInfo product={product} isDelivery={true} />
         {/* 구매부분 */}
         <ProductPurchase product={product} />
       </div>
-    </ProductInfoCardRowStyle>
+    </ProductDetailItemStyle>
   );
 }
 
-const ProductInfoCardRowStyle = styled(ProductInfoCardStyle)`
+const ProductDetailItemStyle = styled(ProductListItemStyle)`
   display: flex;
   gap: 50px;
-  box-shadow: inset 0 0 10px red;
 
   .img-box {
     border-radius: 0;
@@ -49,12 +48,10 @@ const ProductInfoCardRowStyle = styled(ProductInfoCardStyle)`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: inset 0 0 30px yellow;
 
     .info-box {
       height: 100%;
       margin-top: 0;
-      box-shadow: inset 0 0 20px rosybrown;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -74,7 +71,6 @@ const ProductInfoCardRowStyle = styled(ProductInfoCardStyle)`
         font-weight: 400;
         font-size: 16px;
         color: #767676;
-        box-shadow: inset 0 0 20px rosybrown;
       }
     }
   }
