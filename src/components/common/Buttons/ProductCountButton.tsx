@@ -7,9 +7,11 @@ interface ProductCountProps {
   count: number;
   setCount: React.Dispatch<React.SetStateAction<number>>;
   productStock: number;
+  isCheck?: boolean;
+  setCountChange?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function ProductCount({ count, setCount, productStock }: ProductCountProps) {
+export default function ProductCount({ count, setCount, productStock, isCheck, setCountChange }: ProductCountProps) {
   if (productStock === 0) {
     return <ZeroCount>해당상품은 재고가 없습니다.</ZeroCount>;
   }
@@ -17,11 +19,19 @@ export default function ProductCount({ count, setCount, productStock }: ProductC
   const decreaseCount = () => {
     if (count <= 1) return;
     setCount(count - 1);
+    if (isCheck && setCountChange) {
+      setCountChange('-');
+      console.log('0');
+    }
   };
 
   const increaseCount = () => {
     if (count >= productStock) return alert('상품의 재고가 부족합니다.');
     setCount(count + 1);
+    if (isCheck && setCountChange) {
+      setCountChange('+');
+      console.log('0');
+    }
   };
 
   return (
