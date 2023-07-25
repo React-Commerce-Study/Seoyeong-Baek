@@ -6,7 +6,7 @@ interface Product {
   product_name: string;
   store_name: string;
   price: number;
-  shipping_fee: boolean;
+  shipping_fee: number;
   stock: number;
 }
 
@@ -21,9 +21,11 @@ export default function ProductInfoText({ product, isDelivery }: ProductItemBoxP
       <div>
         <p className="store-name">{product.store_name}</p>
         <p className="product-name">{product.product_name}</p>
-        <p className="product-price">
-          <strong>{product.price.toLocaleString()}</strong>원
-        </p>
+        {product.price && (
+          <p className="product-price">
+            <strong>{product.price.toLocaleString()}</strong>원
+          </p>
+        )}
       </div>
       {isDelivery && (
         <div>

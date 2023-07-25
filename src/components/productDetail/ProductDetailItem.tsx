@@ -10,7 +10,7 @@ interface Product {
   product_name: string;
   store_name: string;
   price: number;
-  shipping_fee: boolean;
+  shipping_fee: number;
   stock: number;
 }
 

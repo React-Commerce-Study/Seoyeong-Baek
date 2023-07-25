@@ -11,7 +11,7 @@ interface Product {
   product_name: string;
   store_name: string;
   price: number;
-  shipping_fee: boolean;
+  shipping_fee: number;
   stock: number;
 }
 
@@ -46,7 +46,7 @@ export default function ProductList() {
         // concat 대신 사용할 수 있음, 이전 데이터와 합쳐주기
         return [...preProductList, ...data.results];
       });
-      // console.log(data);
+      console.log(data);
     } catch (error) {
       console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
     }
