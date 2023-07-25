@@ -8,7 +8,7 @@ export default function Cart() {
     <>
       <Header />
       <CartList />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
