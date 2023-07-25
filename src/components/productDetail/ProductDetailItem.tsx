@@ -3,16 +3,7 @@ import ProductPurchase from './ProductPurchase';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
-
-interface Product {
-  product_id: number;
-  image: string;
-  product_name: string;
-  store_name: string;
-  price: number;
-  shipping_fee: number;
-  stock: number;
-}
+import { Product } from '../../@types/types';
 
 interface ProductItemBoxProps {
   product: Product;

@@ -4,20 +4,13 @@ import CheckBox from '../../assets/icon/check-round.svg';
 import CartItem from './CartItem';
 import TotalPriceBox from './TotalPriceBox';
 import Button from '../common/Buttons/Button';
+import { CartProduct } from '../../@types/types';
 
 export default function ShoppingCart() {
   const URL = 'https://openmarket.weniv.co.kr/';
   const [cartItemList, setCartItemList] = useState<CartProduct[]>([]); // null로 초기값 설정;
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
-
-  interface CartProduct {
-    my_cart: number;
-    cart_item_id: number;
-    is_active: boolean;
-    product_id: number;
-    quantity: number;
-  }
 
   useEffect(() => {
     fetchCartItemList();
@@ -61,7 +54,12 @@ export default function ShoppingCart() {
         {cartItemList !== null ? ( // null 체크 추가
           cartItemList.map((cartItem) => {
             return (
-              <CartItem key={cartItem.cart_item_id} cartItem={cartItem} totalPrice={totalPrice} setTotalPrice={setTotalPrice} />
+              <CartItem
+                key={cartItem.cart_item_id}
+                cartProduct={cartItem}
+                totalPrice={totalPrice}
+                setTotalPrice={setTotalPrice}
+              />
             );
           })
         ) : (

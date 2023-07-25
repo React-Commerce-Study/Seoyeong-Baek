@@ -2,16 +2,7 @@ import React, { useState } from 'react';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import PurchaseButton from '../common/Buttons/Button';
 import styled from 'styled-components';
-
-interface Product {
-  product_id: number;
-  image: string;
-  product_name: string;
-  store_name: string;
-  price: number;
-  shipping_fee: number;
-  stock: number;
-}
+import { Product } from '../../@types/types';
 
 interface ProductPurchaseProps {
   product: Product;

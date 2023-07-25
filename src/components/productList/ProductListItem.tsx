@@ -2,16 +2,7 @@ import React from 'react';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import ProductDataImg from 'components/common/product/ProductDataImg';
 import ProductDataInfo from 'components/common/product/ProductDataInfo';
-
-interface Product {
-  product_id: number;
-  image: string;
-  product_name: string;
-  store_name: string;
-  price: number;
-  shipping_fee: number;
-  stock: number;
-}
+import { Product } from '../../@types/types';
 
 interface ProductItemBoxProps {
   product: Product;

@@ -1,14 +1,4 @@
-import React from 'react';
-
-interface Product {
-  product_id: number;
-  image: string;
-  product_name: string;
-  store_name: string;
-  price: number;
-  shipping_fee: number;
-  stock: number;
-}
+import { Product } from '../../../@types/types';
 
 interface ProductItemBoxProps {
   product: Product;

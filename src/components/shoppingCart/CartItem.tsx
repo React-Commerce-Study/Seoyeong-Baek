@@ -8,26 +8,19 @@ import Button from '../common/Buttons/Button';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
+import { CartProduct } from '../../@types/types';
 
 // import { useRecoilState } from 'recoil';
 // import { totalPriceState } from '../../Atom/Atom';
 
-interface CartItem {
-  my_cart: number;
-  cart_item_id: number;
-  is_active: boolean;
-  product_id: number;
-  quantity: number;
-}
-
 type CartItemProps = {
-  cartItem: CartItem;
+  cartProduct: CartProduct;
   totalPrice: number;
   setTotalPrice: Dispatch<SetStateAction<number>>;
 };
 
-export default function CartItem({ cartItem, totalPrice, setTotalPrice }: CartItemProps) {
-  console.log(cartItem);
+export default function CartItem({ cartProduct, totalPrice, setTotalPrice }: CartItemProps) {
+  console.log(cartProduct);
   // const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
 
   const URL = 'https://openmarket.weniv.co.kr/';
@@ -44,7 +37,7 @@ export default function CartItem({ cartItem, totalPrice, setTotalPrice }: CartIt
 
   async function fetchCartItem() {
     try {
-      const response = await fetch(`${URL}products/${cartItem.product_id}/`, {
+      const response = await fetch(`${URL}products/${cartProduct.product_id}/`, {
         method: 'GET',
       });
       if (response.ok) {

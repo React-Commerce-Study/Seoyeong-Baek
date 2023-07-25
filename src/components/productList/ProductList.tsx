@@ -4,16 +4,7 @@ import UseScrollChecker from '../../hooks/UseScrollChecker';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import ProductInfoCard from './ProductListItem';
-
-interface Product {
-  product_id: number;
-  image: string;
-  product_name: string;
-  store_name: string;
-  price: number;
-  shipping_fee: number;
-  stock: number;
-}
+import { Product } from '../../@types/types';
 
 export default function ProductList() {
   const navigate = useNavigate();
