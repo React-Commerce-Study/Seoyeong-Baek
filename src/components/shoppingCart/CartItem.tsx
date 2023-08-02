@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import CheckBox from '../../assets/icon/check-round.svg';
 import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
+import DeleteIcon from '../../assets/icon/icon-delete.svg';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import Button from '../common/Buttons/Button';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
@@ -120,15 +121,12 @@ export default function CartItem({ cartProduct, totalPrice, setTotalPrice }: Car
               주문하기
             </Button>
           </div>
-          <div className="delete-btn"></div>
-          <button onClick={openModal}>삭제</button>
+          <button className="delete-btn" onClick={openModal}></button>
         </SCartItemContainer>
       )}
 
       {showModal && (
-        <SModalStyle>
-          <Modal closeModal={closeModal} type="delete" count={count} setCount={setCount} productStock={product.stock} />
-        </SModalStyle>
+        <Modal closeModal={closeModal} type="delete" count={count} setCount={setCount} productStock={product.stock} />
       )}
     </>
   );
@@ -141,6 +139,7 @@ const SCartItemContainer = styled(ProductListItemStyle)`
   gap: 36px;
   padding: 20px 30px;
   box-shadow: inset 0 0 10px blue;
+  position: relative;
 
   .check-box {
     background: url(${CheckBox}) no-repeat center center;
@@ -208,13 +207,14 @@ const SCartItemContainer = styled(ProductListItemStyle)`
       font-weight: 700;
     }
   }
-`;
 
-const SModalStyle = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 99;
-  top: 0;
-  left: 0;
+  .delete-btn {
+    background: url(${DeleteIcon}) no-repeat center center;
+    background-size: contain;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    right: 18px;
+    top: 18px;
+  }
 `;

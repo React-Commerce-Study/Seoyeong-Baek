@@ -1,6 +1,7 @@
 import Button from '../common/Buttons/Button';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import styled from 'styled-components';
+import DeletIcon from '../../assets/icon/icon-delete.svg';
 
 interface ModalProps {
   closeModal: () => void;
@@ -36,13 +37,20 @@ export default function Modal({ closeModal, type, count, setCount, productStock 
   );
 }
 const SModalBackground = styled.div`
+  z-index: 99;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
   &::before {
+    display: block;
     content: '';
-    position: absolute;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(1.8px);
   }
 `;
 
