@@ -18,17 +18,23 @@ type CartItemProps = {
   cartProduct: CartProduct;
   totalPrice: number;
   setTotalPrice: Dispatch<SetStateAction<number>>;
+  totalDeliveryFee: number;
+  setTotalDeliveryFee: Dispatch<SetStateAction<number>>;
 };
 
-export default function CartItem({ cartProduct, totalPrice, setTotalPrice }: CartItemProps) {
+export default function CartItem({
+  cartProduct,
+  totalPrice,
+  setTotalPrice,
+  totalDeliveryFee,
+  setTotalDeliveryFee,
+}: CartItemProps) {
   console.log(cartProduct);
   // const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
-
   const URL = 'https://openmarket.weniv.co.kr/';
   const navigate = useNavigate();
 
   const [isFetched, setIsFetched] = useState<boolean>(false);
-  // TODO: product 모듈화하기
   const [product, setProduct] = useState<any>({});
   const [count, setCount] = useState<number>(product.stock | 1);
 
@@ -74,6 +80,7 @@ export default function CartItem({ cartProduct, totalPrice, setTotalPrice }: Car
   // checkbox check여부 확인
   const [isCheck, setIsCheck] = useState<boolean>(false);
   const price = product.stock === 0 ? 0 : count * product.price;
+
   const [countChange, setCountChange] = useState<string>('');
 
   useEffect(() => {
@@ -82,16 +89,20 @@ export default function CartItem({ cartProduct, totalPrice, setTotalPrice }: Car
     } else if (countChange === '+') {
       setTotalPrice(totalPrice + product.price);
     }
-  }, [countChange]);
+  }, [count]);
 
   const handleCheckBoxClick = () => {
     if (isCheck) {
       setIsCheck(false);
       console.log(totalPrice);
       setTotalPrice(totalPrice - price);
+      setTotalDeliveryFee(totalDeliveryFee - product.shipping_fee >= 0 ? totalDeliveryFee - product.shipping_fee : 0);
     } else {
       setIsCheck(true);
       setTotalPrice(totalPrice + price);
+      // if (storeNames.every((name) => name !== product.store_name)) {
+      setTotalDeliveryFee(totalDeliveryFee + product.shipping_fee);
+      // }
     }
   };
 
@@ -100,10 +111,8 @@ export default function CartItem({ cartProduct, totalPrice, setTotalPrice }: Car
       {isFetched && (
         <SCartItemContainer>
           <div className={`check-box ${isCheck ? 'checked' : ''}`} onClick={handleCheckBoxClick}></div>
-          <div onClick={handleClick}>
-            <ProductDataImg productImg={product.image} imgName={product.product_name} />
-          </div>
-          <div onClick={handleClick}>
+          <div className="product-info-wrapper">
+            <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
             <ProductDataInfo product={product} isDelivery={true} />
           </div>
           <div className="product-count-wrapper">
@@ -161,7 +170,7 @@ const SCartItemContainer = styled(ProductListItemStyle)`
   .img-box {
     width: 10rem;
     height: 10rem;
-    flex-basis: 15%;
+    /* flex-basis: 15%; */
   }
 
   .info-box {
@@ -172,8 +181,7 @@ const SCartItemContainer = styled(ProductListItemStyle)`
     color: #767676;
     font-weight: 400;
     font-size: 14px;
-    cursor: pointer;
-    flex-grow: 1;
+    /* flex-grow: 1; */
 
     .product-name {
       color: #000;
@@ -191,6 +199,12 @@ const SCartItemContainer = styled(ProductListItemStyle)`
       box-shadow: inset 0 0 10px blue;
     }
   }
+
+  .product-info-wrapper {
+    display: flex;
+    gap: 2.25rem;
+  }
+
   .product-count-wrapper {
     flex-basis: 15%;
   }
