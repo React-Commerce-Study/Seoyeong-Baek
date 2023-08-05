@@ -3,12 +3,13 @@ import React from 'react';
 interface ProductImgProps {
   productImg: string;
   imgName: string;
+  handleClick?: () => void;
 }
 
-export default function ProductImg({ productImg, imgName }: ProductImgProps) {
+export default function ProductImg({ productImg, imgName, handleClick }: ProductImgProps) {
   return (
     <div className="img-box">
-      <img src={productImg} alt={imgName} />
+      <img src={productImg} alt={imgName} onClick={handleClick} />
     </div>
   );
 }

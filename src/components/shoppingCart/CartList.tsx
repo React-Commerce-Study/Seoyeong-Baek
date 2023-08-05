@@ -11,6 +11,7 @@ export default function ShoppingCart() {
   const [cartItemList, setCartItemList] = useState<CartProduct[]>([]); // null로 초기값 설정;
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [totalDeliveryFee, setTotalDeliveryFee] = useState<number>(0);
 
   useEffect(() => {
     fetchCartItemList();
@@ -22,7 +23,7 @@ export default function ShoppingCart() {
         method: 'GET',
         headers: {
           Authorization:
-            'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IiIsInVzZXJuYW1lIjoiYnV5ZXIxIiwiZXhwIjoxNjkwNTQ5Njc0fQ.kaarG2FoPRIT4iIRiTg5LA39xdjptnbYhp5_bK2kzSM',
+            'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IiIsInVzZXJuYW1lIjoiYnV5ZXIxIiwiZXhwIjoxNjkxNTY1ODM0fQ.I_H5klYPBesezVEEUrMUwvQqilGfAwlC1OXqjbhFlag',
         },
       });
       if (response.ok) {
@@ -59,6 +60,8 @@ export default function ShoppingCart() {
                 cartProduct={cartItem}
                 totalPrice={totalPrice}
                 setTotalPrice={setTotalPrice}
+                totalDeliveryFee={totalDeliveryFee}
+                setTotalDeliveryFee={setTotalDeliveryFee}
               />
             );
           })
@@ -69,7 +72,7 @@ export default function ShoppingCart() {
           </div>
         )}
       </SCartListContainer>
-      <TotalPriceBox totalPrice={totalPrice} />
+      <TotalPriceBox totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
 
       <SButtonContainer>
         <Button padding="19px 65px" fontSize="24px">

@@ -6,9 +6,10 @@ import PlusIcon from '../../assets/icon/plus-icon_2.svg';
 
 interface TotalPriceBoxProps {
   totalPrice: number;
+  totalDeliveryFee: number;
 }
 
-export default function TotalPriceBox({ totalPrice }: TotalPriceBoxProps) {
+export default function TotalPriceBox({ totalPrice, totalDeliveryFee }: TotalPriceBoxProps) {
   console.log(totalPrice);
   return (
     <SCartTotalPriceContainer>
@@ -22,11 +23,11 @@ export default function TotalPriceBox({ totalPrice }: TotalPriceBoxProps) {
       </div>
       <div className="delivery-price">
         <p>배송비</p>
-        <strong>0</strong> 원
+        <strong>{totalDeliveryFee ? totalDeliveryFee.toLocaleString() : 0}</strong> 원
       </div>
       <div className="final-total-price">
         <p>결제 예정 금액</p>
-        <strong>{totalPrice ? totalPrice.toLocaleString() : 0}</strong> 원
+        <strong>{totalPrice && totalDeliveryFee ? (totalPrice + totalDeliveryFee).toLocaleString() : 0}</strong> 원
       </div>
     </SCartTotalPriceContainer>
   );
