@@ -40,6 +40,7 @@ export default function CartItem({
 
   // 모달 상태를 관리하는 상태 변수
   const [showModal, setShowModal] = useState(false);
+  console.log(cartProduct);
 
   // 모달 열기 함수
   const openModal = () => {
@@ -134,9 +135,7 @@ export default function CartItem({
         </SCartItemContainer>
       )}
 
-      {showModal && (
-        <Modal closeModal={closeModal} type="delete" count={count} setCount={setCount} productStock={product.stock} />
-      )}
+      {showModal && <Modal closeModal={closeModal} type="delete" cartItemId={cartProduct.cart_item_id} />}
     </>
   );
 }

@@ -6,12 +6,34 @@ import DeletIcon from '../../assets/icon/icon-delete.svg';
 interface ModalProps {
   closeModal: () => void;
   type: string;
-  count?: number;
-  setCount?: React.Dispatch<React.SetStateAction<number>>;
-  productStock?: number;
+  cartItemId?: number;
 }
 
-export default function Modal({ closeModal, type, count, setCount, productStock }: ModalProps) {
+export default function Modal({ closeModal, type, cartItemId }: ModalProps) {
+  const deleteItem = () => {
+    console.log(cartItemId);
+    DeleteCartItem();
+    closeModal();
+  };
+
+  async function DeleteCartItem() {
+    const URL = 'https://openmarket.weniv.co.kr/';
+
+    try {
+      const response = await fetch(`${URL}cart/${cartItemId}/`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      } else {
+        throw new Error('네트워크에 문제가 있습니다.');
+      }
+    } catch (error) {
+      console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+    }
+  }
+
   return (
     <SModalBackground>
       {type === 'delete' ? (
@@ -21,12 +43,11 @@ export default function Modal({ closeModal, type, count, setCount, productStock 
             <Button onClick={closeModal} bgColor="inherit" color="#767676" boxShadow="inset 0 0 0 1px #767676">
               취소
             </Button>
-            <Button>확인</Button>
+            <Button onClick={deleteItem}>확인</Button>
           </div>
         </SModalLayout>
-      ) : type === 'changeCount' && count && setCount && productStock ? (
+      ) : type === 'changeCount' ? (
         <SModalLayout>
-          <ProductCountButton count={count} setCount={setCount} productStock={productStock} />
           <div className="button-container">
             <Button onClick={closeModal}>취소</Button>
             <Button>확인</Button>
