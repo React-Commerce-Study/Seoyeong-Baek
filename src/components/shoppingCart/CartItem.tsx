@@ -11,36 +11,34 @@ import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
 import { CartProduct } from '../../@types/types';
 import Modal from '../../components/modal/Modal';
-// import { useRecoilState } from 'recoil';
-// import { totalPriceState } from '../../Atom/Atom';
 
 type CartItemProps = {
   cartProduct: CartProduct;
-  totalPrice: number;
   setTotalPrice: Dispatch<SetStateAction<number>>;
-  totalDeliveryFee: number;
   setTotalDeliveryFee: Dispatch<SetStateAction<number>>;
+  setCartItemList: Dispatch<SetStateAction<CartProduct[]>>;
+  isClickAllCheck: boolean;
 };
 
 export default function CartItem({
   cartProduct,
-  totalPrice,
   setTotalPrice,
-  totalDeliveryFee,
   setTotalDeliveryFee,
+  setCartItemList,
+  isClickAllCheck,
 }: CartItemProps) {
   console.log(cartProduct);
-  // const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
   const URL = 'https://openmarket.weniv.co.kr/';
   const navigate = useNavigate();
 
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [product, setProduct] = useState<any>({});
-  const [count, setCount] = useState<number>(product.stock | 1);
+
+  const [count, setCount] = useState<number>(cartProduct.quantity);
+  const price = product.stock === 0 ? 0 : count * product.price;
 
   // 모달 상태를 관리하는 상태 변수
   const [showModal, setShowModal] = useState(false);
-  console.log(cartProduct);
 
   // 모달 열기 함수
   const openModal = () => {
@@ -55,6 +53,18 @@ export default function CartItem({
   useEffect(() => {
     fetchCartItem();
   }, []);
+
+  // 장바구니 페이지 렌더시 전체선택 버튼을 눌렀을 경우 가격을 변경해주기 위함
+  useEffect(() => {
+    if (isClickAllCheck) {
+      product.price && setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
+      product.shipping_fee && setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
+    } else {
+      setTotalDeliveryFee(0);
+      setTotalPrice(0);
+    }
+  }, [isClickAllCheck, product]);
+  // product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
 
   async function fetchCartItem() {
     try {
@@ -78,31 +88,40 @@ export default function CartItem({
     navigate(`/product/${product.product_id}`, { state: product });
   };
 
-  // checkbox check여부 확인
-  const [isCheck, setIsCheck] = useState<boolean>(false);
-  const price = product.stock === 0 ? 0 : count * product.price;
-
   const [countChange, setCountChange] = useState<string>('');
 
+  // 수량 변동 시 가격 빼고 더해주기
   useEffect(() => {
     if (countChange === '-') {
-      setTotalPrice(totalPrice - product.price);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
     } else if (countChange === '+') {
-      setTotalPrice(totalPrice + product.price);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
     }
   }, [count]);
 
   const handleCheckBoxClick = () => {
-    if (isCheck) {
-      setIsCheck(false);
-      console.log(totalPrice);
-      setTotalPrice(totalPrice - price);
-      setTotalDeliveryFee(totalDeliveryFee - product.shipping_fee >= 0 ? totalDeliveryFee - product.shipping_fee : 0);
+    if (cartProduct.is_active) {
+      // cartProduct.is_active = false;
+      // 위와 같이 변경해버리면 cartProduct가 재렌더링이 안됨
+      setCartItemList((prevCartItems) =>
+        prevCartItems.map((item) =>
+          item.product_id === cartProduct.product_id && item.is_active ? { ...item, is_active: false } : item
+        )
+      );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - price);
+      setTotalDeliveryFee((prevTotalDeliveryFee) =>
+        prevTotalDeliveryFee - product.shipping_fee >= 0 ? prevTotalDeliveryFee - product.shipping_fee : 0
+      );
     } else {
-      setIsCheck(true);
-      setTotalPrice(totalPrice + price);
+      // cartProduct.is_active = true;
+      setCartItemList((prevCartItems) =>
+        prevCartItems.map((item) =>
+          item.product_id === cartProduct.product_id && !item.is_active ? { ...item, is_active: true } : item
+        )
+      );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
       // if (storeNames.every((name) => name !== product.store_name)) {
-      setTotalDeliveryFee(totalDeliveryFee + product.shipping_fee);
+      setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
       // }
     }
   };
@@ -111,7 +130,12 @@ export default function CartItem({
     <>
       {isFetched && (
         <SCartItemContainer>
-          <div className={`check-box ${isCheck ? 'checked' : ''}`} onClick={handleCheckBoxClick}></div>
+          <label
+            htmlFor="checkBox"
+            className={`check-box ${cartProduct.is_active ? 'checked' : ''}`}
+            onClick={handleCheckBoxClick}
+          ></label>
+          <input type="checkbox" id="checkBox" />
           <div className="product-info-wrapper">
             <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
             <ProductDataInfo product={product} isDelivery={true} />
@@ -121,7 +145,7 @@ export default function CartItem({
               count={count}
               setCount={setCount}
               productStock={product.stock}
-              isCheck={isCheck}
+              isCheck={cartProduct.is_active}
               setCountChange={setCountChange}
             />
           </div>
@@ -143,11 +167,14 @@ export default function CartItem({
 const SCartItemContainer = styled(ProductListItemStyle)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 36px;
-  padding: 20px 30px;
-  box-shadow: inset 0 0 10px blue;
+  padding: 20px 0;
   position: relative;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+
+  input {
+    display: none;
+  }
 
   .check-box {
     background: url(${CheckBox}) no-repeat center center;
@@ -166,52 +193,57 @@ const SCartItemContainer = styled(ProductListItemStyle)`
     height: 1.25rem;
   }
 
-  .img-box {
-    width: 10rem;
-    height: 10rem;
-    /* flex-basis: 15%; */
-  }
-
-  .info-box {
-    margin-top: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    color: #767676;
-    font-weight: 400;
-    font-size: 14px;
-    /* flex-grow: 1; */
-
-    .product-name {
-      color: #000;
-    }
-
-    .product-price,
-    .product-price strong {
-      font-size: 16px;
-      color: #000;
-      font-weight: 700;
-      line-height: normal;
-    }
-
-    .delivery {
-      box-shadow: inset 0 0 10px blue;
-    }
-  }
-
   .product-info-wrapper {
     display: flex;
     gap: 2.25rem;
+    flex-basis: 50%;
+    margin-left: 0.7rem;
+
+    .img-box {
+      width: 10rem;
+      height: 10rem;
+      border: none;
+    }
+
+    .info-box {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      color: #767676;
+      font-weight: 400;
+      font-size: 14px;
+
+      .product-name {
+        color: #000;
+      }
+
+      .product-price,
+      .product-price strong {
+        font-size: 16px;
+        color: #000;
+        font-weight: 700;
+        line-height: normal;
+      }
+    }
   }
 
   .product-count-wrapper {
-    flex-basis: 15%;
+    flex-basis: 20%;
+    box-sizing: border-box;
+
+    div {
+      margin: 0 auto;
+    }
   }
 
   .total-price-wrapper {
-    box-shadow: inset 0 0 10px blue;
     text-align: center;
-    flex-basis: 15%;
+    flex-basis: 25%;
+
+    button {
+      max-width: 130px;
+    }
 
     p {
       margin-bottom: 26px;

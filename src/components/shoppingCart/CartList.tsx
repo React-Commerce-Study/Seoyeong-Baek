@@ -9,7 +9,7 @@ import { CartProduct } from '../../@types/types';
 
 export default function ShoppingCart() {
   const URL = 'https://openmarket.weniv.co.kr/';
-  const [cartItemList, setCartItemList] = useState<CartProduct[]>([]); // null로 초기값 설정;
+  const [cartItemList, setCartItemList] = useState<CartProduct[]>([]);
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalDeliveryFee, setTotalDeliveryFee] = useState<number>(0);
@@ -19,17 +19,18 @@ export default function ShoppingCart() {
   }, []);
 
   async function fetchCartItemList() {
+    const token = localStorage.getItem('token');
+
     try {
       const response = await fetch(`${URL}cart/`, {
         method: 'GET',
         headers: {
-          Authorization:
-            'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IiIsInVzZXJuYW1lIjoiYnV5ZXIxIiwiZXhwIjoxNjkxNTY1ODM0fQ.I_H5klYPBesezVEEUrMUwvQqilGfAwlC1OXqjbhFlag',
+          Authorization: `JWT ${token}`,
         },
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        console.log(token);
         console.log(data.results);
         setCartItemList(data.results);
       } else {
@@ -39,13 +40,43 @@ export default function ShoppingCart() {
       console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
     }
   }
+  const [isAllCheck, setAllIsCheck] = useState<boolean>(true);
+
+  // cartItem checkbox 클릭시 전체 체크박스 변경
+  useEffect(() => {
+    const isCheckArr = cartItemList.map((cartItem) => cartItem.is_active);
+    // console.log(isCheckArr);
+    isCheckArr.includes(false) ? setAllIsCheck(false) : setAllIsCheck(true);
+  }, [cartItemList]);
+
+  // 전체 선택을 눌렀을 때를 넘겨주기 위해서
+  const [isClickAllCheck, setIsClickAllCheck] = useState<boolean>(true);
+
+  const handleCheckBoxClick = () => {
+    if (isAllCheck) {
+      setAllIsCheck(false);
+      cartItemList.map((cartItem) => {
+        cartItem.is_active = false;
+      });
+      setIsClickAllCheck(false);
+    } else {
+      setAllIsCheck(true);
+      cartItemList.map((cartItem) => {
+        cartItem.is_active = true;
+      });
+      setIsClickAllCheck(true);
+    }
+  };
+
+  console.log(cartItemList);
 
   return (
     <SMainLayout>
       <STitle>장바구니</STitle>
       <SCategoryList>
         <li>
-          <img src={CheckBox} alt="checkbox" />
+          <label htmlFor="checkBox" className={`check-box ${isAllCheck ? 'checked' : ''}`} onClick={handleCheckBoxClick}></label>
+          <input type="checkbox" id="checkBox" />
         </li>
         <li>상품정보</li>
         <li>수량</li>
@@ -59,11 +90,10 @@ export default function ShoppingCart() {
               <CartItem
                 key={cartItem.cart_item_id}
                 cartProduct={cartItem}
-                totalPrice={totalPrice}
                 setTotalPrice={setTotalPrice}
-                totalDeliveryFee={totalDeliveryFee}
                 setTotalDeliveryFee={setTotalDeliveryFee}
                 setCartItemList={setCartItemList}
+                isClickAllCheck={isClickAllCheck}
               />
             );
           })
