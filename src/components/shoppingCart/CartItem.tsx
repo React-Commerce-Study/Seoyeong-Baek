@@ -18,6 +18,7 @@ type CartItemProps = {
   setTotalDeliveryFee: Dispatch<SetStateAction<number>>;
   setCartItemList: Dispatch<SetStateAction<CartProduct[]>>;
   isClickAllCheck: boolean;
+  setIsChangeModalValue: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function CartItem({
@@ -26,6 +27,7 @@ export default function CartItem({
   setTotalDeliveryFee,
   setCartItemList,
   isClickAllCheck,
+  setIsChangeModalValue,
 }: CartItemProps) {
   console.log(cartProduct);
   const URL = 'https://openmarket.weniv.co.kr/';
@@ -39,16 +41,6 @@ export default function CartItem({
 
   // 모달 상태를 관리하는 상태 변수
   const [showModal, setShowModal] = useState(false);
-
-  // 모달 열기 함수
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  // 모달 닫기 함수
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
   useEffect(() => {
     fetchCartItem();
@@ -155,11 +147,18 @@ export default function CartItem({
               주문하기
             </Button>
           </div>
-          <button className="delete-btn" onClick={openModal}></button>
+          <button className="delete-btn" onClick={() => setShowModal(true)}></button>
         </SCartItemContainer>
       )}
 
-      {showModal && <Modal closeModal={closeModal} type="delete" cartItemId={cartProduct.cart_item_id} />}
+      {showModal && (
+        <Modal
+          type="delete"
+          cartItemId={cartProduct.cart_item_id}
+          setIsChangeModalValue={setIsChangeModalValue}
+          setShowModal={setShowModal}
+        />
+      )}
     </>
   );
 }

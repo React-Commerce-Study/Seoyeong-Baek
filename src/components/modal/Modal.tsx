@@ -1,27 +1,38 @@
 import Button from '../common/Buttons/Button';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import styled from 'styled-components';
-import DeletIcon from '../../assets/icon/icon-delete.svg';
+import DeleteIcon from '../../assets/icon/icon-delete.svg';
 
 interface ModalProps {
-  closeModal: () => void;
   type: string;
   cartItemId?: number;
+  setIsChangeModalValue?: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Modal({ closeModal, type, cartItemId }: ModalProps) {
+export default function Modal({ type, cartItemId, setIsChangeModalValue, setShowModal }: ModalProps) {
+  const closeModal = () => {
+    // 옵셔널 체이닝(Optional Chaining) 연산자(?.)
+    // null 또는 undefined일 경우에는 호출하지 않고 그냥 넘어가게 됨. 이렇게 함으로써 해당 함수가 존재하지 않을 때 발생할 수 있는 오류를 방지하고, 안전하게 함수 호출
+    setShowModal?.(false);
+  };
+
   const deleteItem = () => {
-    console.log(cartItemId);
     DeleteCartItem();
+    setIsChangeModalValue?.(true);
     closeModal();
   };
 
   async function DeleteCartItem() {
     const URL = 'https://openmarket.weniv.co.kr/';
+    const token = localStorage.getItem('token');
 
     try {
       const response = await fetch(`${URL}cart/${cartItemId}/`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
       });
       if (response.ok) {
         const data = await response.json();
@@ -45,6 +56,9 @@ export default function Modal({ closeModal, type, cartItemId }: ModalProps) {
             </Button>
             <Button onClick={deleteItem}>확인</Button>
           </div>
+          <button className="delete-btn" onClick={closeModal}>
+            <img src={DeleteIcon} alt="" />
+          </button>
         </SModalLayout>
       ) : type === 'changeCount' ? (
         <SModalLayout>
@@ -52,6 +66,9 @@ export default function Modal({ closeModal, type, cartItemId }: ModalProps) {
             <Button onClick={closeModal}>취소</Button>
             <Button>확인</Button>
           </div>
+          <button className="delete-btn" onClick={closeModal}>
+            <img src={DeleteIcon} alt="" />
+          </button>
         </SModalLayout>
       ) : null}
     </SModalBackground>
@@ -81,12 +98,13 @@ const SModalLayout = styled.article`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 22.5rem;
-  padding: 3.8rem 4.7rem;
+  padding: 2.5rem 4.5rem;
   background-color: #fff;
   text-align: center;
   border-radius: 0.6rem;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11),
     0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
+  box-sizing: border-box;
 
   p {
     font-size: 1rem;
@@ -101,6 +119,16 @@ const SModalLayout = styled.article`
       font-size: 1rem;
       flex-basis: 50%;
       font-weight: 500;
+      padding: 10px 0;
     }
+  }
+
+  .delete-btn {
+    position: absolute;
+    top: 1.125rem;
+    right: 1.125rem;
+    padding: 0;
+    width: 1.38rem;
+    height: 1.38rem;
   }
 `;

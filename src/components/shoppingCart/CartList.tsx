@@ -14,9 +14,14 @@ export default function ShoppingCart() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalDeliveryFee, setTotalDeliveryFee] = useState<number>(0);
 
+  // 모달로 확인한 값이 바뀌는 경우
+  const [isChangeModalValue, setIsChangeModalValue] = useState(false);
+
   useEffect(() => {
     fetchCartItemList();
-  }, []);
+    // 모달 값 초기화
+    setIsChangeModalValue(false);
+  }, [isChangeModalValue]);
 
   async function fetchCartItemList() {
     const token = localStorage.getItem('token');
@@ -94,6 +99,7 @@ export default function ShoppingCart() {
                 setTotalDeliveryFee={setTotalDeliveryFee}
                 setCartItemList={setCartItemList}
                 isClickAllCheck={isClickAllCheck}
+                setIsChangeModalValue={setIsChangeModalValue}
               />
             );
           })
