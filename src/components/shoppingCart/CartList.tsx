@@ -116,7 +116,7 @@ export default function ShoppingCart() {
           <TotalPriceBox totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
 
           <SButtonContainer>
-            <Button padding="19px 65px" fontSize="24px">
+            <Button padding="19px 65px" fontSize="24px" disabled={!isAllCheck}>
               주문하기
             </Button>
           </SButtonContainer>

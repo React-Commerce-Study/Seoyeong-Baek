@@ -12,6 +12,7 @@ interface ButtonProps {
   type?: string;
   style?: React.CSSProperties;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export default function Button(props: ButtonProps) {
@@ -29,4 +30,15 @@ const ButtonStyle = styled.button<ButtonProps>`
   border-radius: 5px;
   box-sizing: border-box;
   box-shadow: ${(props: ButtonProps) => props.boxShadow || 'none'};
+  transition: all 0.25s ease-out;
+
+  &:disabled {
+    background-color: #c4c4c4;
+  }
+
+  &:hover {
+    background-color: white;
+    box-shadow: inset 0 0 0 1px var(--point-color);
+    color: var(--point-color);
+  }
 `;

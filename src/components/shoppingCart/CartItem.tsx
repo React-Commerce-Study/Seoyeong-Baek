@@ -143,7 +143,7 @@ export default function CartItem({
           </div>
           <div className="total-price-wrapper">
             <p className="total-price">{price.toLocaleString()}원</p>
-            <Button padding="10px 35px" fontSize="16px" fontWeight="500">
+            <Button disabled={!cartProduct.is_active} padding="10px 35px" fontSize="16px" fontWeight="500">
               주문하기
             </Button>
           </div>
