@@ -2,7 +2,6 @@ import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
-import { type } from 'os';
 
 type LoginFormProps = {
   loginType: string;
@@ -132,5 +131,5 @@ const MessageError = styled.p`
   color: red;
   margin-top: 26px;
   text-align: left;
-  display: ${(props: { display?: boolean }) => (props.display ? 'block' : 'none')};
+  display: ${(props: { display: boolean }) => (props.display ? 'block' : 'none')};
 `;

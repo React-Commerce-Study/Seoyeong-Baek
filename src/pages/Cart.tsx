@@ -6,7 +6,7 @@ import Footer from '../components/common/Footer/Footer';
 export default function Cart() {
   return (
     <>
-      <Header />
+      <Header page={'cart'} />
       <CartList />
       <Footer />
     </>
