@@ -16,4 +16,10 @@ interface CartProduct {
   quantity: number;
 }
 
-export type { Product, CartProduct };
+interface ProductData {
+  product_id: number;
+  quantity: number;
+  check: boolean;
+}
+
+export type { Product, CartProduct, ProductData };
