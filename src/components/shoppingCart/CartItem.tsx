@@ -40,7 +40,7 @@ export default function CartItem({
   const price = product.stock === 0 ? 0 : count * product.price;
 
   // 모달 상태를 관리하는 상태 변수
-  const [showModal, setShowModal] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     fetchCartItem();
@@ -147,16 +147,16 @@ export default function CartItem({
               주문하기
             </Button>
           </div>
-          <button className="delete-btn" onClick={() => setShowModal(true)}></button>
+          <button className="delete-btn" onClick={() => setIsShowModal(true)}></button>
         </SCartItemContainer>
       )}
 
-      {showModal && (
+      {isShowModal && (
         <Modal
           type="delete"
           cartItemId={cartProduct.cart_item_id}
           setIsChangeModalValue={setIsChangeModalValue}
-          setShowModal={setShowModal}
+          setIsShowModal={setIsShowModal}
         />
       )}
     </>

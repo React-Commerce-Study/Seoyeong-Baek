@@ -1,20 +1,23 @@
 import Button from '../common/Buttons/Button';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import DeleteIcon from '../../assets/icon/icon-delete.svg';
 
 interface ModalProps {
   type: string;
   cartItemId?: number;
   setIsChangeModalValue?: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Modal({ type, cartItemId, setIsChangeModalValue, setShowModal }: ModalProps) {
+export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsShowModal }: ModalProps) {
+  const navigate = useNavigate();
+
   const closeModal = () => {
     // 옵셔널 체이닝(Optional Chaining) 연산자(?.)
     // null 또는 undefined일 경우에는 호출하지 않고 그냥 넘어가게 됨. 이렇게 함으로써 해당 함수가 존재하지 않을 때 발생할 수 있는 오류를 방지하고, 안전하게 함수 호출
-    setShowModal?.(false);
+    setIsShowModal?.(false);
   };
 
   const deleteItem = () => {
@@ -63,8 +66,26 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setShow
       ) : type === 'changeCount' ? (
         <SModalLayout>
           <div className="button-container">
-            <Button onClick={closeModal}>취소</Button>
+            <Button onClick={closeModal} bgColor="inherit" color="#767676" boxShadow="inset 0 0 0 1px #767676">
+              취소
+            </Button>
             <Button>확인</Button>
+          </div>
+          <button className="delete-btn" onClick={closeModal}>
+            <img src={DeleteIcon} alt="" />
+          </button>
+        </SModalLayout>
+      ) : type === 'requiredLogin' ? (
+        <SModalLayout>
+          <p>
+            로그인이 필요한 서비스입니다. <br />
+            로그인 하시겠습니까?
+          </p>
+          <div className="button-container">
+            <Button onClick={closeModal} bgColor="inherit" color="#767676" boxShadow="inset 0 0 0 1px #767676">
+              아니오
+            </Button>
+            <Button onClick={() => navigate('/login')}>네</Button>
           </div>
           <button className="delete-btn" onClick={closeModal}>
             <img src={DeleteIcon} alt="" />
