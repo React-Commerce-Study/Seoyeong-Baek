@@ -3,14 +3,85 @@ import ProductCountButton from '../common/Buttons/ProductCountButton';
 import PurchaseButton from '../common/Buttons/Button';
 import styled from 'styled-components';
 import { Product } from '../../@types/types';
+import Modal from '../modal/Modal';
+import { fetchCartItemList } from '../../services/ResponseApi';
 
 interface ProductPurchaseProps {
   product: Product;
 }
 
+interface ProductData {
+  product_id: number;
+  quantity: number;
+  check: boolean;
+}
+
+type ButtonType = 'cart' | 'buy'; // 버튼 유형을 나타내는 타입 정의
+
 export default function ProductPurchase({ product }: ProductPurchaseProps) {
   const [count, setCount] = useState(1);
   console.log(product);
+  const token = localStorage.getItem('token');
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const [productData, setProductData] = useState<ProductData>({
+    product_id: product.product_id,
+    quantity: count,
+    check: false,
+  });
+
+  // 로그인시에만 장바구니에 넣을 수 있고, 장바구니에 있으면 이미 있다고 띄워주기
+  const handleClickBtn = (buttonType: ButtonType) => {
+    token ? requestApi(buttonType) : setIsShowModal(true);
+
+    function requestApi(buttonType: ButtonType) {
+      if (buttonType === 'cart') {
+        console.log('장바구니 버튼 클릭');
+        checkCartItems();
+      } else if (buttonType === 'buy') {
+        console.log('구매 버튼 클릭');
+        // 구매 api 요청
+        // purchaseProduct()
+      }
+    }
+  };
+
+  async function checkCartItems() {
+    const cartList = await fetchCartItemList();
+    const cartItemIdArr = cartList.map((cartItem: { product_id: number }) => {
+      return cartItem.product_id;
+    });
+
+    if (cartItemIdArr.includes(product.product_id)) {
+      console.log('이미 장바구니에 담겨있습니다.');
+    } else {
+      console.log('장바구니에 담겼습니다.');
+      setProductData({ ...productData, check: true });
+      postCartList(productData);
+    }
+  }
+
+  async function postCartList(productData: ProductData) {
+    const URL = 'https://openmarket.weniv.co.kr/';
+    try {
+      const response = await fetch(`${URL}cart/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `JWT ${token}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.results);
+      } else {
+        throw new Error('네트워크에 문제가 있습니다.');
+      }
+    } catch (error) {
+      console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+    }
+  }
 
   return (
     <PurchaseContainerStyle>
@@ -32,11 +103,14 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
       </ProductTotalPriceStyle>
       {/* 구매버튼 */}
       <ButtonWrapperStyle>
-        <PurchaseButton type="button">바로 구매</PurchaseButton>
-        <PurchaseButton type="button" bgColor="#767676">
+        <PurchaseButton type="button" onClick={() => handleClickBtn('buy')}>
+          바로 구매
+        </PurchaseButton>
+        <PurchaseButton type="button" bgColor="#767676" onClick={() => handleClickBtn('cart')}>
           장바구니
         </PurchaseButton>
       </ButtonWrapperStyle>
+      {isShowModal && <Modal type="requiredLogin" setIsShowModal={setIsShowModal} />}
     </PurchaseContainerStyle>
   );
 }
