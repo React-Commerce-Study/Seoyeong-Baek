@@ -1,10 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ShoppingCart from '../../../assets/icon/icon-shopping-cart.svg';
 import ShoppingCartActive from '../../../assets/icon/icon-shopping-cart-2.svg';
 import User from '../../../assets/icon/icon-user.svg';
 import UserActive from '../../../assets/icon/icon-user-2.svg';
-
+import MyPageModal from '../../modal/MyPageModal';
 import styled from 'styled-components';
 
 interface NavProps {
@@ -13,6 +13,12 @@ interface NavProps {
 
 export default function Nav({ page }: NavProps) {
   const token = localStorage.getItem('token');
+
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const handleModalClick = () => {
+    isShowModal ? setIsShowModal(false) : setIsShowModal(true);
+  };
 
   return (
     <SNavContainer>
@@ -23,15 +29,18 @@ export default function Nav({ page }: NavProps) {
           </Link>
         </li>
         {token ? (
-          <li>
+          <li className="modal-btn">
             <Link to="/">
-              <button className="nav-btn login">마이페이지</button>
+              <button className={`nav-btn login ${isShowModal ? 'active' : ''}`} onClick={handleModalClick}>
+                마이페이지
+              </button>
             </Link>
+            {isShowModal && <MyPageModal />}
           </li>
         ) : (
           <li>
             <Link to="/login">
-              <button className={`nav-btn login`}>로그인</button>
+              <button className="nav-btn login">로그인</button>
             </Link>
           </li>
         )}
@@ -46,6 +55,10 @@ const SNavContainer = styled.div`
     align-items: center;
     justify-content: center;
     gap: 1.625rem;
+
+    li.modal-btn {
+      position: relative;
+    }
 
     .nav-btn {
       color: #767676;
@@ -83,6 +96,12 @@ const SNavContainer = styled.div`
     .login.active::before,
     .login:hover::before {
       background: url(${UserActive}) no-repeat center / contain;
+    }
+
+    .modal-wrapper {
+      /* width: 1920px; */
+      /* height: 100vh; */
+      box-shadow: inset 0 0 10px red;
     }
   }
 `;
