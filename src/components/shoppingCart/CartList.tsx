@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CheckBox from '../../assets/icon/check-round.svg';
 import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
@@ -6,9 +6,10 @@ import CartItem from './CartItem';
 import TotalPriceBox from './TotalPriceBox';
 import Button from '../common/Buttons/Button';
 import { CartProduct } from '../../@types/types';
+import { fetchCartItemList } from '../../services/ResponseApi';
 
 export default function ShoppingCart() {
-  const URL = 'https://openmarket.weniv.co.kr/';
+  // const URL = 'https://openmarket.weniv.co.kr/';
   const [cartItemList, setCartItemList] = useState<CartProduct[]>([]);
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -18,33 +19,17 @@ export default function ShoppingCart() {
   const [isChangeModalValue, setIsChangeModalValue] = useState(false);
 
   useEffect(() => {
-    fetchCartItemList();
+    fetchCartItems();
+
     // 모달 값 초기화
     setIsChangeModalValue(false);
   }, [isChangeModalValue]);
 
-  async function fetchCartItemList() {
-    const token = localStorage.getItem('token');
-
-    try {
-      const response = await fetch(`${URL}cart/`, {
-        method: 'GET',
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(token);
-        console.log(data.results);
-        setCartItemList(data.results);
-      } else {
-        throw new Error('네트워크에 문제가 있습니다.');
-      }
-    } catch (error) {
-      console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
-    }
+  async function fetchCartItems() {
+    const cartList = await fetchCartItemList();
+    setCartItemList(cartList);
   }
+
   const [isAllCheck, setAllIsCheck] = useState<boolean>(true);
 
   // cartItem checkbox 클릭시 전체 체크박스 변경
