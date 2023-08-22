@@ -91,6 +91,38 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
             <img src={DeleteIcon} alt="" />
           </button>
         </SModalLayout>
+      ) : type === 'addToCart' ? (
+        <SModalLayout>
+          <p>
+            장바구니에 담겼습니다. <br />
+            장바구니로 이동 하시겠습니까?
+          </p>
+          <div className="button-container">
+            <Button onClick={closeModal} bgColor="inherit" color="#767676" boxShadow="inset 0 0 0 1px #767676">
+              아니오
+            </Button>
+            <Button onClick={() => navigate('/cart')}>네</Button>
+          </div>
+          <button className="delete-btn" onClick={closeModal}>
+            <img src={DeleteIcon} alt="" />
+          </button>
+        </SModalLayout>
+      ) : type === 'includedCart' ? (
+        <SModalLayout>
+          <p>
+            이미 장바구니에 담긴 상품입니다. <br />
+            장바구니로 이동 하시겠습니까?
+          </p>
+          <div className="button-container">
+            <Button onClick={closeModal} bgColor="inherit" color="#767676" boxShadow="inset 0 0 0 1px #767676">
+              아니오
+            </Button>
+            <Button onClick={() => navigate('/cart')}>네</Button>
+          </div>
+          <button className="delete-btn" onClick={closeModal}>
+            <img src={DeleteIcon} alt="" />
+          </button>
+        </SModalLayout>
       ) : null}
     </SModalBackground>
   );
@@ -130,6 +162,7 @@ const SModalLayout = styled.article`
   p {
     font-size: 1rem;
     margin-bottom: 26px;
+    line-height: normal;
   }
 
   .button-container {

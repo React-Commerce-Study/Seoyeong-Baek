@@ -2,18 +2,12 @@ import React, { useState } from 'react';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import PurchaseButton from '../common/Buttons/Button';
 import styled from 'styled-components';
-import { Product } from '../../@types/types';
+import { Product, ProductData } from '../../@types/types';
 import Modal from '../modal/Modal';
-import { fetchCartItemList } from '../../services/ResponseApi';
+import { fetchCartItemList, postCartList } from '../../services/ResponseApi';
 
 interface ProductPurchaseProps {
   product: Product;
-}
-
-interface ProductData {
-  product_id: number;
-  quantity: number;
-  check: boolean;
 }
 
 type ButtonType = 'cart' | 'buy'; // 버튼 유형을 나타내는 타입 정의
@@ -23,6 +17,8 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
   console.log(product);
   const token = localStorage.getItem('token');
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isCartModal, setIsCartModal] = useState(false);
+  const [isIncludedCartModal, setIsIncludedCartModal] = useState(false);
 
   const [productData, setProductData] = useState<ProductData>({
     product_id: product.product_id,
@@ -40,8 +36,7 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         checkCartItems();
       } else if (buttonType === 'buy') {
         console.log('구매 버튼 클릭');
-        // 구매 api 요청
-        // purchaseProduct()
+        // TODO: 구매 api 요청 purchaseProduct()
       }
     }
   };
@@ -54,32 +49,16 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
 
     if (cartItemIdArr.includes(product.product_id)) {
       console.log('이미 장바구니에 담겨있습니다.');
+      // 장바구니 모달
+      setIsIncludedCartModal(true);
     } else {
       console.log('장바구니에 담겼습니다.');
       setProductData({ ...productData, check: true });
+      // TODO: 수량 바뀌도록 수정하기
+      setProductData({ ...productData, quantity: count });
       postCartList(productData);
-    }
-  }
-
-  async function postCartList(productData: ProductData) {
-    const URL = 'https://openmarket.weniv.co.kr/';
-    try {
-      const response = await fetch(`${URL}cart/`, {
-        method: 'POST',
-        headers: {
-          Authorization: `JWT ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(productData),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.results);
-      } else {
-        throw new Error('네트워크에 문제가 있습니다.');
-      }
-    } catch (error) {
-      console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+      // 장바구니 모달
+      setIsCartModal(true);
     }
   }
 
@@ -111,6 +90,8 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         </PurchaseButton>
       </ButtonWrapperStyle>
       {isShowModal && <Modal type="requiredLogin" setIsShowModal={setIsShowModal} />}
+      {isCartModal && <Modal type="addToCart" setIsShowModal={setIsCartModal} />}
+      {isIncludedCartModal && <Modal type="includedCart" setIsShowModal={setIsIncludedCartModal} />}
     </PurchaseContainerStyle>
   );
 }
