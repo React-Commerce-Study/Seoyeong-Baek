@@ -36,7 +36,7 @@ const ButtonStyle = styled.button<ButtonProps>`
     background-color: #c4c4c4;
   }
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: white;
     box-shadow: inset 0 0 0 1px var(--point-color);
     color: var(--point-color);

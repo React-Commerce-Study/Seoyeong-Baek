@@ -8,23 +8,24 @@ export default function PaymentMain() {
   return (
     <SMainLayout>
       <PaymentList />
-      <ShippingInfoForm />
-      <div className="payment-wrapper">
-        <PaymentMethod />
-        <FinalPaymentInfo />
-      </div>
+      <form action="">
+        <ShippingInfoForm />
+        <div className="payment-wrapper">
+          <PaymentMethod />
+          <FinalPaymentInfo />
+        </div>
+      </form>
     </SMainLayout>
   );
 }
 
 const SMainLayout = styled.main`
   max-width: 80rem;
-  margin: 0 auto;
+  margin: 0 auto 200px;
 
   h3 {
     font-size: 1.5rem;
     padding-bottom: 1.125rem;
-    border-bottom: 2px solid #c4c4c4;
   }
 
   .payment-wrapper {

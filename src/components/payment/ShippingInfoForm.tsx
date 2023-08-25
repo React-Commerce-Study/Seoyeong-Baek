@@ -1,74 +1,80 @@
 import styled from 'styled-components';
+import Button from '../common/Buttons/Button';
 
 export default function ShippingInfoForm() {
   return (
     <SSectionLayout>
       <h3>배송정보</h3>
-      <SCustomerInfoForm action="">
-        <fieldset className="customer-info">
-          <legend>주문자 정보</legend>
-          <ul>
-            <li className="input-wrapper">
-              <label htmlFor="shippingName">이름</label>
-              <input type="text" className="input-box" id="shippingName" />
-            </li>
-            <li className="input-wrapper tel">
-              <label htmlFor="shippingTel">휴대폰</label>
-              <input type="text" className="input-box" id="shippingTel" name="shippingTel" />
+      <fieldset className="customer-info">
+        <legend>주문자 정보</legend>
+        <ul>
+          <li>
+            <label htmlFor="shippingName">이름</label>
+            <input type="text" className="input-box" id="shippingName" />
+          </li>
+          <li className="tel">
+            <label htmlFor="shippingTel">휴대폰</label>
+            <div>
+              <input type="tel" className="tel" id="shippingTel" name="shippingTel" />
               <span>-</span>
-              <input type="tel" className="tel2" />
+              <input type="tel" className="tel" id="shippingTel" />
               <span>-</span>
-              <input type="tel" className="tel3" />
-            </li>
-            <li className="input-wrapper">
-              <label htmlFor="">이메일</label>
-              <input type="email" />
-            </li>
-          </ul>
-        </fieldset>
+              <input type="tel" className="tel" id="shippingTel" />
+            </div>
+          </li>
+          <li>
+            <label htmlFor="">이메일</label>
+            <input type="email" id="shippingMail" />
+          </li>
+        </ul>
+      </fieldset>
 
-        <fieldset className="address-info">
-          <legend>배송지 정보</legend>
-          <ul>
-            <li className="input-wrapper">
-              <label htmlFor="">수령인</label>
-              <input type="text" className="name" />
-            </li>
-            <li className="input-wrapper ">
-              <label htmlFor="">휴대폰</label>
-              <input type="tel" className="tel1" />
+      <fieldset className="address-info">
+        <legend>배송지 정보</legend>
+        <ul>
+          <li>
+            <label htmlFor="recipientName">수령인</label>
+            <input type="text" className="name" id="recipientName" />
+          </li>
+          <li>
+            <label htmlFor="">휴대폰</label>
+            <div>
+              <input type="tel" className="tel" id="recipientTel" name="recipientTel" />
               <span>-</span>
-              <input type="tel" className="tel2" />
+              <input type="tel" className="tel" id="recipientTel" />
               <span>-</span>
-              <input type="tel" className="tel3" />
-            </li>
-            <li className="input-wrapper">
-              <label htmlFor="shippingAddr">배송주소</label>
-              <div>
-                <input type="text" className="input-box" id="shippingAddr" name="shippingAddr" />
-                <button>우편번호조회</button>
+              <input type="tel" className="tel" id="recipientTel" />
+            </div>
+          </li>
+          <li>
+            <label htmlFor="recipientAddr">배송주소</label>
+            <div className="recipient-addr-wrapper">
+              <div className="addr-search">
+                <input type="text" className="addr" id="recipientAddr" name="recipientAddr" readOnly />
+                <Button padding="10px 31px" fontSize="16px" fontWeight="500">
+                  우편번호조회
+                </Button>
               </div>
-              <input type="text" className="input-box" id="shippingAddr" name="shippingAddr" />
-              <input type="text" className="input-box" id="shippingAddr" name="shippingAddr" />
-            </li>
-            <li className="input-wrapper">
-              <label htmlFor="">배송메세지</label>
-              <input type="text" className="message" />
-            </li>
-          </ul>
-        </fieldset>
-      </SCustomerInfoForm>
+              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" />
+              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" />
+            </div>
+          </li>
+          <li>
+            <label htmlFor="">배송메세지</label>
+            <input type="text" />
+          </li>
+        </ul>
+      </fieldset>
     </SSectionLayout>
   );
 }
 
 const SSectionLayout = styled.section`
   margin-top: 6rem;
-`;
 
-const SCustomerInfoForm = styled.form`
-  display: flex;
-  flex-direction: column;
+  h3 {
+    border-bottom: 2px solid #c4c4c4;
+  }
 
   fieldset {
     margin-top: 40px;
@@ -77,36 +83,67 @@ const SCustomerInfoForm = styled.form`
       font-size: 1.125rem;
       border-bottom: 2px solid #c4c4c4;
       padding-bottom: 0.5rem;
+      width: 100%;
     }
 
-    .input-wrapper {
+    li {
       padding: 0.5rem 0;
       border-bottom: 1px solid #c4c4c4;
-      box-shadow: inset 0 0 3px royalblue;
+      display: flex;
+      align-items: center;
+      gap: 90px;
+
+      label {
+        display: inline-block;
+        width: 80px;
+      }
+
+      input {
+        border: 1px solid #c4c4c4;
+        padding: 0.625rem 0.6rem;
+        font-size: 16px;
+        font-weight: 400;
+
+        &#shippingName,
+        &#shippingMail,
+        &#recipientName {
+          width: 334px;
+        }
+
+        &[type='tel'] {
+          width: 100px;
+        }
+      }
+
+      span {
+        margin: 0 10px;
+      }
+
+      .recipient-addr-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        gap: 8px;
+
+        .addr-search {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+
+          input {
+            width: 170px;
+          }
+        }
+        & > input {
+          width: 800px;
+        }
+      }
     }
 
-    label {
-      display: inline-block;
-      width: 5rem;
-      box-shadow: inset 0 0 3px rebeccapurple;
-      margin-right: 90px;
-    }
-
-    input {
-      /* display: inline-block; */
-      border: 1px solid #c4c4c4;
-      padding: 0.4rem 0.6rem;
-      font-size: 16px;
-      font-weight: 400;
-      /* width: 100%; */
-    }
-
-    span {
-      margin: 0 10px;
-    }
-
-    .message {
-      width: 50rem;
+    &.address-info {
+      input {
+        width: 800px;
+      }
     }
   }
 `;
