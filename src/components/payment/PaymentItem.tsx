@@ -1,14 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ProductDataImg from '../common/product/ProductDataImg';
-import ProductDataInfo from '../common/product/ProductDataInfo';
 import styled from 'styled-components';
-import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import { Product } from '../../@types/types';
 import { getProductItem } from '../../services/ResponseApi';
 
 interface PaymentItemProps {
-  key?: number;
+  key: number;
   orderId?: number;
   // product: Product;
   quantity: number;
@@ -34,89 +32,86 @@ export default function PaymentItem({ key, orderId, quantity }: PaymentItemProps
   }, []);
 
   return (
-    <SOrderItemContainer>
+    <>
       {product === null ? (
         <div>Loading...</div>
       ) : (
-        <>
-          <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
-          <ProductDataInfo product={product} type="payment" quantity={quantity} />
-        </>
+        <SOrderItemContainer>
+          <div className="img-info-box">
+            <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
+            <div className="info-box">
+              <p className="store-name">{product.store_name}</p> <p className="product-name">{product.product_name}</p>
+              <p className="product-quantity">수량 : {quantity}개</p>
+            </div>
+          </div>
+          <p className="discount">-</p>
+          <p className="delivery">{product.shipping_fee === 0 ? '무료배송' : `${product.shipping_fee.toLocaleString()}원`}</p>
+          {product.price && (
+            <p className="product-price">
+              <strong>{product.price.toLocaleString()}</strong>원
+            </p>
+          )}
+        </SOrderItemContainer>
       )}
-    </SOrderItemContainer>
+    </>
   );
 }
 
-const SOrderItemContainer = styled(ProductListItemStyle)`
-  display: flex;
-  align-items: center;
-  gap: 2.25rem;
+const SOrderItemContainer = styled.div`
   padding: 20px 0;
   border-bottom: 1px solid #c4c4c4;
-  margin-left: 0.7rem;
+  display: flex;
+  align-items: center;
+  color: #767676;
+  font-weight: 400;
+  font-size: 18px;
 
-  .img-box {
-    width: 6.5rem;
-    height: 6.5rem;
-    border: none;
-  }
-
-  .info-box {
-    margin-top: 0;
+  .img-info-box {
+    flex-basis: 40%;
     display: flex;
     align-items: center;
-    gap: 2.5rem;
-    color: #767676;
-    font-weight: 400;
-    font-size: 14px;
-    box-shadow: inset 0 0 10px red;
-    flex-grow: 1;
+    gap: 2.25rem;
 
-    &:first-child {
-      flex-basis: 40%;
-      box-shadow: inset 0 0 10px blue;
+    .img-box {
+      overflow: hidden;
+      width: 6.5rem;
+      height: 6.5rem;
+      box-sizing: border-box;
+      border-radius: 10px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
-    &:not(:first-child) {
-      flex-basis: 20%;
-    }
+    .info-box {
+      flex-grow: 1;
 
-    p {
-      margin-bottom: 0;
-    }
+      & > p:not(:nth-child(2)) {
+        font-size: 14px;
+      }
 
-    .store-name {
-      margin-bottom: 6px;
-    }
-    .product-name {
-      color: #000;
-      margin-bottom: 10px;
-    }
+      .store-name {
+        margin-bottom: 6px;
+      }
 
-    .product-price,
-    .product-price strong {
-      font-size: 16px;
-      color: #000;
-      font-weight: 700;
-      line-height: normal;
+      .product-name {
+        color: #000;
+        margin-bottom: 10px;
+      }
     }
   }
 
-  .product-count-wrapper {
+  & > p {
     flex-basis: 20%;
-    box-sizing: border-box;
-
-    div {
-      margin: 0 auto;
-    }
+    text-align: center;
   }
 
-  .total-price {
-    text-align: center;
-    flex-basis: 25%;
-    margin-bottom: 26px;
-    color: #eb5757;
-    font-size: 18px;
+  .product-price,
+  .product-price strong {
+    color: #000;
     font-weight: 700;
   }
 `;

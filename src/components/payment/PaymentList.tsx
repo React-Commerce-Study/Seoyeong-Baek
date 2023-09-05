@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getProductItem } from '../../services/ResponseApi';
 import PaymentItem from './PaymentItem';
 import { Product } from '../../@types/types';
 
@@ -75,7 +74,6 @@ const SCartListContainer = styled.section`
 `;
 
 const STotalPrice = styled.div`
-  box-shadow: inset 0 0 10px red;
   text-align: end;
   font-size: 18px;
   font-weight: 500;
