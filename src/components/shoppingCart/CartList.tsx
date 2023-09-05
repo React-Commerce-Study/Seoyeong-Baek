@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CheckBox from '../../assets/icon/check-round.svg';
 import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
@@ -9,7 +10,8 @@ import { CartProduct } from '../../@types/types';
 import { fetchCartItemList } from '../../services/ResponseApi';
 
 export default function ShoppingCart() {
-  // const URL = 'https://openmarket.weniv.co.kr/';
+  const navigate = useNavigate();
+
   const [cartItemList, setCartItemList] = useState<CartProduct[]>([]);
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -27,6 +29,7 @@ export default function ShoppingCart() {
 
   async function fetchCartItems() {
     const cartList = await fetchCartItemList();
+    console.log(cartList);
     setCartItemList(cartList);
   }
 
@@ -58,6 +61,19 @@ export default function ShoppingCart() {
     }
   };
 
+  const handleOrderBtnClick = () => {
+    const orderListId = cartItemList.map((cartItem) => {
+      return cartItem.is_active ? cartItem.product_id : null;
+    });
+    const orderListQuantity = cartItemList.map((cartItem) => {
+      return cartItem.is_active ? cartItem.quantity : null;
+    });
+
+    const finalPrice = totalPrice + totalDeliveryFee;
+    navigate('/payment', { state: { orderListId, finalPrice, orderListQuantity } });
+    console.log(orderListQuantity);
+  };
+
   console.log(cartItemList);
 
   return (
@@ -74,8 +90,8 @@ export default function ShoppingCart() {
       </SCategoryList>
 
       <SCartListContainer>
-        {cartItemList.length !== 0 ? (
-          cartItemList.map((cartItem) => {
+        {cartItemList?.length !== 0 ? (
+          cartItemList?.map((cartItem) => {
             return (
               <CartItem
                 key={cartItem.cart_item_id}
@@ -101,9 +117,10 @@ export default function ShoppingCart() {
           <TotalPriceBox totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
 
           <SButtonContainer>
-            <Button padding="19px 65px" fontSize="24px" disabled={!isAllCheck}>
+            <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="24px" disabled={!isAllCheck}>
               주문하기
             </Button>
+            {/* TODO 주문하기 버튼 아이템 2개 이상 체크 시 활성화되도록 */}
           </SButtonContainer>
         </>
       )}
