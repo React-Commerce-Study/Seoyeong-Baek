@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import CheckBox from '../../assets/icon/check-round.svg';
 import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
@@ -79,6 +79,10 @@ export default function PaymentMethod() {
 const SSectionLayout = styled.section`
   /* width: 47.5rem; */
   flex-basis: 47.5rem;
+
+  h3 {
+    border-bottom: 2px solid #c4c4c4;
+  }
 
   .payment-method-list {
     display: flex;

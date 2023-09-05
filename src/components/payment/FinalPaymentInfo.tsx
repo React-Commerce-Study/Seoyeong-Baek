@@ -49,7 +49,7 @@ export default function FinalPaymentInfo() {
             </label>
           </div>
           <div className="btn-container">
-            <Button bgColor={isChecked ? '' : '#c4c4c4'} fontSize="24px">
+            <Button fontSize="24px" disabled={!isChecked}>
               결제하기
             </Button>
           </div>
@@ -61,10 +61,6 @@ export default function FinalPaymentInfo() {
 
 const SSectionLayout = styled.section`
   flex-basis: 30rem;
-
-  h3 {
-    border: none;
-  }
 
   .payment-info {
     box-sizing: border-box;

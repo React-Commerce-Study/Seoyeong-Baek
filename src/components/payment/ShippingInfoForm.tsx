@@ -112,6 +112,10 @@ const SSectionLayout = styled.section`
 
         &[type='tel'] {
           width: 100px;
+
+          &:first-child {
+            width: 80px;
+          }
         }
       }
 
