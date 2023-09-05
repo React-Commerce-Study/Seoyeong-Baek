@@ -1,24 +1,39 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getProductItem } from '../../services/ResponseApi';
+import PaymentItem from './PaymentItem';
+import { Product } from '../../@types/types';
 
-export default function PaymentList() {
+interface PaymentListProps {
+  orderListId: number[];
+  finalPrice?: number;
+  orderListQuantity?: number[];
+}
+
+export default function PaymentList({ orderListId, finalPrice, orderListQuantity }: PaymentListProps) {
+  console.log(orderListId);
+  console.log(orderListQuantity);
+
   return (
     <>
       <STitle>주문/결제하기</STitle>
       <SCategoryList>
         <li>상품정보</li>
         <li>할인</li>
-        <li>수량</li>
-        <li>상품금액</li>
+        <li>배송비</li>
+        <li>주문금액</li>
       </SCategoryList>
 
       <SCartListContainer>
-        <div>아이템컨테이너</div>
-        <div>아이템컨테이너</div>
+        {orderListId.length !== 0 &&
+          orderListId.map((orderId, i) => {
+            return <PaymentItem key={i} orderId={orderId} quantity={orderListQuantity?.[i] || 1} />;
+          })}
       </SCartListContainer>
 
       <STotalPrice>
         <p>
-          총 주문금액<strong>0원</strong>
+          총 주문금액<strong>{finalPrice?.toLocaleString()}원</strong>
         </p>
       </STotalPrice>
     </>
@@ -47,15 +62,7 @@ const SCategoryList = styled.ul`
       flex-basis: 40%;
     }
 
-    &:nth-child(2) {
-      flex-basis: 20%;
-    }
-
-    &:nth-child(3) {
-      flex-basis: 20%;
-    }
-
-    &:last-child {
+    &:not(:first-child) {
       flex-basis: 20%;
     }
   }
