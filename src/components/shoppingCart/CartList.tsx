@@ -62,19 +62,21 @@ export default function ShoppingCart() {
   };
 
   const handleOrderBtnClick = () => {
-    const orderListId = cartItemList.map((cartItem) => {
-      return cartItem.is_active ? cartItem.product_id : null;
-    });
-    const orderListQuantity = cartItemList.map((cartItem) => {
-      return cartItem.is_active ? cartItem.quantity : null;
-    });
+    const orderListId = cartItemList
+      .filter((cartItem) => cartItem.is_active) // is_active가 true인 아이템만 필터링
+      .map((cartItem) => cartItem.product_id);
 
-    const finalPrice = totalPrice + totalDeliveryFee;
-    navigate('/payment', { state: { orderListId, finalPrice, orderListQuantity } });
+    const orderListQuantity = cartItemList.filter((cartItem) => cartItem.is_active).map((cartItem) => cartItem.quantity);
+
+    // const finalPrice = totalPrice + totalDeliveryFee;
+    console.log(orderListId);
+    navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity } });
     console.log(orderListQuantity);
   };
 
-  console.log(cartItemList);
+  // console.log(cartItemList);
+  console.log(totalDeliveryFee);
+  const btnActive = cartItemList.some((cartItem) => cartItem.is_active);
 
   return (
     <SMainLayout>
@@ -117,7 +119,7 @@ export default function ShoppingCart() {
           <TotalPriceBox totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
 
           <SButtonContainer>
-            <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="24px" disabled={!isAllCheck}>
+            <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="24px" disabled={!btnActive}>
               주문하기
             </Button>
             {/* TODO 주문하기 버튼 아이템 2개 이상 체크 시 활성화되도록 */}
