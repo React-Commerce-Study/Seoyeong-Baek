@@ -22,4 +22,16 @@ interface ProductData {
   check: boolean;
 }
 
-export type { Product, CartProduct, ProductData };
+interface OrderData {
+  product_id: number;
+  quantity: number;
+  order_kind: string;
+  reciever: string;
+  reciever_phone_number: string;
+  address: string;
+  address_message: string;
+  payment_method: string;
+  total_price: number;
+}
+
+export type { Product, CartProduct, ProductData, OrderData };

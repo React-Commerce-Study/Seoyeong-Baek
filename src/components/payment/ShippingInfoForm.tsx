@@ -1,7 +1,39 @@
+import { useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
+import { OrderData } from '../../@types/types';
 
-export default function ShippingInfoForm() {
+interface ShippingInfoFormProps {
+  setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
+  orderData: OrderData;
+}
+
+interface TelephoneState {
+  [key: string]: string;
+}
+
+export default function ShippingInfoForm({ setOrderData, orderData }: ShippingInfoFormProps) {
+  const handleFindAddrClick = () => {
+    console.log('우편번호조회');
+  };
+
+  const [tel, setTel] = useState<TelephoneState>({});
+
+  const handleTelChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTel({
+      ...tel,
+      [name]: value,
+    });
+  };
+  console.log(tel);
+
+  useEffect(() => {
+    const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
+
+    setOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }));
+  }, [tel]);
+
   return (
     <SSectionLayout>
       <h3>배송정보</h3>
@@ -10,21 +42,21 @@ export default function ShippingInfoForm() {
         <ul>
           <li>
             <label htmlFor="shippingName">이름</label>
-            <input type="text" className="input-box" id="shippingName" />
+            <input type="text" className="input-box" id="shippingName" required />
           </li>
           <li className="tel">
             <label htmlFor="shippingTel">휴대폰</label>
             <div>
-              <input type="tel" className="tel" id="shippingTel" name="shippingTel" />
+              <input type="tel" className="tel" id="shippingTel" name="shippingTel" required />
               <span>-</span>
-              <input type="tel" className="tel" id="shippingTel" />
+              <input type="tel" className="tel" id="shippingTel" required />
               <span>-</span>
-              <input type="tel" className="tel" id="shippingTel" />
+              <input type="tel" className="tel" id="shippingTel" required />
             </div>
           </li>
           <li>
             <label htmlFor="">이메일</label>
-            <input type="email" id="shippingMail" />
+            <input type="email" id="shippingMail" required />
           </li>
         </ul>
       </fieldset>
@@ -34,34 +66,40 @@ export default function ShippingInfoForm() {
         <ul>
           <li>
             <label htmlFor="recipientName">수령인</label>
-            <input type="text" className="name" id="recipientName" />
+            <input
+              type="text"
+              className="name"
+              id="recipientName"
+              required
+              onChange={(e) => setOrderData({ ...orderData, reciever: e.target.value })}
+            />
           </li>
           <li>
             <label htmlFor="">휴대폰</label>
             <div>
-              <input type="tel" className="tel" id="recipientTel" name="recipientTel" />
+              <input type="tel" className="tel" id="recipientTel" name="tel1" required onChange={handleTelChange} />
               <span>-</span>
-              <input type="tel" className="tel" id="recipientTel" />
+              <input type="tel" className="tel" id="recipientTel" name="tel2" required onChange={handleTelChange} />
               <span>-</span>
-              <input type="tel" className="tel" id="recipientTel" />
+              <input type="tel" className="tel" id="recipientTel" name="tel3" required onChange={handleTelChange} />
             </div>
           </li>
           <li>
             <label htmlFor="recipientAddr">배송주소</label>
             <div className="recipient-addr-wrapper">
               <div className="addr-search">
-                <input type="text" className="addr" id="recipientAddr" name="recipientAddr" readOnly />
-                <Button padding="10px 31px" fontSize="16px" fontWeight="500">
+                <input type="text" className="addr" id="recipientAddr" name="recipientAddr" required readOnly />
+                <Button type="button" padding="10px 31px" fontSize="16px" fontWeight="500" onClick={handleFindAddrClick}>
                   우편번호조회
                 </Button>
               </div>
-              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" />
-              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" />
+              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" readOnly required />
+              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" required />
             </div>
           </li>
           <li>
             <label htmlFor="">배송메세지</label>
-            <input type="text" />
+            <input type="text" onChange={(e) => setOrderData({ ...orderData, address_message: e.target.value })} />
           </li>
         </ul>
       </fieldset>

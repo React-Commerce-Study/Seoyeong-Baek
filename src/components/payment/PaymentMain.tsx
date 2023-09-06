@@ -1,9 +1,11 @@
+import React, { useState, FormEvent } from 'react';
 import PaymentList from './PaymentList';
 import ShippingInfoForm from './ShippingInfoForm';
 import PaymentMethod from './PaymentMethod';
 import FinalPaymentInfo from './FinalPaymentInfo';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { OrderData } from '../../@types/types';
 
 export default function PaymentMain() {
   const location = useLocation();
@@ -12,11 +14,31 @@ export default function PaymentMain() {
   // state에서 orderList와 totalMoney 추출
   const { orderListId, finalPrice, orderListQuantity } = state;
 
+  const [orderData, setOrderData] = useState<OrderData>({
+    product_id: 0,
+    quantity: 0,
+    order_kind: '',
+    reciever: '',
+    reciever_phone_number: '',
+    address: '',
+    address_message: '',
+    payment_method: '',
+    total_price: 0,
+  });
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // handleOrder(orderData);
+    // 주문정보 제출
+  };
+
+  console.log(orderData);
+
   return (
     <SMainLayout>
       <PaymentList orderListId={orderListId} finalPrice={finalPrice} orderListQuantity={orderListQuantity} />
-      <form action="">
-        <ShippingInfoForm />
+      <form action="" onSubmit={handleSubmit}>
+        <ShippingInfoForm setOrderData={setOrderData} orderData={orderData} />
         <div className="payment-wrapper">
           <PaymentMethod />
           <FinalPaymentInfo />
