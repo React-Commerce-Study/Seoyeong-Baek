@@ -15,15 +15,13 @@ export default function PaymentMain() {
   const { orderListId, finalPrice, orderListQuantity } = state;
 
   const [orderData, setOrderData] = useState<OrderData>({
-    product_id: 0,
-    quantity: 0,
+    total_price: 0,
     order_kind: '',
     reciever: '',
     reciever_phone_number: '',
     address: '',
     address_message: '',
     payment_method: '',
-    total_price: 0,
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -40,7 +38,7 @@ export default function PaymentMain() {
       <form action="" onSubmit={handleSubmit}>
         <ShippingInfoForm setOrderData={setOrderData} orderData={orderData} />
         <div className="payment-wrapper">
-          <PaymentMethod />
+          <PaymentMethod setOrderData={setOrderData} />
           <FinalPaymentInfo />
         </div>
       </form>

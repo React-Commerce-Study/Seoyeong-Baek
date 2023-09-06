@@ -2,16 +2,20 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import CheckBox from '../../assets/icon/check-round.svg';
 import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
+import { OrderData } from '../../@types/types';
 
-export default function PaymentMethod() {
-  const paymentMethod = ['creditCard', 'noBankbook', 'mobilePayment', 'naverPay', 'kakaoPay'];
+interface PaymentMethodProps {
+  setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
+}
+
+export default function PaymentMethod({ setOrderData }: PaymentMethodProps) {
+  const paymentMethod = ['CARD', 'DEPOSIT', 'PHONE_PAYMENT', 'NAVERPAY', 'KAKAOPAY'];
 
   const [selectedPayment, setSelectedPayment] = useState('');
 
   const handleRadioChange = (value: string) => {
-    // TODO: 여기서 폼으로 보내주기
-    console.log(value);
     setSelectedPayment(value);
+    setOrderData((prevData) => ({ ...prevData, payment_method: value }));
   };
 
   return (
