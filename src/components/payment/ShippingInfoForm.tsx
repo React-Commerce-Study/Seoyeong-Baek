@@ -2,6 +2,8 @@ import { useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
 import { OrderData } from '../../@types/types';
+// import { useDaumPostcodePopup } from 'react-daum-postcode';
+import AddressModal from '../modal/AddressModal';
 
 interface ShippingInfoFormProps {
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
@@ -13,10 +15,6 @@ interface TelephoneState {
 }
 
 export default function ShippingInfoForm({ setOrderData, orderData }: ShippingInfoFormProps) {
-  const handleFindAddrClick = () => {
-    console.log('우편번호조회');
-  };
-
   const [tel, setTel] = useState<TelephoneState>({});
 
   const handleTelChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +31,22 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
 
     setOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }));
   }, [tel]);
+
+  // 우편번호검색
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const handleFindAddrClick = () => {
+    setIsOpenModal(true);
+  };
+
+  const [address, setAddress] = useState('');
+  const [extraAddress, setExtraAddress] = useState('');
+  // console.log(extraAddress);
+
+  useEffect(() => {
+    const combinedAddress = `${address} ${extraAddress}`;
+
+    setOrderData((prevData) => ({ ...prevData, address: combinedAddress }));
+  }, [address, extraAddress]);
 
   return (
     <SSectionLayout>
@@ -93,8 +107,15 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
                   우편번호조회
                 </Button>
               </div>
-              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" readOnly required />
-              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" required />
+              <input type="text" className="addr" id="recipientAddr" name="recipientAddr" readOnly required value={address} />
+              <input
+                type="text"
+                className="addr"
+                id="recipientAddr"
+                name="recipientAddr"
+                required
+                onChange={(e) => setExtraAddress(e.target.value)}
+              />
             </div>
           </li>
           <li>
@@ -103,6 +124,7 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
           </li>
         </ul>
       </fieldset>
+      {isOpenModal && <AddressModal setIsOpenModal={setIsOpenModal} setAddress={setAddress} />}
     </SSectionLayout>
   );
 }
