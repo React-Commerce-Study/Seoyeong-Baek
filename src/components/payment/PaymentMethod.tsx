@@ -10,6 +10,7 @@ interface PaymentMethodProps {
 
 export default function PaymentMethod({ setOrderData }: PaymentMethodProps) {
   const paymentMethod = ['CARD', 'DEPOSIT', 'PHONE_PAYMENT', 'NAVERPAY', 'KAKAOPAY'];
+  const paymentMethodLabel = ['신용/체크카드', '무통장 입금', '휴대폰 결제', '네이버 페이', '카카오 페이'];
 
   const [selectedPayment, setSelectedPayment] = useState('');
 
@@ -23,57 +24,20 @@ export default function PaymentMethod({ setOrderData }: PaymentMethodProps) {
       <h3>결제수단</h3>
       <fieldset className="payment-method">
         <ul className="payment-method-list">
-          {/* TODO: list (paymentMethod)를 map으로 돌리기 */}
-          <li>
-            <input type="radio" id={paymentMethod[0]} name="payment-method" value={paymentMethod[0]} />
-            <label
-              htmlFor={paymentMethod[0]}
-              onClick={() => handleRadioChange(paymentMethod[0])}
-              className={selectedPayment === paymentMethod[0] ? 'selected' : ''}
-            >
-              신용/체크카드
-            </label>
-          </li>
-          <li>
-            <input type="radio" id={paymentMethod[1]} name="payment-method" value={paymentMethod[1]} />
-            <label
-              htmlFor={paymentMethod[1]}
-              onClick={() => handleRadioChange(paymentMethod[1])}
-              className={selectedPayment === paymentMethod[1] ? 'selected' : ''}
-            >
-              무통장 입금
-            </label>
-          </li>
-          <li>
-            <input type="radio" id={paymentMethod[2]} name="payment-method" value={paymentMethod[2]} />
-            <label
-              htmlFor={paymentMethod[2]}
-              onClick={() => handleRadioChange(paymentMethod[2])}
-              className={selectedPayment === paymentMethod[2] ? 'selected' : ''}
-            >
-              휴대폰 결제
-            </label>
-          </li>
-          <li>
-            <input type="radio" id={paymentMethod[3]} name="payment-method" value={paymentMethod[3]} />
-            <label
-              htmlFor={paymentMethod[3]}
-              onClick={() => handleRadioChange(paymentMethod[3])}
-              className={selectedPayment === paymentMethod[3] ? 'selected' : ''}
-            >
-              네이버 페이
-            </label>
-          </li>
-          <li>
-            <input type="radio" id={paymentMethod[4]} name="payment-method" value={paymentMethod[4]} />
-            <label
-              htmlFor={paymentMethod[4]}
-              onClick={() => handleRadioChange(paymentMethod[4])}
-              className={selectedPayment === paymentMethod[4] ? 'selected' : ''}
-            >
-              카카오 페이
-            </label>
-          </li>
+          {paymentMethod.map((method, i) => {
+            return (
+              <li>
+                <input type="radio" id={method} name="payment-method" value={method} />
+                <label
+                  htmlFor={method}
+                  onClick={() => handleRadioChange(method)}
+                  className={selectedPayment === method ? 'selected' : ''}
+                >
+                  {paymentMethodLabel[i]}
+                </label>
+              </li>
+            );
+          })}
         </ul>
       </fieldset>
     </SSectionLayout>
