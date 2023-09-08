@@ -26,6 +26,7 @@ export default function ShoppingCart() {
     // 모달 값 초기화
     setIsChangeModalValue(false);
   }, [isChangeModalValue]);
+  // cartItemList을 넣게되면 체크박스를 클릭할 때마다 재렌더링돼서 체크박스 on/off가 되지 않음
 
   async function fetchCartItems() {
     const cartList = await fetchCartItemList();
@@ -64,23 +65,24 @@ export default function ShoppingCart() {
   };
 
   const [isOrderBtnClick, setIsOrderBtnClick] = useState(false);
+
   const handleOrderBtnClick = () => {
     setIsOrderBtnClick(true);
   };
 
-  // TODO: 이부분 cartItem으로 옮겨야함
-  // 수량이 count로 들어가야 오류가 안날듯, 지금은 이전 수량으로 들어감
   useEffect(() => {
     if (isOrderBtnClick) {
-      console.log(isOrderBtnClick);
-      const orderListId = cartItemList
-        .filter((cartItem) => cartItem.is_active) // is_active가 true인 아이템만 필터링
-        .map((cartItem) => cartItem.product_id);
+      // is_active가 true인 아이템만 필터링
+      const orderList = cartItemList.filter((cartItem) => cartItem.is_active);
 
-      const orderListQuantity = cartItemList.filter((cartItem) => cartItem.is_active).map((cartItem) => cartItem.quantity);
+      const orderListId = orderList.map((cartItem) => cartItem.product_id);
+      // TODO:수량이 바뀌기전 수량으로 들어가는데 원인을 모르겠음
+      const orderListQuantity = orderList.map((cartItem) => cartItem.quantity);
+      console.log(orderListQuantity);
 
+      const order_kind = 'cart_order';
       // const finalPrice = totalPrice + totalDeliveryFee;
-      navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity } });
+      navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
     }
   }, [isOrderBtnClick]);
 
@@ -139,7 +141,6 @@ export default function ShoppingCart() {
 }
 
 const SMainLayout = styled.main`
-  /* box-shadow: inset 0 0 20px purple; */
   max-width: 1280px;
   margin: 0 auto 180px;
 `;

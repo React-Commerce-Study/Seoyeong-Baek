@@ -12,12 +12,12 @@ export default function PaymentMain() {
   const location = useLocation();
   const { state } = location; // state 추출
 
-  // state에서 orderList와 totalMoney 추출
-  const { orderListId, totalPrice, totalDeliveryFee, orderListQuantity } = state;
+  // state에서 orderList와 totalMoney 추출 (orderListId와 orderListQuantity는 배열)
+  const { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } = state;
 
   const [orderData, setOrderData] = useState<OrderData>({
     total_price: totalPrice + totalDeliveryFee,
-    order_kind: 'cart_order',
+    order_kind: order_kind,
     receiver: '',
     receiver_phone_number: '',
     address: '',

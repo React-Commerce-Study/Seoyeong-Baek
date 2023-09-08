@@ -136,6 +136,9 @@ export default function CartItem({
       ...prevOrderData,
       quantity: count,
     }));
+    // setCartItemList((prevCartItems) =>
+    //   prevCartItems.map((item) => (item.product_id === cartProduct.product_id ? { ...item, quantity: count } : item))
+    // );
   }, [count]);
 
   // isActive 값이 변경될 때마다 orderData의 active도 변경
@@ -152,7 +155,18 @@ export default function CartItem({
     if (isOrderBtnClick) {
       putCartItems({ urlId, orderData });
     }
-  }, [isOrderBtnClick]);
+  }, [count, isOrderBtnClick]);
+
+  const handleOneOrderBtnClick = () => {
+    // TODO: 이부분 order_kind만 state로 넘겨주고, 주문페이지에서 상품목록 get해오도록
+    const orderListId = [cartProduct.product_id];
+    const orderListQuantity = [count];
+    const totalPrice = price;
+    const totalDeliveryFee = product.shipping_fee;
+    const order_kind = 'cart_one_order';
+
+    navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
+  };
 
   return (
     <>
@@ -179,7 +193,13 @@ export default function CartItem({
           </div>
           <div className="total-price-wrapper">
             <p className="total-price">{price.toLocaleString()}원</p>
-            <Button disabled={!cartProduct.is_active} padding="10px 35px" fontSize="16px" fontWeight="500">
+            <Button
+              disabled={!cartProduct.is_active}
+              padding="10px 35px"
+              fontSize="16px"
+              fontWeight="500"
+              onClick={handleOneOrderBtnClick}
+            >
               주문하기
             </Button>
           </div>
