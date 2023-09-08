@@ -9,8 +9,8 @@ import Button from '../common/Buttons/Button';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
-import { CartProduct, CartActiveData } from '../../@types/types';
-import { putCartItem } from '../../services/ResponseApi';
+import { CartProduct, CartActiveData, PutCartItemProps } from '../../@types/types';
+import { putCartItem, getProductItem } from '../../services/ResponseApi';
 import Modal from '../../components/modal/Modal';
 
 type CartItemProps = {
@@ -33,7 +33,6 @@ export default function CartItem({
   isClickAllCheck,
 }: CartItemProps) {
   console.log(cartProduct);
-  const URL = 'https://openmarket.weniv.co.kr/';
   const navigate = useNavigate();
 
   const [isFetched, setIsFetched] = useState<boolean>(false);
@@ -48,6 +47,12 @@ export default function CartItem({
   useEffect(() => {
     fetchCartItem();
   }, []);
+
+  async function fetchCartItem() {
+    const productData = await getProductItem(cartProduct.product_id);
+    setProduct(productData);
+    setIsFetched(true);
+  }
 
   // 장바구니 페이지 렌더시 전체선택 체크박스를 눌렀을 경우 가격을 변경해주기 위함
   useEffect(() => {
@@ -64,24 +69,6 @@ export default function CartItem({
     }
   }, [isClickAllCheck, product]);
   // 전체선택 체크박스를 눌렀을 경우에만 실행, product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
-
-  async function fetchCartItem() {
-    try {
-      const response = await fetch(`${URL}products/${cartProduct.product_id}/`, {
-        method: 'GET',
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setProduct(data);
-        setIsFetched(true);
-      } else {
-        throw new Error('네트워크에 문제가 있습니다.');
-      }
-    } catch (error) {
-      console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
-    }
-  }
 
   const handleClick = () => {
     navigate(`/product/${product.product_id}`, { state: product });
@@ -116,7 +103,6 @@ export default function CartItem({
         prevTotalDeliveryFee - product.shipping_fee >= 0 ? prevTotalDeliveryFee - product.shipping_fee : 0
       );
     } else {
-      // cartProduct.is_active = true;
       setIsActive(true);
       setCartItemList((prevCartItems) =>
         prevCartItems.map((item) =>
@@ -133,13 +119,8 @@ export default function CartItem({
   // order목록 보내기(active및 수량 변경)
   const urlId = cartProduct.cart_item_id;
 
-  interface PutCartItemProps {
-    urlId: number;
-    orderData: CartActiveData;
-  }
   async function putCartItems({ urlId, orderData }: PutCartItemProps) {
-    const orderList = await putCartItem({ urlId, orderData });
-    console.log(orderList);
+    await putCartItem({ urlId, orderData });
     console.log('yes');
   }
 
@@ -169,7 +150,6 @@ export default function CartItem({
   useEffect(() => {
     console.log(isOrderBtnClick);
     if (isOrderBtnClick) {
-      console.log('!!!!!');
       putCartItems({ urlId, orderData });
     }
   }, [isOrderBtnClick]);

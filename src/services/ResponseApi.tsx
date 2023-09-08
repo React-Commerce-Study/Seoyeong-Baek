@@ -1,4 +1,4 @@
-import { ProductData, OrderData, CartActiveData } from '../@types/types';
+import { ProductData, OrderData, PutCartItemProps } from '../@types/types';
 
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
 const token = localStorage.getItem('token');
@@ -110,11 +110,6 @@ export async function postOrderList(orderData: OrderData) {
 }
 
 // 장바구니 상품 수량 수정
-interface PutCartItemProps {
-  urlId: number;
-  orderData: CartActiveData;
-}
-
 export async function putCartItem({ urlId, orderData }: PutCartItemProps) {
   try {
     const response = await fetch(`${BASE_URL}cart/${urlId}/`, {
@@ -127,7 +122,7 @@ export async function putCartItem({ urlId, orderData }: PutCartItemProps) {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log('미친 해결~!~!');
+      console.log('~!~!');
 
       return data;
     } else {
