@@ -4,13 +4,20 @@ import Button from '../common/Buttons/Button';
 import CheckBox from '../../assets/icon/check-box.svg';
 import CheckBoxFill from '../../assets/icon/check-fill-box.svg';
 
-export default function FinalPaymentInfo() {
+interface FinalPaymentInfoProps {
+  totalPrice: number;
+  totalDeliveryFee: number;
+}
+
+export default function FinalPaymentInfo({ totalPrice, totalDeliveryFee }: FinalPaymentInfoProps) {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheck = () => {
     console.log('check');
     !isChecked ? setIsChecked(true) : setIsChecked(false);
   };
+
+  // TODO:input checkbox 인풋값이 채워져 있을 때만 클릭할 수 있게
   return (
     <SSectionLayout>
       <h3>최종결제 정보</h3>
@@ -19,11 +26,11 @@ export default function FinalPaymentInfo() {
           <li>
             <p>- 상품금액</p>
             <p>
-              <strong>0</strong>원
+              <strong>{totalPrice.toLocaleString()}</strong>원
             </p>
           </li>
           <li>
-            <p>- 상품금액</p>
+            <p>- 할인금액</p>
             <p>
               <strong>0</strong>원
             </p>
@@ -31,13 +38,13 @@ export default function FinalPaymentInfo() {
           <li>
             <p>- 배송비</p>
             <p>
-              <strong>0</strong>원
+              <strong>{totalDeliveryFee.toLocaleString()}</strong>원
             </p>
           </li>
           <li className="final-total-money">
             <p>- 결제금액</p>
             <p>
-              <strong>0 원</strong>
+              <strong>{(totalPrice + totalDeliveryFee).toLocaleString()} 원</strong>
             </p>
           </li>
         </SPaymentInfoList>
@@ -49,7 +56,7 @@ export default function FinalPaymentInfo() {
             </label>
           </div>
           <div className="btn-container">
-            <Button fontSize="24px" disabled={!isChecked}>
+            <Button type="submit" fontSize="24px" disabled={!isChecked}>
               결제하기
             </Button>
           </div>
