@@ -26,7 +26,7 @@ export default function PaymentMethod({ setOrderData }: PaymentMethodProps) {
         <ul className="payment-method-list">
           {paymentMethod.map((method, i) => {
             return (
-              <li>
+              <li key={i}>
                 <input type="radio" id={method} name="payment-method" value={method} />
                 <label
                   htmlFor={method}

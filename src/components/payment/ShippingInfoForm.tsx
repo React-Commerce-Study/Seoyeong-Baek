@@ -2,7 +2,6 @@ import { useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
 import { OrderData } from '../../@types/types';
-// import { useDaumPostcodePopup } from 'react-daum-postcode';
 import AddressModal from '../modal/AddressModal';
 
 interface ShippingInfoFormProps {
@@ -24,7 +23,6 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
       [name]: value,
     });
   };
-  console.log(tel);
 
   useEffect(() => {
     const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
@@ -85,7 +83,7 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
               className="name"
               id="recipientName"
               required
-              onChange={(e) => setOrderData({ ...orderData, reciever: e.target.value })}
+              onChange={(e) => setOrderData({ ...orderData, receiver: e.target.value })}
             />
           </li>
           <li>

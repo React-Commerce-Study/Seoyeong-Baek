@@ -6,19 +6,20 @@ import FinalPaymentInfo from './FinalPaymentInfo';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { OrderData } from '../../@types/types';
+import { postOrderList } from '../../services/ResponseApi';
 
 export default function PaymentMain() {
   const location = useLocation();
   const { state } = location; // state 추출
 
   // state에서 orderList와 totalMoney 추출
-  const { orderListId, finalPrice, orderListQuantity } = state;
+  const { orderListId, totalPrice, totalDeliveryFee, orderListQuantity } = state;
 
   const [orderData, setOrderData] = useState<OrderData>({
-    total_price: 0,
-    order_kind: '',
-    reciever: '',
-    reciever_phone_number: '',
+    total_price: totalPrice + totalDeliveryFee,
+    order_kind: 'cart_order',
+    receiver: '',
+    receiver_phone_number: '',
     address: '',
     address_message: '',
     payment_method: '',
@@ -26,20 +27,21 @@ export default function PaymentMain() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // handleOrder(orderData);
-    // 주문정보 제출
+    setOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
+    console.log(orderData);
+    await postOrderList(orderData);
+    // TODO:결제 완료 모달 띄우기
+    alert('Order Success!');
   };
-
-  console.log(orderData);
 
   return (
     <SMainLayout>
-      <PaymentList orderListId={orderListId} finalPrice={finalPrice} orderListQuantity={orderListQuantity} />
+      <PaymentList orderListId={orderListId} finalPrice={totalPrice + totalDeliveryFee} orderListQuantity={orderListQuantity} />
       <form action="" onSubmit={handleSubmit}>
         <ShippingInfoForm setOrderData={setOrderData} orderData={orderData} />
         <div className="payment-wrapper">
           <PaymentMethod setOrderData={setOrderData} />
-          <FinalPaymentInfo />
+          <FinalPaymentInfo totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
         </div>
       </form>
     </SMainLayout>

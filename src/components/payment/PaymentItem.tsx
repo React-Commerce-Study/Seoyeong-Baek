@@ -6,13 +6,13 @@ import { Product } from '../../@types/types';
 import { getProductItem } from '../../services/ResponseApi';
 
 interface PaymentItemProps {
-  key: number;
+  // key: number;
   orderId?: number;
   // product: Product;
   quantity: number;
 }
 
-export default function PaymentItem({ key, orderId, quantity }: PaymentItemProps) {
+export default function PaymentItem({ orderId, quantity }: PaymentItemProps) {
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
 
