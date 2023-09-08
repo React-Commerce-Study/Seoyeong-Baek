@@ -1,19 +1,29 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Bubble from '../../assets/icon/Union.png';
+import Modal from './Modal';
 
 export default function MyPageModal() {
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const openModal = () => {
+    setIsShowModal(true);
+  };
   return (
-    <SMyPageModalLayout>
-      <img src={Bubble} alt="말풍선 모달 이미지" />
-      <ul>
-        <li>
-          <button>마이페이지</button>
-        </li>
-        <li>
-          <button>로그아웃</button>
-        </li>
-      </ul>
-    </SMyPageModalLayout>
+    <>
+      <SMyPageModalLayout>
+        <img src={Bubble} alt="말풍선 모달 이미지" />
+        <ul>
+          <li>
+            <button>마이페이지</button>
+          </li>
+          <li>
+            <button onClick={openModal}>로그아웃</button>
+          </li>
+        </ul>
+      </SMyPageModalLayout>
+      {isShowModal && <Modal type="logout" setIsShowModal={setIsShowModal} />}
+    </>
   );
 }
 

@@ -48,6 +48,13 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
     }
   }
 
+  const handleLogout = () => {
+    navigate('/');
+    localStorage.removeItem('token');
+    window.location.reload();
+    // 현재 웹 페이지 다시 로드
+  };
+
   return (
     <SModalBackground>
       {type === 'delete' ? (
@@ -91,6 +98,19 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
             <img src={DeleteIcon} alt="" />
           </button>
         </SModalLayout>
+      ) : type === 'logout' ? (
+        <SModalLayout>
+          <p>정말로 로그아웃 하시겠습니까?</p>
+          <div className="button-container">
+            <Button onClick={closeModal} bgColor="inherit" color="#767676" boxShadow="inset 0 0 0 1px #767676">
+              아니오
+            </Button>
+            <Button onClick={handleLogout}>네</Button>
+          </div>
+          <button className="delete-btn" onClick={closeModal}>
+            <img src={DeleteIcon} alt="" />
+          </button>
+        </SModalLayout>
       ) : type === 'addToCart' ? (
         <SModalLayout>
           <p>
@@ -127,6 +147,8 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
     </SModalBackground>
   );
 }
+
+// TODO: 모달 스타일 분리하기
 const SModalBackground = styled.div`
   z-index: 99;
   position: fixed;
