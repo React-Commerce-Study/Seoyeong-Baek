@@ -1,11 +1,11 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import PaymentList from './PaymentList';
 import ShippingInfoForm from './ShippingInfoForm';
 import PaymentMethod from './PaymentMethod';
 import FinalPaymentInfo from './FinalPaymentInfo';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { OrderData } from '../../@types/types';
+import { OrderData, ExtendedOrderData } from '../../@types/types';
 import { postOrderList } from '../../services/ResponseApi';
 
 export default function PaymentMain() {
@@ -25,11 +25,29 @@ export default function PaymentMain() {
     payment_method: '',
   });
 
+  const [directOrderData, setDirectOrderData] = useState<ExtendedOrderData>({
+    product_id: orderListId[0],
+    quantity: orderListQuantity[0],
+    total_price: totalPrice + totalDeliveryFee,
+    order_kind: order_kind,
+    receiver: '',
+    receiver_phone_number: '',
+    address: '',
+    address_message: '',
+    payment_method: '',
+  });
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
-    console.log(orderData);
-    await postOrderList(orderData);
+    if (order_kind === 'direct_order') {
+      setDirectOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
+      console.log(directOrderData);
+      await postOrderList(directOrderData);
+    } else {
+      setOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
+      console.log(orderData);
+      await postOrderList(orderData);
+    }
     // TODO:결제 완료 모달 띄우기
     alert('Order Success!');
   };
@@ -38,9 +56,9 @@ export default function PaymentMain() {
     <SMainLayout>
       <PaymentList orderListId={orderListId} finalPrice={totalPrice + totalDeliveryFee} orderListQuantity={orderListQuantity} />
       <form action="" onSubmit={handleSubmit}>
-        <ShippingInfoForm setOrderData={setOrderData} orderData={orderData} />
+        <ShippingInfoForm setOrderData={setOrderData} order_kind={order_kind} setDirectOrderData={setDirectOrderData} />
         <div className="payment-wrapper">
-          <PaymentMethod setOrderData={setOrderData} />
+          <PaymentMethod setOrderData={setOrderData} order_kind={order_kind} setDirectOrderData={setDirectOrderData} />
           <FinalPaymentInfo totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
         </div>
       </form>

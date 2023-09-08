@@ -1,19 +1,20 @@
 import { useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
-import { OrderData } from '../../@types/types';
+import { OrderData, ExtendedOrderData } from '../../@types/types';
 import AddressModal from '../modal/AddressModal';
 
 interface ShippingInfoFormProps {
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
-  orderData: OrderData;
+  setDirectOrderData: React.Dispatch<React.SetStateAction<ExtendedOrderData>>;
+  order_kind: string;
 }
 
 interface TelephoneState {
   [key: string]: string;
 }
 
-export default function ShippingInfoForm({ setOrderData, orderData }: ShippingInfoFormProps) {
+export default function ShippingInfoForm({ setOrderData, setDirectOrderData, order_kind }: ShippingInfoFormProps) {
   const [tel, setTel] = useState<TelephoneState>({});
 
   const handleTelChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +27,9 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
 
   useEffect(() => {
     const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
-
-    setOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }));
+    order_kind === 'direct_order'
+      ? setDirectOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }))
+      : setOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }));
   }, [tel]);
 
   // 우편번호검색
@@ -42,9 +44,22 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
 
   useEffect(() => {
     const combinedAddress = `${address} ${extraAddress}`;
-
-    setOrderData((prevData) => ({ ...prevData, address: combinedAddress }));
+    order_kind === 'direct_order'
+      ? setDirectOrderData((prevData) => ({ ...prevData, address: combinedAddress }))
+      : setOrderData((prevData) => ({ ...prevData, address: combinedAddress }));
   }, [address, extraAddress]);
+
+  const handleReceiverChange = (e: ChangeEvent<HTMLInputElement>) => {
+    order_kind === 'direct_order'
+      ? setDirectOrderData((prevData) => ({ ...prevData, receiver: e.target.value }))
+      : setOrderData((prevData) => ({ ...prevData, receiver: e.target.value }));
+  };
+
+  const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    order_kind === 'direct_order'
+      ? setDirectOrderData((prevData) => ({ ...prevData, address_message: e.target.value }))
+      : setOrderData((prevData) => ({ ...prevData, address_message: e.target.value }));
+  };
 
   return (
     <SSectionLayout>
@@ -78,13 +93,7 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
         <ul>
           <li>
             <label htmlFor="recipientName">수령인</label>
-            <input
-              type="text"
-              className="name"
-              id="recipientName"
-              required
-              onChange={(e) => setOrderData({ ...orderData, receiver: e.target.value })}
-            />
+            <input type="text" className="name" id="recipientName" required onChange={handleReceiverChange} />
           </li>
           <li>
             <label htmlFor="">휴대폰</label>
@@ -118,7 +127,7 @@ export default function ShippingInfoForm({ setOrderData, orderData }: ShippingIn
           </li>
           <li>
             <label htmlFor="">배송메세지</label>
-            <input type="text" onChange={(e) => setOrderData({ ...orderData, address_message: e.target.value })} />
+            <input type="text" onChange={handleMessageChange} />
           </li>
         </ul>
       </fieldset>

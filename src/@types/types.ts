@@ -38,10 +38,15 @@ interface OrderData {
   payment_method: string;
 }
 
+interface ExtendedOrderData extends OrderData {
+  product_id: number;
+  quantity: number;
+}
+
 // props type
 interface PutCartItemProps {
   urlId: number;
   orderData: CartActiveData;
 }
 
-export type { Product, CartProduct, ProductData, OrderData, CartActiveData, PutCartItemProps };
+export type { Product, CartProduct, ProductData, OrderData, CartActiveData, ExtendedOrderData, PutCartItemProps };

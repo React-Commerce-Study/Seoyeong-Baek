@@ -2,13 +2,15 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import CheckBox from '../../assets/icon/check-round.svg';
 import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
-import { OrderData } from '../../@types/types';
+import { OrderData, ExtendedOrderData } from '../../@types/types';
 
 interface PaymentMethodProps {
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
+  order_kind: string;
+  setDirectOrderData: React.Dispatch<React.SetStateAction<ExtendedOrderData>>;
 }
 
-export default function PaymentMethod({ setOrderData }: PaymentMethodProps) {
+export default function PaymentMethod({ setOrderData, order_kind, setDirectOrderData }: PaymentMethodProps) {
   const paymentMethod = ['CARD', 'DEPOSIT', 'PHONE_PAYMENT', 'NAVERPAY', 'KAKAOPAY'];
   const paymentMethodLabel = ['신용/체크카드', '무통장 입금', '휴대폰 결제', '네이버 페이', '카카오 페이'];
 
@@ -16,7 +18,9 @@ export default function PaymentMethod({ setOrderData }: PaymentMethodProps) {
 
   const handleRadioChange = (value: string) => {
     setSelectedPayment(value);
-    setOrderData((prevData) => ({ ...prevData, payment_method: value }));
+    order_kind === 'direct_order'
+      ? setDirectOrderData((prevData) => ({ ...prevData, payment_method: value }))
+      : setOrderData((prevData) => ({ ...prevData, payment_method: value }));
   };
 
   return (

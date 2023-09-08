@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import PurchaseButton from '../common/Buttons/Button';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { Product, ProductData } from '../../@types/types';
 import Modal from '../modal/Modal';
 import { fetchCartItemList, postCartList } from '../../services/ResponseApi';
@@ -13,6 +14,8 @@ interface ProductPurchaseProps {
 type ButtonType = 'cart' | 'buy'; // 버튼 유형을 나타내는 타입 정의
 
 export default function ProductPurchase({ product }: ProductPurchaseProps) {
+  const navigate = useNavigate();
+
   const [count, setCount] = useState(1);
   console.log(product);
   const token = localStorage.getItem('token');
@@ -36,18 +39,24 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         checkCartItems();
       } else if (buttonType === 'buy') {
         console.log('구매 버튼 클릭');
-        // TODO: 구매 api 요청 purchaseProduct()
+        const orderListId = [product.product_id];
+        const orderListQuantity = [count];
+        const totalPrice = product.price * count;
+        const totalDeliveryFee = product.shipping_fee;
+        const order_kind = 'direct_order';
+
+        navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
       }
     }
   };
 
   async function checkCartItems() {
     const cartList = await fetchCartItemList();
-    const cartItemIdArr = cartList.map((cartItem: { product_id: number }) => {
+    const cartItemIdArr = cartList?.map((cartItem: { product_id: number }) => {
       return cartItem.product_id;
     });
 
-    if (cartItemIdArr.includes(product.product_id)) {
+    if (cartItemIdArr?.includes(product.product_id)) {
       console.log('이미 장바구니에 담겨있습니다.');
       // 장바구니 모달
       setIsIncludedCartModal(true);

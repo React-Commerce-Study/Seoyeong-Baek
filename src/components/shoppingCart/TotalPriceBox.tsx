@@ -1,5 +1,3 @@
-// import { useRecoilValue } from 'recoil';
-// import { totalPriceState } from '../../Atom/Atom';
 import styled from 'styled-components';
 import MinusIcon from '../../assets/icon/minus-icon_2.svg';
 import PlusIcon from '../../assets/icon/plus-icon_2.svg';
@@ -10,7 +8,8 @@ interface TotalPriceBoxProps {
 }
 
 export default function TotalPriceBox({ totalPrice, totalDeliveryFee }: TotalPriceBoxProps) {
-  console.log(totalPrice);
+  const finalPrice = totalPrice + totalDeliveryFee;
+
   return (
     <SCartTotalPriceContainer>
       <div className="price-box">
@@ -27,7 +26,7 @@ export default function TotalPriceBox({ totalPrice, totalDeliveryFee }: TotalPri
       </div>
       <div className="final-total-price">
         <p>결제 예정 금액</p>
-        <strong>{totalPrice && totalDeliveryFee ? (totalPrice + totalDeliveryFee).toLocaleString() : 0}</strong> 원
+        <strong>{finalPrice ? finalPrice.toLocaleString() : 0}</strong> 원
       </div>
     </SCartTotalPriceContainer>
   );
