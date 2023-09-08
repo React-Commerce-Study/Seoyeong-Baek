@@ -33,49 +33,57 @@ export default function ShoppingCart() {
     setCartItemList(cartList);
   }
 
+  // 전체 선택상태 일때
   const [isAllCheck, setAllIsCheck] = useState<boolean>(true);
 
-  // cartItem checkbox 클릭시 전체 체크박스 변경
+  // 전체 선택 체크박스를 눌렀을 때
+  const [isClickAllCheck, setIsClickAllCheck] = useState<boolean>(true);
+
+  // 장바구니 아이템이 하나라도 비활성화 시 전체 체크박스 상태 변경
   useEffect(() => {
     const isCheckArr = cartItemList.map((cartItem) => cartItem.is_active);
     // console.log(isCheckArr);
     isCheckArr.includes(false) ? setAllIsCheck(false) : setAllIsCheck(true);
   }, [cartItemList]);
 
-  // 전체 선택을 눌렀을 때를 넘겨주기 위해서
-  const [isClickAllCheck, setIsClickAllCheck] = useState<boolean>(true);
-
+  // cartItem checkbox 클릭시 전체 체크박스 상태 변경
   const handleCheckBoxClick = () => {
-    if (isAllCheck) {
+    if (isClickAllCheck) {
       setAllIsCheck(false);
+      setIsClickAllCheck(false);
       cartItemList.map((cartItem) => {
         cartItem.is_active = false;
       });
-      setIsClickAllCheck(false);
     } else {
       setAllIsCheck(true);
+      setIsClickAllCheck(true);
       cartItemList.map((cartItem) => {
         cartItem.is_active = true;
       });
-      setIsClickAllCheck(true);
     }
   };
 
+  const [isOrderBtnClick, setIsOrderBtnClick] = useState(false);
   const handleOrderBtnClick = () => {
-    const orderListId = cartItemList
-      .filter((cartItem) => cartItem.is_active) // is_active가 true인 아이템만 필터링
-      .map((cartItem) => cartItem.product_id);
-
-    const orderListQuantity = cartItemList.filter((cartItem) => cartItem.is_active).map((cartItem) => cartItem.quantity);
-
-    // const finalPrice = totalPrice + totalDeliveryFee;
-    console.log(orderListId);
-    navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity } });
-    console.log(orderListQuantity);
+    setIsOrderBtnClick(true);
   };
 
-  // console.log(cartItemList);
-  console.log(totalDeliveryFee);
+  // TODO: 이부분 cartItem으로 옮겨야함
+  // 수량이 count로 들어가야 오류가 안날듯, 지금은 이전 수량으로 들어감
+  useEffect(() => {
+    if (isOrderBtnClick) {
+      console.log(isOrderBtnClick);
+      const orderListId = cartItemList
+        .filter((cartItem) => cartItem.is_active) // is_active가 true인 아이템만 필터링
+        .map((cartItem) => cartItem.product_id);
+
+      const orderListQuantity = cartItemList.filter((cartItem) => cartItem.is_active).map((cartItem) => cartItem.quantity);
+
+      // const finalPrice = totalPrice + totalDeliveryFee;
+      navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity } });
+    }
+  }, [isOrderBtnClick]);
+
   const btnActive = cartItemList.some((cartItem) => cartItem.is_active);
 
   return (
@@ -101,8 +109,9 @@ export default function ShoppingCart() {
                 setTotalPrice={setTotalPrice}
                 setTotalDeliveryFee={setTotalDeliveryFee}
                 setCartItemList={setCartItemList}
-                isClickAllCheck={isClickAllCheck}
                 setIsChangeModalValue={setIsChangeModalValue}
+                isOrderBtnClick={isOrderBtnClick}
+                isClickAllCheck={isClickAllCheck}
               />
             );
           })
@@ -122,7 +131,6 @@ export default function ShoppingCart() {
             <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="24px" disabled={!btnActive}>
               주문하기
             </Button>
-            {/* TODO 주문하기 버튼 아이템 2개 이상 체크 시 활성화되도록 */}
           </SButtonContainer>
         </>
       )}

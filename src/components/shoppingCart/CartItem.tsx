@@ -9,7 +9,8 @@ import Button from '../common/Buttons/Button';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
-import { CartProduct } from '../../@types/types';
+import { CartProduct, CartActiveData } from '../../@types/types';
+import { putCartItem } from '../../services/ResponseApi';
 import Modal from '../../components/modal/Modal';
 
 type CartItemProps = {
@@ -17,8 +18,9 @@ type CartItemProps = {
   setTotalPrice: Dispatch<SetStateAction<number>>;
   setTotalDeliveryFee: Dispatch<SetStateAction<number>>;
   setCartItemList: Dispatch<SetStateAction<CartProduct[]>>;
-  isClickAllCheck: boolean;
   setIsChangeModalValue: Dispatch<SetStateAction<boolean>>;
+  isOrderBtnClick: boolean;
+  isClickAllCheck: boolean;
 };
 
 export default function CartItem({
@@ -26,8 +28,9 @@ export default function CartItem({
   setTotalPrice,
   setTotalDeliveryFee,
   setCartItemList,
-  isClickAllCheck,
   setIsChangeModalValue,
+  isOrderBtnClick,
+  isClickAllCheck,
 }: CartItemProps) {
   console.log(cartProduct);
   const URL = 'https://openmarket.weniv.co.kr/';
@@ -46,17 +49,21 @@ export default function CartItem({
     fetchCartItem();
   }, []);
 
-  // 장바구니 페이지 렌더시 전체선택 버튼을 눌렀을 경우 가격을 변경해주기 위함
+  // 장바구니 페이지 렌더시 전체선택 체크박스를 눌렀을 경우 가격을 변경해주기 위함
   useEffect(() => {
     if (isClickAllCheck) {
-      product.price && setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
-      product.shipping_fee && setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
+      setIsActive(true);
+      if (cartProduct.is_active && product.price) {
+        setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
+        setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
+      }
     } else {
+      setIsActive(false);
       setTotalDeliveryFee(0);
       setTotalPrice(0);
     }
   }, [isClickAllCheck, product]);
-  // product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
+  // 전체선택 체크박스를 눌렀을 경우에만 실행, product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
 
   async function fetchCartItem() {
     try {
@@ -91,21 +98,26 @@ export default function CartItem({
     }
   }, [count]);
 
+  const [isActive, setIsActive] = useState<boolean>(cartProduct.is_active);
+
   const handleCheckBoxClick = () => {
     if (cartProduct.is_active) {
       // cartProduct.is_active = false;
       // 위와 같이 변경해버리면 cartProduct가 재렌더링이 안됨
+      setIsActive(false);
       setCartItemList((prevCartItems) =>
         prevCartItems.map((item) =>
           item.product_id === cartProduct.product_id && item.is_active ? { ...item, is_active: false } : item
         )
       );
+      console.log(price);
       setTotalPrice((prevTotalPrice) => prevTotalPrice - price);
       setTotalDeliveryFee((prevTotalDeliveryFee) =>
         prevTotalDeliveryFee - product.shipping_fee >= 0 ? prevTotalDeliveryFee - product.shipping_fee : 0
       );
     } else {
       // cartProduct.is_active = true;
+      setIsActive(true);
       setCartItemList((prevCartItems) =>
         prevCartItems.map((item) =>
           item.product_id === cartProduct.product_id && !item.is_active ? { ...item, is_active: true } : item
@@ -117,6 +129,50 @@ export default function CartItem({
       // }
     }
   };
+
+  // order목록 보내기(active및 수량 변경)
+  const urlId = cartProduct.cart_item_id;
+
+  interface PutCartItemProps {
+    urlId: number;
+    orderData: CartActiveData;
+  }
+  async function putCartItems({ urlId, orderData }: PutCartItemProps) {
+    const orderList = await putCartItem({ urlId, orderData });
+    console.log(orderList);
+    console.log('yes');
+  }
+
+  const [orderData, setOrderData] = useState<CartActiveData>({
+    product_id: cartProduct.product_id,
+    quantity: count,
+    is_active: isActive,
+  });
+
+  // 카운트가 변경될때마다 orderData의 수량도 변경
+  useEffect(() => {
+    setOrderData((prevOrderData) => ({
+      ...prevOrderData,
+      quantity: count,
+    }));
+  }, [count]);
+
+  // isActive 값이 변경될 때마다 orderData의 active도 변경
+  useEffect(() => {
+    setOrderData((prevOrderData) => ({
+      ...prevOrderData,
+      is_active: isActive,
+    }));
+  }, [isActive]);
+
+  // 주문하기 버튼이 클릭됐을 때 주문할 상품들은 is_active를 true로, 주문하지 않을 상품들은 false로 보내주기
+  useEffect(() => {
+    console.log(isOrderBtnClick);
+    if (isOrderBtnClick) {
+      console.log('!!!!!');
+      putCartItems({ urlId, orderData });
+    }
+  }, [isOrderBtnClick]);
 
   return (
     <>
