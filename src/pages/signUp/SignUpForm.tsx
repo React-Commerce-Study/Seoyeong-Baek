@@ -1,84 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
 import checkOffIcon from '../../assets/icon/icon-check-off.svg';
 import checkOnIcon from '../../assets/icon/icon-check-on.svg';
+import { postSignUp, postIdCheck } from '../../services/ResponseApi';
+import { SignUpData, UserNameData } from '../../@types/types';
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+  signUpType: string;
+}
+
+export default function SignUpForm({ signUpType }: SignUpFormProps) {
   const navigate = useNavigate();
-  const URL = 'https://openmarket.weniv.co.kr/';
-  const reqPath = 'accounts/signup/';
 
-  const [signUpData, setSignUpData] = useState({
+  const [usernameData, setUserNameData] = useState<UserNameData>({
+    username: '',
+  });
+
+  const [signUpData, setSignUpData] = useState<SignUpData>({
     username: '',
     password: '',
     password2: '',
     phone_number: '', // 전화번호는 010으로 시작하는 10~11자리 숫자
     name: '',
   });
-  console.log(signUpData);
+  // console.log(signUpData);
 
-  async function handleSignUp(signUpData) {
-    try {
-      const res = await fetch(URL + reqPath, {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(signUpData),
-      });
-      console.log(signUpData);
-
-      if (res.ok) {
-        const json = await res.json();
-        console.log('SignUp successful!');
-        console.log(json);
-        // navigate('/login');
-      } else {
-        throw new Error();
-      }
-    } catch {
-      console.error('signUp failed!');
-      // setIsLoginError(true);
-    }
-  }
-
-  //   TODO: 에러메세지 저장해놓기
-
-  const [isUsernameError, setIsUsernameError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
-  const [isLoginError, setIsLoginError] = useState(false);
-
-  const handleError = () => {
-    if ((signUpData.username === '' && signUpData.password === '') || signUpData.username === '') {
-      setIsUsernameError(true);
-    } else if (signUpData.username && signUpData.password === '') {
-      setIsPasswordError(true);
-    }
+  // 회원가입 폼 post
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    postSignUp(signUpData);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSignUp(signUpData);
+  const handleUserNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserNameData(() => ({ username: e.target.value }));
+    setSignUpData((prevData) => ({ ...prevData, username: e.target.value }));
+  };
+
+  const [usernameError, setUsernameError] = useState('');
+  // 아이디 중복 검사
+  const usernameValidation = async () => {
+    const result = await postIdCheck(usernameData);
+    setUsernameError(result.FAIL_Message || result.Success);
   };
 
   return (
-    <SignUpFormContainer action="" onSubmit={handleSubmit}>
-      <SignUpFormStyle>
+    <SSignUpForm action="" onSubmit={handleSubmit}>
+      <SSignUpInputField>
         <IdContainer>
-          <label htmlFor="id">아이디</label>
+          <label htmlFor="username">아이디</label>
           <IdBoxStyle>
-            <input
-              type="text"
-              id="id"
-              value={signUpData.username}
-              onChange={(e) => setSignUpData({ ...signUpData, username: e.target.value })}
-            />
-            <Button type="button" fontWeight="500" padding="17px 0">
+            <input type="text" id="username" value={signUpData.username} onChange={handleUserNameChange} />
+            <Button type="button" fontWeight="500" padding="17px 0" onClick={usernameValidation}>
               중복확인
             </Button>
           </IdBoxStyle>
-          {/* <MessageError display={isUsernameError}>이미 사용 중인 아이디입니다.</MessageError> */}
+          {usernameError && <MessageError>{usernameError}</MessageError>}
         </IdContainer>
+
         <PasswordContainer>
           <label htmlFor="pw">비밀번호</label>
           <input
@@ -123,20 +103,18 @@ export default function SignUpForm() {
             <input
               type="tel"
               id="phone-number"
-              required
               value={signUpData.phone_number}
               onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
             />
             <input
               type="tel"
               id="phone-number"
-              required
               value={signUpData.phone_number}
               onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
             />
           </PhoneNumberBoxStyle>
         </PhoneNumberContainer>
-      </SignUpFormStyle>
+      </SSignUpInputField>
 
       <AgreeCheckBox>
         <input type="checkbox" id="agree" />
@@ -145,15 +123,15 @@ export default function SignUpForm() {
         </label>
       </AgreeCheckBox>
       <Button type="submit">가입하기</Button>
-    </SignUpFormContainer>
+    </SSignUpForm>
   );
 }
-const SignUpFormContainer = styled.form`
+const SSignUpForm = styled.form`
   /* box-shadow: inset 0 0 10px blue; */
   color: #767676;
 `;
 
-const SignUpFormStyle = styled.div`
+const SSignUpInputField = styled.fieldset`
   /* display: flex; */
   /* flex-direction: column; */
   padding: 50px 35px 36px;
@@ -257,5 +235,5 @@ const MessageError = styled.p`
   color: red;
   margin-top: 26px;
   text-align: left;
-  display: ${(props) => (props.display ? 'block' : 'none')};
+  /* display: ${(props: { display: boolean }) => (props.display ? 'block' : 'none')}; */
 `;

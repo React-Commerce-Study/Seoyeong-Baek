@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
 import LogoImg from '../../assets/icon/Logo-hodu.png';
 import styled from 'styled-components';
-import Button from '../../components/common/Buttons/Button';
+// import Button from '../../components/common/Buttons/Button';
 
 export default function SignUp() {
-  const [loginType, setLoginType] = useState('BUYER');
+  const [signUpType, setSignUpType] = useState('BUYER');
 
-  const handleLoginType = (e) => {
+  const handleLoginType = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === 'BUYER') {
-      setLoginType('BUYER');
+      setSignUpType('BUYER');
     } else if (e.target.value === 'SELLER') {
-      setLoginType('SELLER');
+      setSignUpType('SELLER');
     }
   };
 
-  console.log(loginType);
+  console.log(signUpType);
 
   return (
     <>
@@ -28,15 +28,15 @@ export default function SignUp() {
         </h1>
 
         <div className="login-type-wrapper">
-          <LoginBtnStyle value="BUYER" onClick={handleLoginType} clickChange={loginType === 'BUYER'}>
+          <LoginBtnStyle value="BUYER" onClick={handleLoginType} clickChange={signUpType === 'BUYER'}>
             구매회원 회원가입
           </LoginBtnStyle>
-          <LoginBtnStyle value="SELLER" onClick={handleLoginType} clickChange={loginType === 'SELLER'}>
+          <LoginBtnStyle value="SELLER" onClick={handleLoginType} clickChange={signUpType === 'SELLER'}>
             판매회원 회원가입
           </LoginBtnStyle>
         </div>
 
-        <SignUpForm loginType={loginType} />
+        <SignUpForm signUpType={signUpType} />
       </LoginContainerStyle>
     </>
   );
@@ -60,6 +60,10 @@ const LoginContainerStyle = styled.div`
   }
 `;
 
+type ClickChangeType = {
+  clickChange: boolean;
+};
+
 const LoginBtnStyle = styled.button`
   margin-bottom: -10px;
   font-weight: 500;
@@ -69,7 +73,7 @@ const LoginBtnStyle = styled.button`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border: 1px solid #c4c4c4;
-  border-bottom: ${(props) => (props.clickChange ? 'none' : '')};
-  background-color: ${(props) => (props.clickChange ? '#fff' : '#F2F2F2')};
+  border-bottom: ${(props: ClickChangeType) => (props.clickChange ? 'none' : '')};
+  background-color: ${(props: ClickChangeType) => (props.clickChange ? '#fff' : '#F2F2F2')};
   padding: 20px;
 `;
