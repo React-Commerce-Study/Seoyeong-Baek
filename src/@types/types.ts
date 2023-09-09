@@ -43,10 +43,34 @@ interface ExtendedOrderData extends OrderData {
   quantity: number;
 }
 
+interface SignUpData {
+  username: string;
+  password: string;
+  password2: string;
+  phone_number: string;
+  name: string;
+}
+
+interface LoginData {
+  username: string;
+  password: string;
+  login_type: string;
+}
+
 // props type
 interface PutCartItemProps {
   urlId: number;
   orderData: CartActiveData;
 }
 
-export type { Product, CartProduct, ProductData, OrderData, CartActiveData, ExtendedOrderData, PutCartItemProps };
+export type {
+  Product,
+  CartProduct,
+  ProductData,
+  OrderData,
+  CartActiveData,
+  ExtendedOrderData,
+  SignUpData,
+  LoginData,
+  PutCartItemProps,
+};
