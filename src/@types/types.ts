@@ -51,6 +51,10 @@ interface SignUpData {
   name: string;
 }
 
+interface UserNameData {
+  username: string;
+}
+
 interface LoginData {
   username: string;
   password: string;
@@ -71,6 +75,7 @@ export type {
   CartActiveData,
   ExtendedOrderData,
   SignUpData,
+  UserNameData,
   LoginData,
   PutCartItemProps,
 };

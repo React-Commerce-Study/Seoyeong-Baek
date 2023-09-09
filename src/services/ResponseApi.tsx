@@ -1,4 +1,4 @@
-import { ProductData, OrderData, SignUpData, LoginData, PutCartItemProps } from '../@types/types';
+import { ProductData, OrderData, SignUpData, UserNameData, LoginData, PutCartItemProps } from '../@types/types';
 
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
 const token = localStorage.getItem('token') as string; // 타입 단언 사용
@@ -136,7 +136,7 @@ export async function putCartItem({ urlId, orderData }: PutCartItemProps) {
 // 회원가입
 export async function postSignUp(signUpData: SignUpData) {
   try {
-    const res = await fetch(URL + 'accounts/signup/', {
+    const res = await fetch(BASE_URL + 'accounts/signup/', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(signUpData),
@@ -155,10 +155,26 @@ export async function postSignUp(signUpData: SignUpData) {
   }
 }
 
+// 회원가입 중복 아이디 체크
+export async function postIdCheck(username: UserNameData) {
+  try {
+    const res = await fetch(BASE_URL + 'accounts/signup/valid/username/', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify(username),
+    });
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 //로그인
 export async function postLogin(loginData: LoginData) {
   try {
-    const res = await fetch(URL + 'accounts/login/', {
+    const res = await fetch(BASE_URL + 'accounts/login/', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(loginData),
