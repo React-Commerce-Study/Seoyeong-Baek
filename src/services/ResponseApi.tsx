@@ -142,16 +142,11 @@ export async function postSignUp(signUpData: SignUpData) {
       body: JSON.stringify(signUpData),
     });
     console.log(signUpData);
-
-    if (res.ok) {
-      const data = await res.json();
-      console.log('SignUp successful!');
-      console.log(data);
-    } else {
-      throw new Error('네트워크에 문제가 있습니다.');
-    }
+    const data = await res.json();
+    console.log(data);
+    return data;
   } catch (error) {
-    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+    console.log(error);
   }
 }
 
