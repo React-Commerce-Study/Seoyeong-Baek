@@ -1,49 +1,22 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
+import { postLogin } from '../../services/ResponseApi';
+import { LoginData } from '../../@types/types';
 
 type LoginFormProps = {
   loginType: string;
 };
 
-interface LoginData {
-  [key: string]: string;
-}
-
 export default function LoginForm({ loginType }: LoginFormProps) {
   const navigate = useNavigate();
-  const URL = 'https://openmarket.weniv.co.kr/';
-  const reqPath = 'accounts/login/';
 
   const [loginData, setLoginData] = useState<LoginData>({
     username: '',
     password: '',
     login_type: loginType,
   });
-
-  async function handleLogin(loginData: LoginData) {
-    try {
-      const res = await fetch(URL + reqPath, {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(loginData),
-      });
-
-      if (res.ok) {
-        console.log('Login successful!');
-        const json = await res.json();
-        const token = json.token;
-        localStorage.setItem('token', token);
-        navigate('/');
-      } else {
-        throw new Error();
-      }
-    } catch {
-      console.error('Login failed!');
-      setIsLoginError(true);
-    }
-  }
 
   const [isUsernameError, setIsUsernameError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
@@ -59,12 +32,15 @@ export default function LoginForm({ loginType }: LoginFormProps) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleLogin(loginData);
+    postLogin(loginData);
+    const token = localStorage.getItem('token');
+
+    token ? navigate('/') : setIsLoginError(true);
   };
 
   return (
-    <div>
-      <LoginFormStyle action="" onSubmit={handleSubmit}>
+    <>
+      <SLoginForm action="" onSubmit={handleSubmit}>
         <label htmlFor="id">
           <input
             type="text"
@@ -93,12 +69,12 @@ export default function LoginForm({ loginType }: LoginFormProps) {
             로그인
           </Button>
         </div>
-      </LoginFormStyle>
-    </div>
+      </SLoginForm>
+    </>
   );
 }
 
-const LoginFormStyle = styled.form`
+const SLoginForm = styled.form`
   display: flex;
   flex-direction: column;
   padding: 34px 35px 36px;
@@ -111,19 +87,18 @@ const LoginFormStyle = styled.form`
     border-bottom: 1px solid #c4c4c4;
     padding: 20px 0;
     font-size: 16px;
-  }
 
-  input::placeholder {
-    color: #767676;
-  }
+    &:first-child {
+      margin-bottom: 6px;
+    }
 
-  input:first-child {
-    margin-bottom: 6px;
+    &::placeholder {
+      color: #767676;
+    }
   }
 
   .btn-box {
     margin-top: 36px;
-    /* box-shadow: inset 0 0 10px red; */
   }
 `;
 
