@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import checkOffIcon from '../../assets/icon/icon-check-off.svg';
 import checkOnIcon from '../../assets/icon/icon-check-on.svg';
 import { postSignUp, postIdCheck } from '../../services/ResponseApi';
-import { SignUpData, UserNameData } from '../../@types/types';
+import { SignUpData, UserNameData, TelData } from '../../@types/types';
 
 interface SignUpFormProps {
   signUpType: string;
@@ -61,9 +61,11 @@ export default function SignUpForm({ signUpType }: SignUpFormProps) {
     if (newPassword.match(/[0-9]/g) === null)
       setPasswordError((prevErr) => `비밀번호는 한개 이상의 숫자가 필수적으로 들어가야 합니다. \n ${prevErr}`);
 
-    if (newPassword.length >= 8 && /[a-z]/.test(newPassword) && /[0-9]/.test(newPassword)) {
-      setIsConfirmPassword(true);
-    } else setIsConfirmPassword(false);
+    // if (newPassword.length >= 8 && /[a-z]/.test(newPassword) && /[0-9]/.test(newPassword)) {
+    //   setIsConfirmPassword(true);
+    // } else setIsConfirmPassword(false); ===>
+    const isPasswordValid = /^(?=.*[a-z])(?=.*[0-9]).{8,}$/.test(newPassword);
+    setIsConfirmPassword(isPasswordValid);
   };
 
   // 비밀번호2 validation
@@ -71,15 +73,17 @@ export default function SignUpForm({ signUpType }: SignUpFormProps) {
   const onChangePassword2 = (e: ChangeEvent<HTMLInputElement>) => {
     const newPassword2 = e.target.value;
     setSignUpData((prevData) => ({ ...prevData, password2: newPassword2 }));
+  };
 
-    if (newPassword2 === signUpData.password) {
+  useEffect(() => {
+    if (signUpData.password2 === signUpData.password && signUpData.password2 !== '') {
       setIsConfirmPassword2(true);
       setPassword2Error('');
-    } else {
+    } else if (signUpData.password2 !== signUpData.password && signUpData.password2 !== '') {
       setIsConfirmPassword2(false);
       setPassword2Error('비밀번호가 일치하지 않습니다.');
     }
-  };
+  }, [signUpData.password, signUpData.password2]);
 
   // 아이디 validation
   const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +108,34 @@ export default function SignUpForm({ signUpType }: SignUpFormProps) {
       setUsernameError(result.FAIL_Message);
     }
   };
+
+  // 전화번호
+  const [tel, setTel] = useState<TelData>({
+    tel1: '010',
+  });
+
+  const handleTel1Change = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTel((tel) => ({
+      ...tel,
+      tel1: e.target.value,
+    }));
+  };
+
+  const handleTelChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumberError('');
+    const { name, value } = e.target;
+    if (/^\d*$/.test(value))
+      setTel({
+        ...tel,
+        [name]: value,
+      });
+    else setPhoneNumberError('숫자만 입력 가능합니다.');
+  };
+
+  useEffect(() => {
+    const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
+    setSignUpData((prevData) => ({ ...prevData, phone_number: combinedTel }));
+  }, [tel]);
 
   // 동의하기 눌렀을 때만 가입하기버튼 active
   const [isChecked, setIsChecked] = useState(false);
@@ -159,24 +191,14 @@ export default function SignUpForm({ signUpType }: SignUpFormProps) {
         <PhoneNumberContainer>
           <label htmlFor="tel1 tel2 tel3">휴대폰 번호</label>
           <PhoneNumberBoxStyle>
-            <select name="tel" id="tel1" required>
+            <select name="tel1" id="tel1" onChange={handleTel1Change}>
               <option value="010">010</option>
               <option value="011">011</option>
               <option value="016">016</option>
               <option value="017">017</option>
             </select>
-            <input
-              type="tel"
-              id="tel2"
-              value={signUpData.phone_number}
-              onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
-            />
-            <input
-              type="tel"
-              id="tel3"
-              value={signUpData.phone_number}
-              onChange={(e) => setSignUpData({ ...signUpData, phone_number: e.target.value })}
-            />
+            <input type="tel" id="tel2" name="tel2" onChange={handleTelChange} />
+            <input type="tel" id="tel3" name="tel3" onChange={handleTelChange} />
           </PhoneNumberBoxStyle>
           {phoneNumberError && <MessageError>{phoneNumberError}</MessageError>}
         </PhoneNumberContainer>

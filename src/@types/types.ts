@@ -51,6 +51,10 @@ interface SignUpData {
   name: string;
 }
 
+interface TelData {
+  [key: string]: string;
+}
+
 interface UserNameData {
   username: string;
 }
@@ -75,6 +79,7 @@ export type {
   CartActiveData,
   ExtendedOrderData,
   SignUpData,
+  TelData,
   UserNameData,
   LoginData,
   PutCartItemProps,

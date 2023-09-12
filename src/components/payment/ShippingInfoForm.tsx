@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
-import { OrderData, ExtendedOrderData } from '../../@types/types';
+import { OrderData, ExtendedOrderData, TelData } from '../../@types/types';
 import AddressModal from '../modal/AddressModal';
 
 interface ShippingInfoFormProps {
@@ -10,12 +10,8 @@ interface ShippingInfoFormProps {
   order_kind: string;
 }
 
-interface TelephoneState {
-  [key: string]: string;
-}
-
 export default function ShippingInfoForm({ setOrderData, setDirectOrderData, order_kind }: ShippingInfoFormProps) {
-  const [tel, setTel] = useState<TelephoneState>({});
+  const [tel, setTel] = useState<TelData>({});
 
   const handleTelChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
