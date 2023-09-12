@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
 import LogoImg from '../../assets/icon/Logo-hodu.png';
 import styled from 'styled-components';
+import Modal from '../../components/modal/Modal';
+
 // import Button from '../../components/common/Buttons/Button';
 
 export default function SignUp() {
+  const [successUserName, setSuccessUserName] = useState('');
   const [signUpType, setSignUpType] = useState('BUYER');
 
   const handleLoginType = (e: ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +23,7 @@ export default function SignUp() {
 
   return (
     <>
-      <LoginContainerStyle>
+      <SSignUpContainer>
         <h1>
           <Link to="/">
             <img src={LogoImg} alt="로고이미지" />
@@ -36,13 +39,14 @@ export default function SignUp() {
           </LoginBtnStyle>
         </div>
 
-        <SignUpForm signUpType={signUpType} />
-      </LoginContainerStyle>
+        <SignUpForm signUpType={signUpType} setSuccessUserName={setSuccessUserName} />
+      </SSignUpContainer>
+      {successUserName !== '' && <Modal type={'successSignUp'} successUserName={successUserName} />}
     </>
   );
 }
 
-const LoginContainerStyle = styled.div`
+const SSignUpContainer = styled.div`
   margin: 100px auto;
   max-width: 550px;
   text-align: center;

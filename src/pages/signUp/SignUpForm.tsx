@@ -1,5 +1,4 @@
 import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
 import checkOffIcon from '../../assets/icon/icon-check-off.svg';
@@ -9,11 +8,10 @@ import { SignUpData, UserNameData, TelData } from '../../@types/types';
 
 interface SignUpFormProps {
   signUpType: string;
+  setSuccessUserName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function SignUpForm({ signUpType }: SignUpFormProps) {
-  const navigate = useNavigate();
-
+export default function SignUpForm({ signUpType, setSuccessUserName }: SignUpFormProps) {
   const [usernameData, setUserNameData] = useState<UserNameData>({
     username: '',
   });
@@ -38,14 +36,16 @@ export default function SignUpForm({ signUpType }: SignUpFormProps) {
     const result = await postSignUp(signUpData);
     const blankError = '이 필드는 필수항목 입니다.';
     console.log(result);
-    if (result.password) setPasswordError(result.password[0].includes('blank') ? blankError : result.password);
-    if (result.phone_number) setPhoneNumberError(result.phone_number[0].includes('blank') ? blankError : result.phone_number);
-    if (result.name) setNameError(result.name[0].includes('blank') ? blankError : result.name);
-    if (result.password2) setPassword2Error(result.password2[0].includes('blank') ? blankError : result.password2);
-    if (result.username) setUsernameError(result.username[0].includes('blank') ? blankError : result.username);
-
-    // 회원가입성공시 회원가입 성공 모달 (홈으로 가기/로그인하러 가기)
-    // 성공시 로그인 페이지로 이동
+    if (result.user_type) {
+      console.log('회원가입 성공');
+      setSuccessUserName(result.username);
+    } else {
+      if (result.password) setPasswordError(result.password[0].includes('blank') ? blankError : result.password);
+      if (result.phone_number) setPhoneNumberError(result.phone_number[0].includes('blank') ? blankError : result.phone_number);
+      if (result.name) setNameError(result.name[0].includes('blank') ? blankError : result.name);
+      if (result.password2) setPassword2Error(result.password2[0].includes('blank') ? blankError : result.password2);
+      if (result.username) setUsernameError(result.username[0].includes('blank') ? blankError : result.username);
+    }
   };
 
   // 비밀번호 validation

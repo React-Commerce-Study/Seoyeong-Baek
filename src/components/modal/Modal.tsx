@@ -1,5 +1,4 @@
 import Button from '../common/Buttons/Button';
-import ProductCountButton from '../common/Buttons/ProductCountButton';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import DeleteIcon from '../../assets/icon/icon-delete.svg';
@@ -9,9 +8,10 @@ interface ModalProps {
   cartItemId?: number;
   setIsChangeModalValue?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  successUserName?: string;
 }
 
-export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsShowModal }: ModalProps) {
+export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsShowModal, successUserName }: ModalProps) {
   const navigate = useNavigate();
 
   const closeModal = () => {
@@ -143,6 +143,23 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
             <img src={DeleteIcon} alt="" />
           </button>
         </SModalLayout>
+      ) : type === 'successSignUp' ? (
+        <SModalLayout>
+          <p>
+            <strong>"{successUserName}"</strong> 님
+            <br />
+            회원가입을 축하합니다! 🎉
+          </p>
+          <div className="button-container">
+            <Button onClick={closeModal} bgColor="inherit" color="#767676" boxShadow="inset 0 0 0 1px #767676">
+              홈
+            </Button>
+            <Button onClick={() => navigate('/login')}>로그인</Button>
+          </div>
+          <button className="delete-btn" onClick={closeModal}>
+            <img src={DeleteIcon} alt="" />
+          </button>
+        </SModalLayout>
       ) : null}
     </SModalBackground>
   );
@@ -185,6 +202,12 @@ const SModalLayout = styled.article`
     font-size: 1rem;
     margin-bottom: 26px;
     line-height: normal;
+
+    strong {
+      font-weight: 800;
+      /* color: var(--point-color); */
+      font-size: 1.2rem;
+    }
   }
 
   .button-container {
