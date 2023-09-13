@@ -65,6 +65,22 @@ interface LoginData {
   login_type: string;
 }
 
+interface ReqOrderData {
+  buyer: number;
+  order_number: number;
+  order_items: number[];
+  order_quantity: number[];
+  total_price: number;
+  order_kind: string;
+  receiver: string;
+  receiver_phone_number: string;
+  address: string;
+  address_message: string;
+  payment_method: string;
+  delivery_status: string;
+  created_at: string;
+}
+
 // props type
 interface PutCartItemProps {
   urlId: number;
@@ -82,5 +98,6 @@ export type {
   TelData,
   UserNameData,
   LoginData,
+  ReqOrderData,
   PutCartItemProps,
 };

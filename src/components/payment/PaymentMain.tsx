@@ -5,9 +5,10 @@ import ShippingInfoForm from './ShippingInfoForm';
 import PaymentMethod from './PaymentMethod';
 import FinalPaymentInfo from './FinalPaymentInfo';
 import styled from 'styled-components';
-import { OrderData, ExtendedOrderData } from '../../@types/types';
+import { OrderData, ExtendedOrderData, ReqOrderData } from '../../@types/types';
 import { postOrderList } from '../../services/ResponseApi';
 import ConfirmModal from '../modal/PaymentModal';
+import OrderCompleteModal from '../modal/OrderCompleteModal';
 
 export default function PaymentMain() {
   const navigate = useNavigate();
@@ -54,16 +55,21 @@ export default function PaymentMain() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 모달 띄워서 결제정보 확인
     setIsModalOpen(true);
   };
 
+  const [successOrder, setSuccessOrder] = useState<boolean>(false);
+
+  const [reqOrderResult, setReqOrderResult] = useState<ReqOrderData>();
   const postOrder = async () => {
     const result = cartOrder ? await postOrderList({ orderData }) : await postOrderList({ oneOrderData });
+    setReqOrderResult(result);
 
-    console.log(result);
+    console.log(reqOrderResult);
     alert('Order Success!');
-    navigate('/order_complete', { state: { result, totalPrice, totalDeliveryFee } });
+
+    setIsModalOpen(false);
+    setSuccessOrder(true);
   };
 
   return (
@@ -80,6 +86,9 @@ export default function PaymentMain() {
       </SMainLayout>
       {isModalOpen && (
         <ConfirmModal postOrder={postOrder} orderData={cartOrder ? orderData : oneOrderData} setIsModalOpen={setIsModalOpen} />
+      )}
+      {successOrder && reqOrderResult && (
+        <OrderCompleteModal reqOrderResult={reqOrderResult} totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
       )}
     </>
   );

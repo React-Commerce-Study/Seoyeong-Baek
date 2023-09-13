@@ -38,7 +38,7 @@ const ButtonStyle = styled.button<ButtonProps>`
 
   &:not(:disabled):hover {
     background-color: white;
-    box-shadow: inset 0 0 0 1px var(--point-color);
-    color: var(--point-color);
+    box-shadow: inset 0 0 0 1px ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
+    color: ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
   }
 `;
