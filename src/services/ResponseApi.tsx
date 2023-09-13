@@ -1,4 +1,12 @@
-import { ProductData, OrderData, SignUpData, UserNameData, LoginData, PutCartItemProps } from '../@types/types';
+import {
+  ProductData,
+  OrderData,
+  ExtendedOrderData,
+  SignUpData,
+  UserNameData,
+  LoginData,
+  PutCartItemProps,
+} from '../@types/types';
 
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
 const token = localStorage.getItem('token') as string; // 타입 단언 사용
@@ -87,20 +95,29 @@ export async function getProductItem(productId: number) {
   }
 }
 
+interface postOrderListProps {
+  orderData?: OrderData;
+  oneOrderData?: ExtendedOrderData;
+}
 // 카트에서 주문하기
-export async function postOrderList(orderData: OrderData) {
+export async function postOrderList({ orderData, oneOrderData }: postOrderListProps) {
+  console.log(orderData);
+  console.log(token);
+
   try {
+    const reqData = orderData || oneOrderData;
     const response = await fetch(`${BASE_URL}order/`, {
       method: 'POST',
       headers: {
         Authorization: `JWT ${token}`,
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(orderData),
+      body: JSON.stringify(reqData),
     });
     if (response.ok) {
       const data = await response.json();
       console.log(data);
+      return data;
     } else {
       throw new Error('네트워크에 문제가 있습니다.');
     }

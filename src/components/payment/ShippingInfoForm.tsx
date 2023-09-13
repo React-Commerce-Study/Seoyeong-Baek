@@ -6,11 +6,11 @@ import AddressModal from '../modal/AddressModal';
 
 interface ShippingInfoFormProps {
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
-  setDirectOrderData: React.Dispatch<React.SetStateAction<ExtendedOrderData>>;
+  setOneOrderData: React.Dispatch<React.SetStateAction<ExtendedOrderData>>;
   order_kind: string;
 }
 
-export default function ShippingInfoForm({ setOrderData, setDirectOrderData, order_kind }: ShippingInfoFormProps) {
+export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_kind }: ShippingInfoFormProps) {
   const [tel, setTel] = useState<TelData>({});
 
   const handleTelChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,8 +23,8 @@ export default function ShippingInfoForm({ setOrderData, setDirectOrderData, ord
 
   useEffect(() => {
     const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
-    order_kind === 'direct_order'
-      ? setDirectOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }))
+    order_kind !== 'cart_order'
+      ? setOneOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }))
       : setOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }));
   }, [tel]);
 
@@ -40,20 +40,20 @@ export default function ShippingInfoForm({ setOrderData, setDirectOrderData, ord
 
   useEffect(() => {
     const combinedAddress = `${address} ${extraAddress}`;
-    order_kind === 'direct_order'
-      ? setDirectOrderData((prevData) => ({ ...prevData, address: combinedAddress }))
+    order_kind !== 'cart_order'
+      ? setOneOrderData((prevData) => ({ ...prevData, address: combinedAddress }))
       : setOrderData((prevData) => ({ ...prevData, address: combinedAddress }));
   }, [address, extraAddress]);
 
   const handleReceiverChange = (e: ChangeEvent<HTMLInputElement>) => {
-    order_kind === 'direct_order'
-      ? setDirectOrderData((prevData) => ({ ...prevData, receiver: e.target.value }))
+    order_kind !== 'cart_order'
+      ? setOneOrderData((prevData) => ({ ...prevData, receiver: e.target.value }))
       : setOrderData((prevData) => ({ ...prevData, receiver: e.target.value }));
   };
 
   const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    order_kind === 'direct_order'
-      ? setDirectOrderData((prevData) => ({ ...prevData, address_message: e.target.value }))
+    order_kind !== 'cart_order'
+      ? setOneOrderData((prevData) => ({ ...prevData, address_message: e.target.value }))
       : setOrderData((prevData) => ({ ...prevData, address_message: e.target.value }));
   };
 

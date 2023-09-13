@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PaymentItem from './PaymentItem';
-import { Product } from '../../@types/types';
 
 interface PaymentListProps {
   orderListId: number[];

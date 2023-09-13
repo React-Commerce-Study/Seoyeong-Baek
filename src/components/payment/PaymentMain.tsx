@@ -1,14 +1,16 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PaymentList from './PaymentList';
 import ShippingInfoForm from './ShippingInfoForm';
 import PaymentMethod from './PaymentMethod';
 import FinalPaymentInfo from './FinalPaymentInfo';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { OrderData, ExtendedOrderData } from '../../@types/types';
 import { postOrderList } from '../../services/ResponseApi';
+import ConfirmModal from '../modal/PaymentModal';
 
 export default function PaymentMain() {
+  const navigate = useNavigate();
   const location = useLocation();
   const { state } = location; // state 추출
 
@@ -25,7 +27,7 @@ export default function PaymentMain() {
     payment_method: '',
   });
 
-  const [directOrderData, setDirectOrderData] = useState<ExtendedOrderData>({
+  const [oneOrderData, setOneOrderData] = useState<ExtendedOrderData>({
     product_id: orderListId[0],
     quantity: orderListQuantity[0],
     total_price: totalPrice + totalDeliveryFee,
@@ -37,32 +39,49 @@ export default function PaymentMain() {
     payment_method: '',
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (order_kind === 'direct_order') {
-      setDirectOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
-      console.log(directOrderData);
-      await postOrderList(directOrderData);
-    } else {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const cartOrder = order_kind === 'cart_order';
+
+  useEffect(() => {
+    if (cartOrder) {
       setOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
       console.log(orderData);
-      await postOrderList(orderData);
+    } else {
+      setOneOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
+      console.log(oneOrderData);
     }
-    // TODO:결제 완료 모달 띄우기
+  }, []);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // 모달 띄워서 결제정보 확인
+    setIsModalOpen(true);
+  };
+
+  const postOrder = async () => {
+    const result = cartOrder ? await postOrderList({ orderData }) : await postOrderList({ oneOrderData });
+
+    console.log(result);
     alert('Order Success!');
+    navigate('/order_complete', { state: { result, totalPrice, totalDeliveryFee } });
   };
 
   return (
-    <SMainLayout>
-      <PaymentList orderListId={orderListId} finalPrice={totalPrice + totalDeliveryFee} orderListQuantity={orderListQuantity} />
-      <form action="" onSubmit={handleSubmit}>
-        <ShippingInfoForm setOrderData={setOrderData} order_kind={order_kind} setDirectOrderData={setDirectOrderData} />
-        <div className="payment-wrapper">
-          <PaymentMethod setOrderData={setOrderData} order_kind={order_kind} setDirectOrderData={setDirectOrderData} />
-          <FinalPaymentInfo totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
-        </div>
-      </form>
-    </SMainLayout>
+    <>
+      <SMainLayout>
+        <PaymentList orderListId={orderListId} finalPrice={totalPrice + totalDeliveryFee} orderListQuantity={orderListQuantity} />
+        <form action="" onSubmit={handleSubmit}>
+          <ShippingInfoForm setOrderData={setOrderData} order_kind={order_kind} setOneOrderData={setOneOrderData} />
+          <div className="payment-wrapper">
+            <PaymentMethod setOrderData={setOrderData} order_kind={order_kind} setOneOrderData={setOneOrderData} />
+            <FinalPaymentInfo totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
+          </div>
+        </form>
+      </SMainLayout>
+      {isModalOpen && (
+        <ConfirmModal postOrder={postOrder} orderData={cartOrder ? orderData : oneOrderData} setIsModalOpen={setIsModalOpen} />
+      )}
+    </>
   );
 }
 
