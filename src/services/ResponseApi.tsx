@@ -57,6 +57,22 @@ export async function postCartList(productData: ProductData) {
   }
 }
 
+// 장바구니에서 상품 삭제하기
+export async function DeleteCartItem(cartItemId: number) {
+  try {
+    const response = await fetch(`${BASE_URL}cart/${cartItemId}/`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}
+
 // 주문목록 가져오기
 export async function getOrderList() {
   try {

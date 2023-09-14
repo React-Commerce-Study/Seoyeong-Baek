@@ -2,6 +2,7 @@ import Button from '../common/Buttons/Button';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import DeleteIcon from '../../assets/icon/icon-delete.svg';
+import { DeleteCartItem } from '../../services/ResponseApi';
 
 interface ModalProps {
   type: string;
@@ -20,33 +21,13 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
     setIsShowModal?.(false);
   };
 
-  const deleteItem = () => {
-    DeleteCartItem();
-    setIsChangeModalValue?.(true);
+  const deleteItem = async () => {
+    if (cartItemId) {
+      await DeleteCartItem(cartItemId);
+      setIsChangeModalValue?.(true);
+    }
     closeModal();
   };
-
-  async function DeleteCartItem() {
-    const URL = 'https://openmarket.weniv.co.kr/';
-    const token = localStorage.getItem('token');
-
-    try {
-      const response = await fetch(`${URL}cart/${cartItemId}/`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-      } else {
-        throw new Error('네트워크에 문제가 있습니다.');
-      }
-    } catch (error) {
-      console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
-    }
-  }
 
   const handleLogout = () => {
     navigate('/');
