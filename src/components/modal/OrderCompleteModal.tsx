@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReqOrderData } from '../../@types/types';
 import Button from '../common/Buttons/Button';
 import { getProductItem } from '../../services/ResponseApi';
+import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 
 interface OrderCompleteModalProps {
   reqOrderResult: ReqOrderData;
@@ -68,58 +69,22 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
             </li>
           </SPriceListContainer>
         </SOrderInfoList>
-        <SButtonContainer>
+        <SButtonWrapper>
           {/* TODO: 주문내역 보기로 이동 */}
           <Button bgColor="#767676" onClick={() => navigate('/')}>
             주문 내역 보기
           </Button>
           <Button onClick={() => navigate('/')}>홈 화면 가기</Button>
-        </SButtonContainer>
+        </SButtonWrapper>
       </SOrderCompleteLayout>
     </SModalBackground>
   );
 }
 
-const SModalBackground = styled.div`
-  z-index: 99;
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-
-  &::before {
-    display: block;
-    content: '';
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(1.8px);
-  }
-`;
-
-const SOrderCompleteLayout = styled.article`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const SOrderCompleteLayout = styled(SModalLayout)`
   width: 20rem;
   max-width: 22.5rem;
   padding: 2.6rem 3rem;
-  background-color: #fff;
-  text-align: center;
-  border-radius: 0.6rem;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11),
-    0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
-
-  .delete-btn {
-    position: absolute;
-    top: 1.125rem;
-    right: 1.125rem;
-    padding: 0;
-    width: 1.38rem;
-    height: 1.38rem;
-  }
 
   h3 {
     font-size: 1.5rem;
@@ -158,14 +123,7 @@ const SOrderInfoList = styled.ul`
     }
 
     p {
-      font-size: 1rem;
-      line-height: normal;
-      max-width: 20rem;
-
-      strong {
-        font-weight: 800;
-        font-size: 1.2rem;
-      }
+      margin-bottom: 0;
     }
   }
 `;
@@ -179,17 +137,5 @@ const SPriceListContainer = styled.ul`
     p {
       font-size: 0.9rem;
     }
-  }
-`;
-
-const SButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-
-  & > button {
-    font-size: 1rem;
-    flex-basis: 50%;
-    font-weight: 500;
-    padding: 0.8rem 0;
   }
 `;

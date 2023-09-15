@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { OrderData, ExtendedOrderData } from '../../@types/types';
 import Button from '../common/Buttons/Button';
-import DeleteIcon from '../../assets/icon/icon-delete.svg';
+import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
+import CloseButton from '../common/Buttons/CloseButton';
 
 interface SModalBackgroundProps {
   postOrder: () => void;
@@ -10,14 +11,6 @@ interface SModalBackgroundProps {
 }
 
 export default function ConfirmPayment({ postOrder, orderData, setIsModalOpen }: SModalBackgroundProps) {
-  // total_price: totalPrice + totalDeliveryFee,
-  // order_kind: order_kind,
-  // receiver: '',
-  // receiver_phone_number: '',
-  // address: '',
-  // address_message: '',
-  // payment_method: '',
-
   const closeModal = () => {
     setIsModalOpen?.(false);
   };
@@ -50,57 +43,20 @@ export default function ConfirmPayment({ postOrder, orderData, setIsModalOpen }:
             </p>
           </li>
         </SPaymentInfoList>
-        <div>
+        <SButtonWrapper>
           <Button onClick={postOrder}>결제하기</Button>
-        </div>
-        <button className="delete-btn" onClick={closeModal}>
-          <img src={DeleteIcon} alt="" />
-        </button>
+        </SButtonWrapper>
+        <CloseButton onClick={closeModal} />
       </SPaymentModalLayout>
     </SModalBackground>
   );
 }
 
-const SModalBackground = styled.div`
-  z-index: 99;
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-
-  &::before {
-    display: block;
-    content: '';
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(1.8px);
-  }
-`;
-
-const SPaymentModalLayout = styled.article`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const SPaymentModalLayout = styled(SModalLayout)`
+  width: auto;
   /* width: 22.5rem; */
   padding: 2.8rem 4rem;
   background-color: #fff;
-  text-align: center;
-  border-radius: 0.6rem;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11),
-    0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
-  box-sizing: border-box;
-
-  .delete-btn {
-    position: absolute;
-    top: 1.125rem;
-    right: 1.125rem;
-    padding: 0;
-    width: 1.38rem;
-    height: 1.38rem;
-  }
 
   h3 {
     border-bottom: 2px solid #c4c4c4;
@@ -126,16 +82,10 @@ const SPaymentInfoList = styled.ul`
     & > p:first-child {
       flex-shrink: 0;
     }
-    p {
-      font-size: 1rem;
-      line-height: normal;
-      max-width: 20rem;
 
-      strong {
-        font-weight: 800;
-        /* color: var(--point-color); */
-        font-size: 1.2rem;
-      }
+    p {
+      line-height: normal;
+      margin-bottom: 0;
     }
   }
 `;

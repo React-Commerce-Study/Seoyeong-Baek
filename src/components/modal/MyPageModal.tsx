@@ -55,7 +55,7 @@ const SMyPageModalLayout = styled.article`
       font-size: 16px;
       font-weight: 500;
       color: #767676;
-      transition: all 0.25s ease-out;
+      transition: all 0.25s ease-in;
 
       &:first-child {
         margin-bottom: 8px;
