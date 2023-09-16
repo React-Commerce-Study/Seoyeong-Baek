@@ -39,29 +39,29 @@ export default function CartItem({
   const [product, setProduct] = useState<any>({});
 
   const [count, setCount] = useState<number>(cartProduct.quantity);
-  const price = product.stock === 0 ? 0 : count * product.price;
+  const price = product.price ? count * product.price : 0;
 
   // 모달 상태를 관리하는 상태 변수
   const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     fetchCartItem();
-  }, []);
+    console.log(product);
 
-  async function fetchCartItem() {
-    const productData = await getProductItem(cartProduct.product_id);
-    setProduct(productData);
-    setIsFetched(true);
-  }
+    async function fetchCartItem() {
+      const productData = await getProductItem(cartProduct.product_id);
+      setProduct(productData);
+      setIsFetched(true);
+    }
+  }, []);
 
   // 장바구니 페이지 렌더시 전체선택 체크박스를 눌렀을 경우 가격을 변경해주기 위함
   useEffect(() => {
-    if (isClickAllCheck) {
+    if (cartProduct.is_active && isFetched) {
       setIsActive(true);
-      if (cartProduct.is_active && product.price) {
-        setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
-        setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
-      }
+
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
+      setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
     } else {
       setIsActive(false);
       setTotalDeliveryFee(0);
@@ -70,20 +70,10 @@ export default function CartItem({
   }, [isClickAllCheck, product]);
   // 전체선택 체크박스를 눌렀을 경우에만 실행, product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
 
+  // TODO: 공통함수로 뺴주기
   const handleClick = () => {
     navigate(`/product/${product.product_id}`, { state: product });
   };
-
-  const [countChange, setCountChange] = useState<string>('');
-
-  // 수량 변동 시 가격 빼고 더해주기
-  useEffect(() => {
-    if (countChange === '-') {
-      setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
-    } else if (countChange === '+') {
-      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
-    }
-  }, [count]);
 
   const [isActive, setIsActive] = useState<boolean>(cartProduct.is_active);
 
@@ -110,9 +100,7 @@ export default function CartItem({
         )
       );
       setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
-      // if (storeNames.every((name) => name !== product.store_name)) {
       setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
-      // }
     }
   };
 
@@ -130,15 +118,27 @@ export default function CartItem({
     is_active: isActive,
   });
 
-  // 카운트가 변경될때마다 orderData의 수량도 변경
+  const [countChange, setCountChange] = useState<string>('');
+
   useEffect(() => {
+    // 카운트가 변경될때마다 orderData의 수량도 변경
     setOrderData((prevOrderData) => ({
       ...prevOrderData,
       quantity: count,
     }));
-    // setCartItemList((prevCartItems) =>
-    //   prevCartItems.map((item) => (item.product_id === cartProduct.product_id ? { ...item, quantity: count } : item))
-    // );
+
+    // 수량 변동 시 가격 빼고 더해주기
+    if (countChange === '-') {
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
+    } else if (countChange === '+') {
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
+    }
+
+    setCartItemList((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.product_id === cartProduct.product_id && item.quantity !== count ? { ...item, quantity: count } : item
+      )
+    );
   }, [count]);
 
   // isActive 값이 변경될 때마다 orderData의 active도 변경
@@ -151,14 +151,10 @@ export default function CartItem({
 
   // 주문하기 버튼이 클릭됐을 때 주문할 상품들은 is_active를 true로, 주문하지 않을 상품들은 false로 보내주기
   useEffect(() => {
-    console.log(isOrderBtnClick);
-    if (isOrderBtnClick) {
-      putCartItems({ urlId, orderData });
-    }
-  }, [count, isOrderBtnClick]);
+    putCartItems({ urlId, orderData });
+  }, [isOrderBtnClick, orderData]);
 
   const handleOneOrderBtnClick = () => {
-    // TODO: 이부분 order_kind만 state로 넘겨주고, 주문페이지에서 상품목록 get해오도록
     const orderListId = [cartProduct.product_id];
     const orderListQuantity = [count];
     const totalPrice = price;

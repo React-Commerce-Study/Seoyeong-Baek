@@ -24,7 +24,7 @@ export default function ShoppingCart() {
     fetchCartItems();
 
     // 모달 값 초기화
-    setIsChangeModalValue(false);
+    return setIsChangeModalValue(false);
   }, [isChangeModalValue]);
   // cartItemList을 넣게되면 체크박스를 클릭할 때마다 재렌더링돼서 체크박스 on/off가 되지 않음
 
@@ -76,12 +76,11 @@ export default function ShoppingCart() {
       const orderList = cartItemList.filter((cartItem) => cartItem.is_active);
 
       const orderListId = orderList.map((cartItem) => cartItem.product_id);
-      // TODO:수량이 바뀌기전 수량으로 들어가는데 원인을 모르겠음
+      // TODO:수량이 바뀌기전 수량으로 들어가는데 원인을 모르겠음 => cartItemList의 수량부분 데이터를 업데이트 안해주고 있었음
       const orderListQuantity = orderList.map((cartItem) => cartItem.quantity);
-      console.log(orderListQuantity);
 
       const order_kind = 'cart_order';
-      // const finalPrice = totalPrice + totalDeliveryFee;
+
       navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
     }
   }, [isOrderBtnClick]);
