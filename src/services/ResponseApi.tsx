@@ -9,7 +9,25 @@ import {
 } from '../@types/types';
 
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
-const token = localStorage.getItem('token') as string; // 타입 단언 사용
+const token = localStorage.getItem('token');
+
+// 상품 리스트 가져오기
+export async function getProductList(fetchPage: number) {
+  try {
+    const response = await fetch(`${BASE_URL}products/?page=${fetchPage}`, {
+      method: 'GET',
+    });
+    console.log(`${BASE_URL}/?page=${fetchPage}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.results);
+      return data.results;
+    }
+    throw new Error('네트워크에 문제가 있습니다.');
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}
 
 // 장바구니 리스트 가져오기
 export async function fetchCartItemList() {
@@ -153,14 +171,8 @@ export async function putCartItem({ urlId, orderData }: PutCartItemProps) {
       },
       body: JSON.stringify(orderData),
     });
-    if (response.ok) {
-      const data = await response.json();
-      console.log('~!~!');
-
-      return data;
-    } else {
-      throw new Error('네트워크에 문제가 있습니다.');
-    }
+    const data = await response.json();
+    console.log(data);
   } catch (error) {
     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
   }
@@ -212,7 +224,7 @@ export async function postLogin(loginData: LoginData) {
       const data = await res.json();
       console.log(data);
       console.log('Login successful!');
-      localStorage.setItem('token', token);
+      localStorage.setItem('token', data.token);
       // 로그인 성공 값을 전역상태관리해줘야 할 듯 일단은 토큰으로 로그인 성공여부를 불러오기
     } else {
       throw new Error();
