@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import PurchaseButton from '../common/Buttons/Button';
 import styled from 'styled-components';
@@ -50,6 +50,7 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
     }
   };
 
+  // 장바구니 목록을 불러와서 이미 담긴 상품인지 확인
   async function checkCartItems() {
     const cartList = await fetchCartItemList();
     const cartItemIdArr = cartList?.map((cartItem: { product_id: number }) => {
@@ -63,13 +64,16 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
     } else {
       console.log('장바구니에 담겼습니다.');
       setProductData({ ...productData, check: true });
-      // TODO: 수량 바뀌도록 수정하기
-      setProductData({ ...productData, quantity: count });
       postCartList(productData);
       // 장바구니 모달
       setIsCartModal(true);
     }
   }
+
+  // 수량변경될 때마다 post데이터에 넣어주기
+  useEffect(() => {
+    setProductData({ ...productData, quantity: count });
+  }, [count]);
 
   return (
     <PurchaseContainerStyle>
@@ -91,10 +95,10 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
       </ProductTotalPriceStyle>
       {/* 구매버튼 */}
       <ButtonWrapperStyle>
-        <PurchaseButton type="button" onClick={() => handleClickBtn('buy')}>
+        <PurchaseButton type="button" onClick={() => handleClickBtn('buy')} disabled={product.stock === 0}>
           바로 구매
         </PurchaseButton>
-        <PurchaseButton type="button" bgColor="#767676" onClick={() => handleClickBtn('cart')}>
+        <PurchaseButton type="button" bgColor="#767676" onClick={() => handleClickBtn('cart')} disabled={product.stock === 0}>
           장바구니
         </PurchaseButton>
       </ButtonWrapperStyle>
@@ -107,12 +111,6 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
 
 const PurchaseContainerStyle = styled.div`
   width: 100%;
-
-  .text {
-    font-weight: 400;
-    font-size: 16px;
-    color: #767676;
-  }
 
   .product-count-wrapper {
     border-top: 2px solid #c4c4c4;
@@ -146,13 +144,13 @@ const ProductTotalPriceStyle = styled.div`
         color: var(--point-color);
         font-weight: 700;
       }
-    }
 
-    .total-count::after {
-      content: '|';
-      display: inline-block;
-      margin: 0 12px;
-      color: #c4c4c4;
+      &::after {
+        content: '|';
+        display: inline-block;
+        margin: 0 12px;
+        color: #c4c4c4;
+      }
     }
 
     .total-price {
