@@ -65,6 +65,12 @@ interface LoginData {
   login_type: string;
 }
 
+interface UserData {
+  id: string;
+  token: string;
+  user_type: string;
+}
+
 interface ReqOrderData {
   buyer: number;
   order_number: number;
@@ -98,6 +104,7 @@ export type {
   TelData,
   UserNameData,
   LoginData,
+  UserData,
   ReqOrderData,
   PutCartItemProps,
 };

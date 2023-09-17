@@ -3,7 +3,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import { Provider } from 'react-redux';
-import { store } from './app/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { store, persistor } from './app/store';
 // import ScrollTop from './components/scroll/ScrollTop';
 
 const container = document.getElementById('root');
@@ -11,8 +13,10 @@ const root = createRoot(container);
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      {/* <ScrollTop /> */}
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        {/* <ScrollTop /> */}
+        <App />
+      </PersistGate>
     </Provider>
   </BrowserRouter>
 );
