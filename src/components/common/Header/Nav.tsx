@@ -1,40 +1,45 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ShoppingCart from '../../../assets/icon/icon-shopping-cart.svg';
 import ShoppingCartActive from '../../../assets/icon/icon-shopping-cart-2.svg';
 import User from '../../../assets/icon/icon-user.svg';
 import UserActive from '../../../assets/icon/icon-user-2.svg';
 import MyPageModal from '../../modal/MyPageModal';
+import Modal from '../../modal/Modal';
 import styled from 'styled-components';
+import { useIsLogin } from '../../../hooks/UseLoginData';
 
 interface NavProps {
   page?: string;
 }
 
 export default function Nav({ page }: NavProps) {
-  const token = localStorage.getItem('token');
-
+  const navigate = useNavigate();
+  const isUserLoggedIn = useIsLogin();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isLoginModal, setIsLoginModal] = useState(false);
 
   const handleModalClick = () => {
     isShowModal ? setIsShowModal(false) : setIsShowModal(true);
   };
 
+  const handleLoginModal = () => {
+    isUserLoggedIn ? navigate('/cart') : setIsLoginModal(true);
+  };
+
+  console.log(isUserLoggedIn);
+
   return (
     <SNavContainer>
       <ul className="nav-menu">
-        <li>
-          <Link to="/cart">
-            <button className={`nav-btn ${page === 'cart' ? 'active' : ''}`}>장바구니</button>
-          </Link>
+        <li onClick={handleLoginModal}>
+          <button className={`nav-btn ${page === 'cart' ? 'active' : ''}`}>장바구니</button>
         </li>
-        {token ? (
+        {isUserLoggedIn ? (
           <li className="modal-btn">
-            <Link to="/">
-              <button className={`nav-btn login ${isShowModal ? 'active' : ''}`} onClick={handleModalClick}>
-                마이페이지
-              </button>
-            </Link>
+            <button className={`nav-btn login ${isShowModal ? 'active' : ''}`} onClick={handleModalClick}>
+              마이페이지
+            </button>
             {isShowModal && <MyPageModal />}
           </li>
         ) : (
@@ -45,6 +50,7 @@ export default function Nav({ page }: NavProps) {
           </li>
         )}
       </ul>
+      {isLoginModal && <Modal type={'requiredLogin'} setIsShowModal={setIsLoginModal} />}
     </SNavContainer>
   );
 }

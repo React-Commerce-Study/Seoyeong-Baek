@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Product, ProductData } from '../../@types/types';
 import Modal from '../modal/Modal';
 import { fetchCartItemList, postCartList } from '../../services/ResponseApi';
+import { useTypedSelector } from '../../hooks/UseTypedSelector';
 
 interface ProductPurchaseProps {
   product: Product;
@@ -18,7 +19,7 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
 
   const [count, setCount] = useState(1);
   console.log(product);
-  const token = localStorage.getItem('token');
+  const isUserLoggedIn = useTypedSelector((state) => state.loginData.isLogin);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isCartModal, setIsCartModal] = useState(false);
   const [isIncludedCartModal, setIsIncludedCartModal] = useState(false);
@@ -31,7 +32,7 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
 
   // 로그인시에만 장바구니에 넣을 수 있고, 장바구니에 있으면 이미 있다고 띄워주기
   const handleClickBtn = (buttonType: ButtonType) => {
-    token ? requestApi(buttonType) : setIsShowModal(true);
+    isUserLoggedIn ? requestApi(buttonType) : setIsShowModal(true);
 
     function requestApi(buttonType: ButtonType) {
       if (buttonType === 'cart') {
