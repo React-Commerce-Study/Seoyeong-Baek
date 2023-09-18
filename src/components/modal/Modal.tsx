@@ -1,7 +1,6 @@
 import Button from '../common/Buttons/Button';
 import { DeleteCartItem } from '../../services/ResponseApi';
 import { handleModalLayoutClick } from 'utils/modalFunction';
-import { handleLogout } from 'utils/commonFunction';
 import { useNavigate } from 'react-router-dom';
 import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 import CloseButton from '../common/Buttons/CloseButton';
@@ -25,8 +24,8 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
 
   const deleteItem = async () => {
     if (cartItemId) {
-      await DeleteCartItem(cartItemId);
       setIsChangeModalValue?.(true);
+      await DeleteCartItem(cartItemId);
     }
     closeModal();
   };
@@ -36,11 +35,18 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
     navigate(path);
   };
 
+  const logout = () => {
+    localStorage.clear();
+    navigate('/');
+    window.location.reload();
+    // 현재 웹 페이지 다시 로드
+  };
+
   const contents = [
     { type: 'delete', value: '상품을 삭제하시겠습니까?', event: deleteItem },
     { type: 'deleteAll', value: '정말로 전체 삭제하시겠습니까?', event: deleteItem },
     { type: 'requiredLogin', value: '로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?', event: () => navigatePath('/login') },
-    { type: 'logout', value: '정말로 로그아웃 하시겠습니까?', event: handleLogout },
+    { type: 'logout', value: '정말로 로그아웃 하시겠습니까?', event: logout },
     { type: 'addToCart', value: '장바구니에 담겼습니다.\n장바구니로 이동 하시겠습니까?', event: () => navigatePath('/cart') },
     {
       type: 'includedCart',
