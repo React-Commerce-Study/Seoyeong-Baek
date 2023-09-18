@@ -9,7 +9,7 @@ import Button from '../common/Buttons/Button';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
-import { CartProduct, CartActiveData, PutCartItemProps } from '../../@types/types';
+import { Product, CartProduct, CartActiveData, PutCartItemProps } from '../../@types/types';
 import { putCartItem, getProductItem } from '../../services/ResponseApi';
 import Modal from '../../components/modal/Modal';
 
@@ -35,29 +35,27 @@ export default function CartItem({
   console.log(cartProduct);
   const navigate = useNavigate();
 
-  const [isFetched, setIsFetched] = useState<boolean>(false);
-  const [product, setProduct] = useState<any>({});
-
+  const [product, setProduct] = useState<Product | null>(null);
   const [count, setCount] = useState<number>(cartProduct.quantity);
-  const price: number = product.price ? count * product.price : 0;
+  const price: number = count * (product?.price || 0);
 
   // 모달 상태를 관리하는 상태 변수
   const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     fetchCartItem();
-    console.log(product);
 
     async function fetchCartItem() {
       const productData = await getProductItem(cartProduct.product_id);
       setProduct(productData);
-      setIsFetched(true);
+      // setIsFetched(true);
     }
   }, []);
+  console.log(product);
 
   // 장바구니 페이지 렌더시 전체선택 체크박스를 눌렀을 경우 가격을 변경해주기 위함
   useEffect(() => {
-    if (cartProduct.is_active && isFetched) {
+    if (cartProduct.is_active && product) {
       setIsActive(true);
 
       setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
@@ -71,13 +69,13 @@ export default function CartItem({
   // 전체선택 체크박스를 눌렀을 경우에만 실행, product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
 
   const handleClick = () => {
-    navigate(`/product/${product.product_id}`, { state: product });
+    navigate(`/product/${product?.product_id}`, { state: product });
   };
 
   const [isActive, setIsActive] = useState<boolean>(cartProduct.is_active);
 
   const handleCheckBoxClick = () => {
-    if (cartProduct.is_active) {
+    if (cartProduct.is_active && product) {
       // cartProduct.is_active = false;
       // 위와 같이 변경해버리면 cartProduct가 재렌더링이 안됨
       setIsActive(false);
@@ -91,7 +89,7 @@ export default function CartItem({
       setTotalDeliveryFee((prevTotalDeliveryFee) =>
         prevTotalDeliveryFee - product.shipping_fee >= 0 ? prevTotalDeliveryFee - product.shipping_fee : 0
       );
-    } else {
+    } else if (product) {
       setIsActive(true);
       setCartItemList((prevCartItems) =>
         prevCartItems.map((item) =>
@@ -127,9 +125,9 @@ export default function CartItem({
     }));
 
     // 수량 변동 시 가격 빼고 더해주기
-    if (countChange === '-') {
+    if (countChange === '-' && product) {
       setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
-    } else if (countChange === '+') {
+    } else if (countChange === '+' && product) {
       setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
     }
 
@@ -157,7 +155,7 @@ export default function CartItem({
     const orderListId = [cartProduct.product_id];
     const orderListQuantity = [count];
     const totalPrice = price;
-    const totalDeliveryFee = product.shipping_fee;
+    const totalDeliveryFee = product?.shipping_fee;
     const order_kind = 'cart_one_order';
 
     navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
@@ -165,7 +163,7 @@ export default function CartItem({
 
   return (
     <>
-      {isFetched && (
+      {product && (
         <SCartItemContainer>
           <label
             htmlFor="checkBox"
