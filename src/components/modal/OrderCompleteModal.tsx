@@ -27,6 +27,13 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
     getProduct();
   }, []);
 
+  const OrderInfo = {
+    주문번호: reqOrderResult.order_number,
+    주문상품:
+      reqOrderResult.order_items.length === 1 ? productName : `${productName} 외 ${reqOrderResult.order_items.length - 1}건`,
+    결제금액: (totalPrice + totalDeliveryFee).toLocaleString(),
+  };
+
   return (
     <SModalBackground>
       <SOrderCompleteLayout>
@@ -36,24 +43,18 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
         </time>
         <img src={ThumbsUpIcon} alt="주문성공 이미지" />
         <SOrderInfoList>
-          <li>
-            <p>주문번호</p>
-            <p>{reqOrderResult.order_number}</p>
-          </li>
-          <li>
-            <p>주문상품</p>
-            <p>
-              {reqOrderResult.order_items.length === 1
-                ? productName
-                : `${productName} 외 ${reqOrderResult.order_items.length - 1}건`}
-            </p>
-          </li>
-          <li>
-            <p>결제금액</p>
-            <p>
-              <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}</strong>원
-            </p>
-          </li>
+          {Object.entries(OrderInfo).map(([key, value]) => {
+            return (
+              <li>
+                <p>{key}</p>
+                <p>
+                  {key === '결제금액' ? <strong>{value}</strong> : value}
+                  {key === '결제금액' ? ' 원' : null}
+                </p>
+              </li>
+            );
+          })}
+
           <SPriceListContainer>
             <li>
               <p>총 상품금액</p>
@@ -82,8 +83,8 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
 }
 
 const SOrderCompleteLayout = styled(SModalLayout)`
-  width: 20rem;
-  max-width: 22.5rem;
+  max-width: 30rem;
+  min-width: 26rem;
   padding: 2.6rem 3rem;
 
   h3 {

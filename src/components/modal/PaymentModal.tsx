@@ -15,35 +15,35 @@ export default function ConfirmPayment({ postOrder, orderData, setIsModalOpen }:
     setIsModalOpen?.(false);
   };
 
+  const confirmInfo = {
+    수령인: orderData.receiver,
+    휴대폰: orderData.receiver_phone_number,
+    배송지: orderData.address,
+    결제정보: orderData.payment_method,
+    결제금액: orderData.total_price.toLocaleString(),
+  };
+
   return (
     <SModalBackground>
       <SPaymentModalLayout>
         <h3>결제 정보 확인</h3>
         <SPaymentInfoList>
-          <li>
-            <p>수령인</p>
-            <p>{orderData.receiver}</p>
-          </li>
-          <li>
-            <p>휴대폰</p>
-            <p>{orderData.receiver_phone_number}</p>
-          </li>
-          <li>
-            <p>배송지</p>
-            <p>{orderData.address}</p>
-          </li>
-          <li>
-            <p>결제정보</p>
-            <p>{orderData.payment_method}</p>
-          </li>
-          <li>
-            <p>결제 금액</p>
-            <p>
-              <strong>{orderData.total_price.toLocaleString()}</strong>원
-            </p>
-          </li>
+          {Object.entries(confirmInfo).map(([key, value]) => {
+            return (
+              <li>
+                <p>{key}</p>
+                <p>
+                  {key === '결제금액' ? <strong>{value}</strong> : value}
+                  {key === '결제금액' ? ' 원' : null}
+                </p>
+              </li>
+            );
+          })}
         </SPaymentInfoList>
         <SButtonWrapper>
+          <Button bgColor="#c4c4c4" onClick={postOrder}>
+            취소하기
+          </Button>
           <Button onClick={postOrder}>결제하기</Button>
         </SButtonWrapper>
         <CloseButton onClick={closeModal} />

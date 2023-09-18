@@ -62,7 +62,7 @@ const SButtonWrapper = styled.div`
     font-size: 1rem;
     flex-basis: 50%;
     font-weight: 500;
-    padding: 10px 0;
+    padding: 12px 0;
   }
 `;
 
