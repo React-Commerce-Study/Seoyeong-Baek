@@ -7,6 +7,7 @@ import Cart from './pages/Cart';
 import ProductDetails from './pages/ProductDetails';
 import Payment from './pages/Payment';
 import styled from 'styled-components';
+import PrivateRoute from './route/PrivateRoute';
 
 function App() {
   return (
@@ -16,9 +17,12 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/payment" element={<Payment />} />
         <Route path="/product/:id" element={<ProductDetails />} />
+
+        <Route element={<PrivateRoute />}>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/payment" element={<Payment />} />
+        </Route>
       </Routes>
     </SLayout>
   );
