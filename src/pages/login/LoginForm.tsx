@@ -36,13 +36,19 @@ export default function LoginForm({ loginType }: LoginFormProps) {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleError();
+
+    let resData; // 또는 const resData = null; 로 초기화해도 됨
+
     try {
-      const resData = await postLogin(loginData);
-      dispatch(login({ isLogin: true, userData: resData }));
-      navigate('/');
+      resData = await postLogin(loginData);
     } catch (error) {
       // 오류 처리
       console.error(error);
+    }
+
+    if (resData) {
+      dispatch(login({ isLogin: true, userData: resData }));
+      navigate('/');
     }
 
     setIsLoginError(true);
