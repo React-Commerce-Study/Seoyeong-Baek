@@ -7,8 +7,6 @@ import {
   LoginData,
   PutCartItemProps,
 } from '../@types/types';
-import { useDispatch } from 'react-redux';
-import { login } from '../features/loginSlice';
 
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
 const token = localStorage.getItem('token');

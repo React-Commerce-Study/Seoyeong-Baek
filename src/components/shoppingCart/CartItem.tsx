@@ -39,7 +39,7 @@ export default function CartItem({
   const [product, setProduct] = useState<any>({});
 
   const [count, setCount] = useState<number>(cartProduct.quantity);
-  const price = product.price ? count * product.price : 0;
+  const price: number = product.price ? count * product.price : 0;
 
   // 모달 상태를 관리하는 상태 변수
   const [isShowModal, setIsShowModal] = useState(false);
@@ -70,7 +70,6 @@ export default function CartItem({
   }, [isClickAllCheck, product]);
   // 전체선택 체크박스를 눌렀을 경우에만 실행, product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
 
-  // TODO: 공통함수로 뺴주기
   const handleClick = () => {
     navigate(`/product/${product.product_id}`, { state: product });
   };

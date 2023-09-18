@@ -7,11 +7,10 @@ import { postSignUp, postIdCheck } from '../../services/ResponseApi';
 import { SignUpData, UserNameData, TelData } from '../../@types/types';
 
 interface SignUpFormProps {
-  signUpType: string;
   setSuccessUserName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function SignUpForm({ signUpType, setSuccessUserName }: SignUpFormProps) {
+export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
   const [usernameData, setUserNameData] = useState<UserNameData>({
     username: '',
   });

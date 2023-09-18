@@ -39,11 +39,7 @@ export default function FormContainer({ setSuccessUserName }: FormContainer) {
             판매회원 회원가입
           </LoginBtnStyle>
         </div>
-        {setSuccessUserName ? (
-          <SignUpForm signUpType={userType} setSuccessUserName={setSuccessUserName} />
-        ) : (
-          <LoginForm loginType={userType} />
-        )}
+        {setSuccessUserName ? <SignUpForm setSuccessUserName={setSuccessUserName} /> : <LoginForm loginType={userType} />}
       </SFormContainer>
     </>
   );

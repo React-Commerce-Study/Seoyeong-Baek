@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
 import { postLogin } from '../../services/ResponseApi';
-import { LoginData, UserData } from '../../@types/types';
+import { LoginData } from '../../@types/types';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/loginSlice';
 

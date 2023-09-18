@@ -1,5 +1,5 @@
 import { useState, FormEvent, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PaymentList from './PaymentList';
 import ShippingInfoForm from './ShippingInfoForm';
 import PaymentMethod from './PaymentMethod';
@@ -11,7 +11,6 @@ import ConfirmModal from '../modal/PaymentModal';
 import OrderCompleteModal from '../modal/OrderCompleteModal';
 
 export default function PaymentMain() {
-  const navigate = useNavigate();
   const location = useLocation();
   const { state } = location; // state 추출
 
