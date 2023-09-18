@@ -6,6 +6,7 @@ import SignUp from './pages/signUp/SignUp';
 import Cart from './pages/Cart';
 import ProductDetails from './pages/ProductDetails';
 import Payment from './pages/Payment';
+import NotFoundError from './pages/NotFoundError';
 import styled from 'styled-components';
 import PrivateRoute from './route/PrivateRoute';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/payment" element={<Payment />} />
         </Route>
+        <Route path="/*" element={<NotFoundError />} />
       </Routes>
     </SLayout>
   );
