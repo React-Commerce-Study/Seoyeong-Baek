@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Buttons/Button';
 import styled from 'styled-components';
 import { postLogin } from '../../services/ResponseApi';
-import { LoginData } from '../../@types/types';
+import { LoginData, UserData } from '../../@types/types';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/loginSlice';
 
@@ -37,7 +37,7 @@ export default function LoginForm({ loginType }: LoginFormProps) {
     e.preventDefault();
     handleError();
 
-    let resData; // 또는 const resData = null; 로 초기화해도 됨
+    let resData: UserData | null = null; // 또는 const resData = null; 로 초기화해도 됨
 
     try {
       resData = await postLogin(loginData);
@@ -46,7 +46,7 @@ export default function LoginForm({ loginType }: LoginFormProps) {
       console.error(error);
     }
 
-    if (resData) {
+    if (resData !== null) {
       dispatch(login({ isLogin: true, userData: resData }));
       navigate('/');
     }
