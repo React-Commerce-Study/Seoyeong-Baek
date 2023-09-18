@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 import MinusIcon from '../../assets/icon/minus-icon_2.svg';
 import PlusIcon from '../../assets/icon/plus-icon_2.svg';
+import { useTotalPrice, useTotalDeliveryPrice } from '../../hooks/UseFinalPrice';
 
-interface TotalPriceBoxProps {
-  totalPrice: number;
-  totalDeliveryFee: number;
-}
-
-export default function TotalPriceBox({ totalPrice, totalDeliveryFee }: TotalPriceBoxProps) {
+export default function TotalPriceBox() {
+  const totalPrice = useTotalPrice();
+  const totalDeliveryFee = useTotalDeliveryPrice();
   const finalPrice = totalPrice + totalDeliveryFee;
 
   return (

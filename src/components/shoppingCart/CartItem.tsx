@@ -12,11 +12,11 @@ import ProductDataInfo from '../common/product/ProductDataInfo';
 import { Product, CartProduct, CartActiveData, PutCartItemProps } from '../../@types/types';
 import { putCartItem, getProductItem } from '../../services/ResponseApi';
 import Modal from '../../components/modal/Modal';
+import { useDispatch } from 'react-redux';
+import { plusPrice, minusPrice, resetPrice } from '../../features/finalPriceSlice';
 
 type CartItemProps = {
   cartProduct: CartProduct;
-  setTotalPrice: Dispatch<SetStateAction<number>>;
-  setTotalDeliveryFee: Dispatch<SetStateAction<number>>;
   setCartItemList: Dispatch<SetStateAction<CartProduct[]>>;
   setIsChangeModalValue: Dispatch<SetStateAction<boolean>>;
   isOrderBtnClick: boolean;
@@ -25,8 +25,6 @@ type CartItemProps = {
 
 export default function CartItem({
   cartProduct,
-  setTotalPrice,
-  setTotalDeliveryFee,
   setCartItemList,
   setIsChangeModalValue,
   isOrderBtnClick,
@@ -34,6 +32,7 @@ export default function CartItem({
 }: CartItemProps) {
   console.log(cartProduct);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [count, setCount] = useState<number>(cartProduct.quantity);
@@ -57,13 +56,10 @@ export default function CartItem({
   useEffect(() => {
     if (cartProduct.is_active && product) {
       setIsActive(true);
-
-      setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
-      setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
+      dispatch(plusPrice({ price: price, deliveryFee: product.shipping_fee }));
     } else {
       setIsActive(false);
-      setTotalDeliveryFee(0);
-      setTotalPrice(0);
+      dispatch(resetPrice());
     }
   }, [isClickAllCheck, product]);
   // 전체선택 체크박스를 눌렀을 경우에만 실행, product의 값이 업데이트돼야 price값이 들어오기 때문에 의존배열에 함께 넣어줌
@@ -85,19 +81,15 @@ export default function CartItem({
         )
       );
       console.log(price);
-      setTotalPrice((prevTotalPrice) => prevTotalPrice - price);
-      setTotalDeliveryFee((prevTotalDeliveryFee) =>
-        prevTotalDeliveryFee - product.shipping_fee >= 0 ? prevTotalDeliveryFee - product.shipping_fee : 0
-      );
-    } else if (product) {
+      dispatch(minusPrice({ price: price, deliveryFee: product.shipping_fee }));
+    } else if (!cartProduct.is_active && product) {
       setIsActive(true);
       setCartItemList((prevCartItems) =>
         prevCartItems.map((item) =>
           item.product_id === cartProduct.product_id && !item.is_active ? { ...item, is_active: true } : item
         )
       );
-      setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
-      setTotalDeliveryFee((prevTotalDeliveryFee) => prevTotalDeliveryFee + product.shipping_fee);
+      dispatch(plusPrice({ price: price, deliveryFee: product.shipping_fee }));
     }
   };
 
@@ -126,9 +118,9 @@ export default function CartItem({
 
     // 수량 변동 시 가격 빼고 더해주기
     if (countChange === '-' && product) {
-      setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
+      dispatch(minusPrice({ price: product.price, deliveryFee: 0 }));
     } else if (countChange === '+' && product) {
-      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
+      dispatch(plusPrice({ price: product.price, deliveryFee: 0 }));
     }
 
     setCartItemList((prevCartItems) =>
@@ -154,11 +146,9 @@ export default function CartItem({
   const handleOneOrderBtnClick = () => {
     const orderListId = [cartProduct.product_id];
     const orderListQuantity = [count];
-    const totalPrice = price;
-    const totalDeliveryFee = product?.shipping_fee;
     const order_kind = 'cart_one_order';
 
-    navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
+    navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
   };
 
   return (

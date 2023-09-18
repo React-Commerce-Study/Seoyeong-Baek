@@ -14,9 +14,6 @@ export default function ShoppingCart() {
 
   const [cartItemList, setCartItemList] = useState<CartProduct[]>([]);
 
-  const [totalPrice, setTotalPrice] = useState<number>(0);
-  const [totalDeliveryFee, setTotalDeliveryFee] = useState<number>(0);
-
   // 모달로 확인한 값이 바뀌는 경우
   const [isChangeModalValue, setIsChangeModalValue] = useState(false);
 
@@ -74,14 +71,11 @@ export default function ShoppingCart() {
     if (isOrderBtnClick) {
       // is_active가 true인 아이템만 필터링
       const orderList = cartItemList.filter((cartItem) => cartItem.is_active);
-
       const orderListId = orderList.map((cartItem) => cartItem.product_id);
       // TODO:수량이 바뀌기전 수량으로 들어가는데 원인을 모르겠음 => cartItemList의 수량부분 데이터를 업데이트 안해주고 있었음
       const orderListQuantity = orderList.map((cartItem) => cartItem.quantity);
-
       const order_kind = 'cart_order';
-
-      navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
+      navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
     }
   }, [isOrderBtnClick]);
 
@@ -107,8 +101,6 @@ export default function ShoppingCart() {
               <CartItem
                 key={cartItem.cart_item_id}
                 cartProduct={cartItem}
-                setTotalPrice={setTotalPrice}
-                setTotalDeliveryFee={setTotalDeliveryFee}
                 setCartItemList={setCartItemList}
                 setIsChangeModalValue={setIsChangeModalValue}
                 isOrderBtnClick={isOrderBtnClick}
@@ -126,7 +118,7 @@ export default function ShoppingCart() {
 
       {cartItemList.length !== 0 && (
         <>
-          <TotalPriceBox totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} />
+          <TotalPriceBox />
 
           <SButtonContainer>
             <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="24px" disabled={!btnActive}>

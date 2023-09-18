@@ -9,13 +9,16 @@ import { OrderData, ExtendedOrderData, ReqOrderData } from '../../@types/types';
 import { postOrderList } from '../../services/ResponseApi';
 import ConfirmModal from '../modal/PaymentModal';
 import OrderCompleteModal from '../modal/OrderCompleteModal';
+import { useTotalPrice, useTotalDeliveryPrice } from '../../hooks/UseFinalPrice';
 
 export default function PaymentMain() {
   const location = useLocation();
   const { state } = location; // state 추출
 
   // state에서 orderList와 totalMoney 추출 (orderListId와 orderListQuantity는 배열)
-  const { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } = state;
+  const { orderListId, orderListQuantity, order_kind } = state;
+  const totalPrice = useTotalPrice();
+  const totalDeliveryFee = useTotalDeliveryPrice();
 
   const [orderData, setOrderData] = useState<OrderData>({
     total_price: totalPrice + totalDeliveryFee,
