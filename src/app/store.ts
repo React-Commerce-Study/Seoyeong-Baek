@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'; // 로컬 스토리지 사용
 
 // import modalReducer from '../features/modalSlice';
 import isLoggedInReducer from '../features/loginSlice';
+import finalPriceReducer from '../features/finalPriceSlice';
 
 const persistConfig = {
   key: 'root', // 저장 키
@@ -17,6 +18,7 @@ export const store = configureStore({
   reducer: {
     // modal: modalReducer,
     isLoggedIn: persistedLoginReducer,
+    finalPrice: finalPriceReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
