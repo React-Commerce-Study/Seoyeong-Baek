@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // 로컬 스토리지 사용
 
 // import modalReducer from '../features/modalSlice';
-import loginReducer from '../features/loginSlice';
+import isLoggedInReducer from '../features/loginSlice';
 
 const persistConfig = {
   key: 'root', // 저장 키
@@ -11,13 +11,12 @@ const persistConfig = {
   // serialize: false, // serialize 옵션 추가
 };
 
-const persistedLoginReducer = persistReducer(persistConfig, loginReducer);
+const persistedLoginReducer = persistReducer(persistConfig, isLoggedInReducer);
 
 export const store = configureStore({
-  // modal: modalReducer,
   reducer: {
     // modal: modalReducer,
-    loginData: persistedLoginReducer,
+    isLoggedIn: persistedLoginReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

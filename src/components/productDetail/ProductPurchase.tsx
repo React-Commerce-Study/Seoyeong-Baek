@@ -19,7 +19,7 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
 
   const [count, setCount] = useState(1);
   console.log(product);
-  const isUserLoggedIn = useTypedSelector((state) => state.loginData.isLogin);
+  const isUserLoggedIn = useTypedSelector((state) => state.isLoggedIn.isLogin);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isCartModal, setIsCartModal] = useState(false);
   const [isIncludedCartModal, setIsIncludedCartModal] = useState(false);

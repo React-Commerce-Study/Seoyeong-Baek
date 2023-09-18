@@ -7,6 +7,8 @@ import {
   LoginData,
   PutCartItemProps,
 } from '../@types/types';
+import { useDispatch } from 'react-redux';
+import { login } from '../features/loginSlice';
 
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
 const token = localStorage.getItem('token');
@@ -17,6 +19,7 @@ export async function getProductList(fetchPage: number) {
     const response = await fetch(`${BASE_URL}products/?page=${fetchPage}`, {
       method: 'GET',
     });
+
     console.log(`${BASE_URL}/?page=${fetchPage}`);
     if (response.ok) {
       const data = await response.json();
@@ -31,7 +34,6 @@ export async function getProductList(fetchPage: number) {
 
 // 장바구니 리스트 가져오기
 export async function fetchCartItemList() {
-  console.log(token);
   try {
     const response = await fetch(`${BASE_URL}cart/`, {
       method: 'GET',
@@ -39,7 +41,6 @@ export async function fetchCartItemList() {
         Authorization: `JWT ${token}`,
       },
     });
-    console.log(response);
 
     if (response.ok) {
       const data = await response.json();
@@ -223,9 +224,13 @@ export async function postLogin(loginData: LoginData) {
     if (res.ok) {
       const data = await res.json();
       console.log(data);
+      const { login_type, token } = data;
+      const { username } = loginData;
       console.log('Login successful!');
-      localStorage.setItem('token', data.token);
-      // 로그인 성공 값을 전역상태관리해줘야 할 듯 일단은 토큰으로 로그인 성공여부를 불러오기
+      localStorage.setItem('username', username);
+      localStorage.setItem('user_type', login_type);
+      localStorage.setItem('token', token);
+      return data;
     } else {
       throw new Error();
     }
