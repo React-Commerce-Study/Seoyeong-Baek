@@ -1,11 +1,11 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../../components/common/Buttons/Button';
+import Button from '../Buttons/Button';
 import styled from 'styled-components';
-import { postLogin } from '../../services/ResponseApi';
-import { LoginData } from '../../@types/types';
+import { postLogin } from '../../../services/ResponseApi';
+import { LoginData } from '../../../@types/types';
 import { useDispatch } from 'react-redux';
-import { login } from '../../features/loginSlice';
+import { login } from '../../../features/loginSlice';
 
 type LoginFormProps = {
   loginType: string;
@@ -94,21 +94,30 @@ const SLoginForm = styled.form`
     font-size: var(--font-size-md);
 
     &:first-child {
-      margin-bottom: 6px;
+      margin-bottom: 1rem;
     }
 
     &::placeholder {
       color: var(--dark-gray-color);
     }
+
+    &:focus {
+      border-radius: 5px;
+      border: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0);
+      box-shadow: 0 0 0 2px var(--point-color);
+      outline: #fff;
+    }
   }
 
   .btn-box {
-    margin-top: 36px;
+    margin-top: 2.25rem;
   }
 `;
 
 const MessageError = styled.p`
   color: red;
-  margin-top: 26px;
+  margin-bottom: 1.2rem;
   text-align: left;
+  box-shadow: inset 0 0 10px red;
 `;

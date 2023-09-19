@@ -1,12 +1,13 @@
 import { useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import SignUpForm from '../../../pages/signUp/SignUpForm';
-import LoginForm from '../../../pages/login/LoginForm';
+import SignUpForm from './SignUpForm';
+import LoginForm from './LoginForm';
 import LogoImg from '../../../assets/icon/Logo-hodu.png';
 import styled from 'styled-components';
 
 interface FormContainer {
   setSuccessUserName?: React.Dispatch<React.SetStateAction<string>>;
+  // 회원가입 페이지일때만 props가 들어옴
 }
 
 export default function FormContainer({ setSuccessUserName }: FormContainer) {
@@ -32,14 +33,25 @@ export default function FormContainer({ setSuccessUserName }: FormContainer) {
         </h1>
 
         <div className="login-type-wrapper">
-          <LoginBtnStyle value="BUYER" onClick={handleLoginType} clickChange={userType === 'BUYER'}>
-            구매회원 회원가입
-          </LoginBtnStyle>
-          <LoginBtnStyle value="SELLER" onClick={handleLoginType} clickChange={userType === 'SELLER'}>
-            판매회원 회원가입
-          </LoginBtnStyle>
+          <SUserTypeBtn value="BUYER" onClick={handleLoginType} clickChange={userType === 'BUYER'}>
+            구매회원 {setSuccessUserName ? '회원가입' : '로그인'}
+          </SUserTypeBtn>
+          <SUserTypeBtn value="SELLER" onClick={handleLoginType} clickChange={userType === 'SELLER'}>
+            판매회원 {setSuccessUserName ? '회원가입' : '로그인'}
+          </SUserTypeBtn>
         </div>
-        {setSuccessUserName ? <SignUpForm setSuccessUserName={setSuccessUserName} /> : <LoginForm loginType={userType} />}
+
+        {setSuccessUserName ? (
+          <SignUpForm setSuccessUserName={setSuccessUserName} />
+        ) : (
+          <>
+            <LoginForm loginType={userType} />
+            <SJoinFindWrapper>
+              <Link to="/signup">회원가입</Link>
+              <Link to="">비밀번호 찾기</Link>
+            </SJoinFindWrapper>
+          </>
+        )}
       </SFormContainer>
     </>
   );
@@ -54,20 +66,13 @@ const SFormContainer = styled.div`
     max-width: 238px;
     margin-bottom: 70px;
   }
-
-  .join-find-wrapper {
-    margin-top: 30px;
-    color: #333;
-    font-weight: var(--font-weight-light);
-    font-size: var(--font-size-md);
-  }
 `;
 
 type ClickChangeType = {
   clickChange: boolean;
 };
 
-const LoginBtnStyle = styled.button`
+const SUserTypeBtn = styled.button`
   margin-bottom: -10px;
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-lg);
@@ -79,4 +84,18 @@ const LoginBtnStyle = styled.button`
   border-bottom: ${(props: ClickChangeType) => (props.clickChange ? 'none' : '')};
   background-color: ${(props: ClickChangeType) => (props.clickChange ? '#fff' : '#F2F2F2')};
   padding: 20px;
+`;
+
+const SJoinFindWrapper = styled.div`
+  margin-top: 30px;
+  a {
+    color: #333;
+    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-md);
+    &:first-child::after {
+      content: '|';
+      display: inline-block;
+      margin: 0 14px;
+    }
+  }
 `;

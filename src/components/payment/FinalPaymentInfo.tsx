@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import Button from '../common/Buttons/Button';
-import CheckBox from '../../assets/icon/check-box.svg';
-import CheckBoxFill from '../../assets/icon/check-fill-box.svg';
+import AgreeCheckBox from '../common/form/checkBox/AgreeCheckBox';
+import { AgreeCheckBoxStyle } from '../common/form/checkBox/AgreeCheckBoxStyle';
 
 interface FinalPaymentInfoProps {
   totalPrice: number;
@@ -10,13 +8,6 @@ interface FinalPaymentInfoProps {
 }
 
 export default function FinalPaymentInfo({ totalPrice, totalDeliveryFee }: FinalPaymentInfoProps) {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheck = () => {
-    console.log('check');
-    !isChecked ? setIsChecked(true) : setIsChecked(false);
-  };
-
   return (
     <SSectionLayout>
       <h3>최종결제 정보</h3>
@@ -47,19 +38,9 @@ export default function FinalPaymentInfo({ totalPrice, totalDeliveryFee }: Final
             </p>
           </li>
         </SPaymentInfoList>
-        <SPaymentConfirmWrapper>
-          <div className="payment-confirm">
-            <input type="checkbox" id="agree" />
-            <label htmlFor="agree" onClick={handleCheck} className={isChecked ? 'checked' : ''}>
-              주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.
-            </label>
-          </div>
-          <div className="btn-container">
-            <Button type="submit" fontSize="24px" disabled={!isChecked}>
-              결제하기
-            </Button>
-          </div>
-        </SPaymentConfirmWrapper>
+        <SAgreeCheckBoxWrapper>
+          <AgreeCheckBox success="결제하기">주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.</AgreeCheckBox>
+        </SAgreeCheckBoxWrapper>
       </fieldset>
     </SSectionLayout>
   );
@@ -112,40 +93,15 @@ const SPaymentInfoList = styled.ul`
   }
 `;
 
-const SPaymentConfirmWrapper = styled.div`
+const SAgreeCheckBoxWrapper = styled(AgreeCheckBoxStyle)`
   background-color: #f2f2f2;
   padding: 30px 30px 34px;
 
-  .payment-confirm {
+  .check-box {
     margin-bottom: 30px;
-
-    input {
-      display: none;
-    }
-
-    label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      &::before {
-        content: '';
-        background: url(${CheckBox}) no-repeat center center;
-        width: 16px;
-        height: 16px;
-        transition: all 0.3s ease;
-      }
-
-      &.checked::before {
-        content: '';
-        background: url(${CheckBoxFill}) no-repeat center center;
-        width: 16px;
-        height: 16px;
-      }
-    }
   }
 
-  .btn-container {
+  .btn-box {
     margin: 0 auto;
     max-width: 220px;
   }

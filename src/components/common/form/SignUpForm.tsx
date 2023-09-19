@@ -1,10 +1,12 @@
 import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
-import Button from '../../components/common/Buttons/Button';
+import Button from '../Buttons/Button';
 import styled from 'styled-components';
-import checkOffIcon from '../../assets/icon/icon-check-off.svg';
-import checkOnIcon from '../../assets/icon/icon-check-on.svg';
-import { postSignUp, postIdCheck } from '../../services/ResponseApi';
-import { SignUpData, UserNameData, TelData } from '../../@types/types';
+import checkOffIcon from '../../../assets/icon/icon-check-off.svg';
+import checkOnIcon from '../../../assets/icon/icon-check-on.svg';
+import { postSignUp, postIdCheck } from '../../../services/ResponseApi';
+import { SignUpData, UserNameData, TelData } from '../../../@types/types';
+import AgreeCheckBox from './checkBox/AgreeCheckBox';
+import { AgreeCheckBoxStyle } from './checkBox/AgreeCheckBoxStyle';
 
 interface SignUpFormProps {
   setSuccessUserName: React.Dispatch<React.SetStateAction<string>>;
@@ -136,19 +138,12 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
     setSignUpData((prevData) => ({ ...prevData, phone_number: combinedTel }));
   }, [tel]);
 
-  // 동의하기 눌렀을 때만 가입하기버튼 active
-  const [isChecked, setIsChecked] = useState(false);
-  const handleCheck = () => {
-    console.log('check');
-    !isChecked ? setIsChecked(true) : setIsChecked(false);
-  };
-
   return (
     <SSignUpForm action="" onSubmit={handleSubmit}>
       <SSignUpInputField>
-        <IdContainer>
+        <SIdWrapper>
           <label htmlFor="username">아이디</label>
-          <IdBoxStyle>
+          <div className="id-input-check">
             <input type="text" id="username" value={signUpData.username} onChange={onChangeUserName} />
             <Button
               type="button"
@@ -159,24 +154,24 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
             >
               중복확인
             </Button>
-          </IdBoxStyle>
-        </IdContainer>
+          </div>
+        </SIdWrapper>
         {(usernameError || usernameSuccess) && (
           <MessageError usernameSuccess={usernameSuccess !== ''}>{usernameError || usernameSuccess}</MessageError>
         )}
 
-        <PasswordContainer isConfirmPassword={isConfirmPassword}>
+        <SPasswordWrapper isConfirmPassword={isConfirmPassword}>
           <label htmlFor="pw">비밀번호</label>
           <input type="password" id="pw" value={signUpData.password} onChange={onChangePassword} />
-        </PasswordContainer>
+        </SPasswordWrapper>
         {passwordError !== '' && <MessageError>{passwordError}</MessageError>}
-        <PasswordContainer isConfirmPassword2={isConfirmPassword2}>
+        <SPasswordWrapper isConfirmPassword2={isConfirmPassword2}>
           <label htmlFor="check-pw">비밀번호 재확인</label>
           <input type="password" id="check-pw" value={signUpData.password2} onChange={onChangePassword2} />
-        </PasswordContainer>
+        </SPasswordWrapper>
         {password2Error !== '' && <MessageError>{password2Error}</MessageError>}
 
-        <NameContainer>
+        <SNameWrapper>
           <label htmlFor="name">이름</label>
           <input
             type="text"
@@ -185,11 +180,11 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
             onChange={(e) => setSignUpData({ ...signUpData, name: e.target.value })}
           />
           {nameError && <MessageError>{nameError}</MessageError>}
-        </NameContainer>
+        </SNameWrapper>
 
-        <PhoneNumberContainer>
+        <SPhoneNumberWrapper>
           <label htmlFor="tel1 tel2 tel3">휴대폰 번호</label>
-          <PhoneNumberBoxStyle>
+          <div className="phone-number-box">
             <select name="tel1" id="tel1" onChange={handleTel1Change}>
               <option value="010">010</option>
               <option value="011">011</option>
@@ -198,35 +193,27 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
             </select>
             <input type="tel" id="tel2" name="tel2" onChange={handleTelChange} />
             <input type="tel" id="tel3" name="tel3" onChange={handleTelChange} />
-          </PhoneNumberBoxStyle>
+          </div>
           {phoneNumberError && <MessageError>{phoneNumberError}</MessageError>}
-        </PhoneNumberContainer>
+        </SPhoneNumberWrapper>
       </SSignUpInputField>
 
-      <AgreeCheckBox>
-        <input type="checkbox" id="agree" />
-        <label htmlFor="agree" onClick={handleCheck}>
-          호두샵의 <strong>이용약관</strong> 및 <strong>개인정보처리방침</strong>에 대한 내용을 확인하였고 동의합니다.
-        </label>
-      </AgreeCheckBox>
-      <Button type="submit" disabled={!isChecked}>
-        가입하기
-      </Button>
+      <SCheckBoxWrapper>
+        <AgreeCheckBox success="가입하기">
+          호두샵의 이용약관 및 개인정보처리방침에 대한 내용을 확인하였고 동의합니다.
+        </AgreeCheckBox>
+      </SCheckBoxWrapper>
     </SSignUpForm>
   );
 }
 const SSignUpForm = styled.form`
-  /* box-shadow: inset 0 0 10px blue; */
   color: var(--dark-gray-color);
 `;
 
 const SSignUpInputField = styled.fieldset`
-  /* display: flex; */
-  /* flex-direction: column; */
   padding: 50px 35px 36px;
   border: 1px solid var(--middle-gray-color);
   border-radius: 10px;
-  /* box-shadow: inset 0 0 10px red; */
 
   div {
     text-align: start;
@@ -240,6 +227,14 @@ const SSignUpInputField = styled.fieldset`
     padding: 17px 16px;
     font-size: var(--font-size-md);
     box-sizing: border-box;
+    box-shadow: 0 0 0 1px #fff;
+  }
+
+  input:focus,
+  select:focus {
+    border: 1px solid var(--point-color);
+    box-shadow: 0 0 0 1px var(--point-color);
+    outline: #fff;
   }
 
   label:not(:last-child) {
@@ -248,28 +243,24 @@ const SSignUpInputField = styled.fieldset`
   }
 `;
 
-const IdContainer = styled.div`
-  box-shadow: inset 0 0 10px red;
-  /* margin-top: 12px; */
-`;
-const IdBoxStyle = styled.div`
-  display: flex;
-  gap: 12px;
+const SIdWrapper = styled.div`
+  .id-input-check {
+    display: flex;
+    gap: 12px;
 
-  input {
-    flex-basis: 346px;
-  }
+    input {
+      flex-basis: 346px;
+    }
 
-  button {
-    flex-basis: 122px;
+    button {
+      flex-basis: 122px;
+    }
   }
 `;
 
-const PasswordContainer = styled.div`
+const SPasswordWrapper = styled.div`
   position: relative;
   margin-top: 12px;
-
-  box-shadow: inset 0 0 10px blue;
 
   &::after {
     position: absolute;
@@ -288,43 +279,35 @@ const PasswordContainer = styled.div`
   }
 `;
 
-const NameContainer = styled.div`
+const SNameWrapper = styled.div`
   margin: 50px 0 0;
 `;
 
-const PhoneNumberContainer = styled.div`
+const SPhoneNumberWrapper = styled.div`
   margin-top: 16px;
-`;
-const PhoneNumberBoxStyle = styled.div`
-  display: flex;
-  gap: 12px;
 
-  select {
-    text-align: center;
+  .phone-number-box {
+    display: flex;
+    gap: 12px;
+
+    select {
+      text-align: center;
+    }
   }
 `;
 
-const AgreeCheckBox = styled.div`
-  margin: 34px auto;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+const SCheckBoxWrapper = styled(AgreeCheckBoxStyle)`
   max-width: 480px;
-  box-shadow: inset 0 0 10px red;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-light);
-  line-height: 20.03px;
+  margin: 34px auto 0;
 
-  label {
-    display: inline-block;
-    box-shadow: inset 0 0 10px red;
-    text-align: start;
+  .check-box {
+    text-align: left;
+    line-height: normal;
+    margin-bottom: 34px;
   }
 
-  strong {
-    font-weight: var(--font-weight-bold);
-    border-bottom: 1px solid;
-    /* text-decoration: underline; */
+  .btn-box {
+    width: 100%;
   }
 `;
 
