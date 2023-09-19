@@ -19,8 +19,10 @@ export const finalPriceSlice = createSlice({
       state.totalDeliveryFee += action.payload.deliveryFee;
     },
     minusPrice: (state, action: PayloadAction<{ price: number; deliveryFee: number }>) => {
-      state.totalPrice -= action.payload.price;
-      state.totalDeliveryFee -= action.payload.deliveryFee;
+      if (state.totalPrice - action.payload.price >= 0) {
+        state.totalPrice -= action.payload.price;
+        state.totalDeliveryFee -= action.payload.deliveryFee;
+      }
     },
     resetPrice: (state) => {
       // 초기값으로 되돌리기
