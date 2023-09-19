@@ -1,8 +1,8 @@
 import GlobalStyle from './GlobalStyle';
 import { Routes, Route } from 'react-router-dom';
 import Main from './pages/Main';
-import Login from './pages/login/Login';
-import SignUp from './pages/signUp/SignUp';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 import Cart from './pages/Cart';
 import ProductDetails from './pages/ProductDetails';
 import Payment from './pages/Payment';
