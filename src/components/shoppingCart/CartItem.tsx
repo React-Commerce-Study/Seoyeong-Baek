@@ -72,15 +72,12 @@ export default function CartItem({
 
   const handleCheckBoxClick = () => {
     if (cartProduct.is_active && product) {
-      // cartProduct.is_active = false;
-      // 위와 같이 변경해버리면 cartProduct가 재렌더링이 안됨
       setIsActive(false);
       setCartItemList((prevCartItems) =>
         prevCartItems.map((item) =>
           item.product_id === cartProduct.product_id && item.is_active ? { ...item, is_active: false } : item
         )
       );
-      console.log(price);
       dispatch(minusPrice({ price: price, deliveryFee: product.shipping_fee }));
     } else if (!cartProduct.is_active && product) {
       setIsActive(true);
@@ -138,18 +135,26 @@ export default function CartItem({
     }));
   }, [isActive]);
 
+  const [isOneOrderBtnClick, setIsOneOrderBtnClick] = useState(false);
+
   // 주문하기 버튼이 클릭됐을 때 주문할 상품들은 is_active를 true로, 주문하지 않을 상품들은 false로 보내주기
   useEffect(() => {
     putCartItems({ urlId, orderData });
-  }, [isOrderBtnClick, orderData]);
+  }, [isOrderBtnClick, isOneOrderBtnClick, orderData]);
 
   const handleOneOrderBtnClick = () => {
-    const orderListId = [cartProduct.product_id];
-    const orderListQuantity = [count];
-    const order_kind = 'cart_one_order';
-
-    navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
+    setIsOneOrderBtnClick(true);
   };
+
+  useEffect(() => {
+    if (isOneOrderBtnClick) {
+      const orderListId = [cartProduct.product_id];
+      const orderListQuantity = [count];
+      const order_kind = 'cart_one_order';
+
+      navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
+    }
+  }, [isOneOrderBtnClick]);
 
   return (
     <>
@@ -179,8 +184,8 @@ export default function CartItem({
             <Button
               disabled={!cartProduct.is_active}
               padding="10px 35px"
-              fontSize="16px"
-              fontWeight="500"
+              fontSize="var(--font-size-md)"
+              fontWeight="var(--font-weight-medium)"
               onClick={handleOneOrderBtnClick}
             >
               주문하기
@@ -196,6 +201,8 @@ export default function CartItem({
           cartItemId={cartProduct.cart_item_id}
           setIsChangeModalValue={setIsChangeModalValue}
           setIsShowModal={setIsShowModal}
+          price={isActive ? price : undefined}
+          deliveryFee={isActive ? product?.shipping_fee : undefined}
         />
       )}
     </>

@@ -19,9 +19,6 @@ export default function ShoppingCart() {
 
   useEffect(() => {
     fetchCartItems();
-
-    // 모달 값 초기화
-    return setIsChangeModalValue(false);
   }, [isChangeModalValue]);
   // cartItemList을 넣게되면 체크박스를 클릭할 때마다 재렌더링돼서 체크박스 on/off가 되지 않음
 
@@ -72,7 +69,6 @@ export default function ShoppingCart() {
       // is_active가 true인 아이템만 필터링
       const orderList = cartItemList.filter((cartItem) => cartItem.is_active);
       const orderListId = orderList.map((cartItem) => cartItem.product_id);
-      // 수량이 바뀌기전 수량으로 들어가는데 원인을 모르겠음 => cartItemList의 수량부분 데이터를 업데이트 안해주고 있었음
       const orderListQuantity = orderList.map((cartItem) => cartItem.quantity);
       const order_kind = 'cart_order';
       navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
@@ -121,7 +117,7 @@ export default function ShoppingCart() {
           <TotalPriceBox />
 
           <SButtonContainer>
-            <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="24px" disabled={!btnActive}>
+            <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="var(--font-size-xl)" disabled={!btnActive}>
               주문하기
             </Button>
           </SButtonContainer>
@@ -138,7 +134,7 @@ const SMainLayout = styled.main`
 
 const STitle = styled.h2`
   margin: 54px 0 52px;
-  font-size: var(--font-size-xxl) rem;
+  font-size: var(--font-size-xxl);
   font-weight: var(--font-weight-bold);
   text-align: center;
 `;

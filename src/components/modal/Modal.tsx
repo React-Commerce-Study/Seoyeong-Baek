@@ -4,6 +4,8 @@ import { handleModalLayoutClick } from 'utils/modalFunction';
 import { useNavigate } from 'react-router-dom';
 import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 import CloseButton from '../common/Buttons/CloseButton';
+import { minusPrice } from '../../features/finalPriceSlice';
+import { useDispatch } from 'react-redux';
 
 interface ModalProps {
   type: string;
@@ -11,10 +13,21 @@ interface ModalProps {
   setIsChangeModalValue?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
   successUserName?: string;
+  price?: number;
+  deliveryFee?: number;
 }
 
-export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsShowModal, successUserName }: ModalProps) {
+export default function Modal({
+  type,
+  cartItemId,
+  setIsChangeModalValue,
+  setIsShowModal,
+  successUserName,
+  price,
+  deliveryFee,
+}: ModalProps) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const closeModal = () => {
     // 옵셔널 체이닝(Optional Chaining) 연산자(?.)
@@ -26,6 +39,7 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
     if (cartItemId) {
       setIsChangeModalValue?.(true);
       await DeleteCartItem(cartItemId);
+      if (price && deliveryFee) dispatch(minusPrice({ price: price, deliveryFee: deliveryFee }));
     }
     closeModal();
   };
