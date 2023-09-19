@@ -52,9 +52,9 @@ const SMyPageModalLayout = styled.article`
     button {
       padding: 10px 0;
       width: 110px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #767676;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-medium);
+      color: var(--dark-gray-color);
       transition: all 0.25s ease-in;
 
       &:first-child {
@@ -63,7 +63,7 @@ const SMyPageModalLayout = styled.article`
 
       &:hover {
         border-radius: 5px;
-        box-shadow: inset 0 0 0 1px #767676;
+        box-shadow: inset 0 0 0 1px var(--dark-gray-color);
         color: #000;
       }
     }

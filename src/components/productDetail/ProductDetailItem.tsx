@@ -49,19 +49,19 @@ const ProductDetailItemStyle = styled(ProductListItemStyle)`
 
       .store-name,
       .product-price {
-        font-size: 18px;
+        font-size: var(--font-size-lg);
       }
 
       .product-name,
       .product-price strong {
-        font-size: 36px;
+        font-size: var(--font-size-xxl);
         line-height: 45px;
       }
 
       .delivery {
-        font-weight: 400;
-        font-size: 16px;
-        color: #767676;
+        font-weight: var(--font-weight-light);
+        font-size: var(--font-size-md);
+        color: var(--dark-gray-color);
       }
     }
   }

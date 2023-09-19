@@ -67,8 +67,8 @@ const SNavContainer = styled.div`
     }
 
     .nav-btn {
-      color: #767676;
-      font-size: 12px;
+      color: var(--dark-gray-color);
+      font-size: var(--font-size-xs);
       transition: all 0.25s ease-out;
 
       &:hover {

@@ -59,12 +59,12 @@ export default function PaymentItem({ orderId, quantity }: PaymentItemProps) {
 
 const SOrderItemContainer = styled.div`
   padding: 20px 0;
-  border-bottom: 1px solid #c4c4c4;
+  border-bottom: 1px solid var(--middle-gray-color);
   display: flex;
   align-items: center;
-  color: #767676;
-  font-weight: 400;
-  font-size: 18px;
+  color: var(--dark-gray-color);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-lg);
 
   .img-info-box {
     flex-basis: 40%;
@@ -90,7 +90,7 @@ const SOrderItemContainer = styled.div`
       flex-grow: 1;
 
       & > p:not(:nth-child(2)) {
-        font-size: 14px;
+        font-size: var(--font-size-sm);
       }
 
       .store-name {
@@ -112,6 +112,6 @@ const SOrderItemContainer = styled.div`
   .product-price,
   .product-price strong {
     color: #000;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
   }
 `;

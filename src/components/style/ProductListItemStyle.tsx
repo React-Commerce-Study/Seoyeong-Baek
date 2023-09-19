@@ -5,7 +5,7 @@ const ProductListItemStyle = styled.div`
     overflow: hidden;
     width: 380px;
     height: 380px;
-    border: 1px solid #c4c4c4;
+    border: 1px solid var(--middle-gray-color);
     box-sizing: border-box;
     border-radius: 10px;
 
@@ -18,26 +18,26 @@ const ProductListItemStyle = styled.div`
 
   .info-box {
     margin-top: 16px;
-    font-weight: 400;
-    font-size: 16px;
+    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-md);
 
     p:not(:last-child) {
       margin-bottom: 10px;
     }
 
     .store-name {
-      color: #767676;
+      color: var(--dark-gray-color);
     }
 
     .product-name {
-      font-size: 18px;
+      font-size: var(--font-size-lg);
       line-height: 22px;
     }
 
     .product-price strong {
       margin-right: 2px;
-      font-weight: 700;
-      font-size: 24px;
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-xl);
       line-height: 30px;
     }
   }

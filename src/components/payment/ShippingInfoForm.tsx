@@ -136,22 +136,22 @@ const SSectionLayout = styled.section`
   margin-top: 6rem;
 
   h3 {
-    border-bottom: 2px solid #c4c4c4;
+    border-bottom: 2px solid var(--middle-gray-color);
   }
 
   fieldset {
     margin-top: 40px;
 
     legend {
-      font-size: 1.125rem;
-      border-bottom: 2px solid #c4c4c4;
+      font-size: var(--font-size-lg);
+      border-bottom: 2px solid var(--middle-gray-color);
       padding-bottom: 0.5rem;
       width: 100%;
     }
 
     li {
       padding: 0.5rem 0;
-      border-bottom: 1px solid #c4c4c4;
+      border-bottom: 1px solid var(--middle-gray-color);
       display: flex;
       align-items: center;
       gap: 90px;
@@ -162,10 +162,10 @@ const SSectionLayout = styled.section`
       }
 
       input {
-        border: 1px solid #c4c4c4;
+        border: 1px solid var(--middle-gray-color);
         padding: 0.625rem 0.6rem;
-        font-size: 16px;
-        font-weight: 400;
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-light);
 
         &#shippingName,
         &#shippingMail,

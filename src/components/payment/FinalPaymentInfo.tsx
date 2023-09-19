@@ -17,7 +17,6 @@ export default function FinalPaymentInfo({ totalPrice, totalDeliveryFee }: Final
     !isChecked ? setIsChecked(true) : setIsChecked(false);
   };
 
-  // TODO:input checkbox 인풋값이 채워져 있을 때만 클릭할 수 있게
   return (
     <SSectionLayout>
       <h3>최종결제 정보</h3>
@@ -90,24 +89,24 @@ const SPaymentInfoList = styled.ul`
     }
 
     p {
-      font-size: 16px;
-      font-weight: 400;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-light);
 
       strong {
-        font-size: 18px;
-        font-weight: 700;
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-bold);
         margin-right: 4px;
       }
     }
 
     &.final-total-money {
-      border-top: 1px solid #c4c4c4;
+      border-top: 1px solid var(--middle-gray-color);
       padding-top: 24px;
       margin-top: 19px;
 
       strong {
         color: #eb5757;
-        font-size: 24px;
+        font-size: var(--font-size-xl);
       }
     }
   }

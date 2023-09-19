@@ -58,8 +58,8 @@ const SFormContainer = styled.div`
   .join-find-wrapper {
     margin-top: 30px;
     color: #333;
-    font-weight: 400;
-    font-size: 16px;
+    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-md);
   }
 `;
 
@@ -69,13 +69,13 @@ type ClickChangeType = {
 
 const LoginBtnStyle = styled.button`
   margin-bottom: -10px;
-  font-weight: 500;
-  font-size: 18px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-lg);
   line-height: 22px;
   width: 275px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--middle-gray-color);
   border-bottom: ${(props: ClickChangeType) => (props.clickChange ? 'none' : '')};
   background-color: ${(props: ClickChangeType) => (props.clickChange ? '#fff' : '#F2F2F2')};
   padding: 20px;

@@ -72,14 +72,14 @@ export default function ShoppingCart() {
       // is_active가 true인 아이템만 필터링
       const orderList = cartItemList.filter((cartItem) => cartItem.is_active);
       const orderListId = orderList.map((cartItem) => cartItem.product_id);
-      // TODO:수량이 바뀌기전 수량으로 들어가는데 원인을 모르겠음 => cartItemList의 수량부분 데이터를 업데이트 안해주고 있었음
+      // 수량이 바뀌기전 수량으로 들어가는데 원인을 모르겠음 => cartItemList의 수량부분 데이터를 업데이트 안해주고 있었음
       const orderListQuantity = orderList.map((cartItem) => cartItem.quantity);
       const order_kind = 'cart_order';
       navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
     }
   }, [isOrderBtnClick]);
 
-  const btnActive = cartItemList.some((cartItem) => cartItem.is_active);
+  const btnActive = cartItemList && cartItemList.some((cartItem) => cartItem.is_active);
 
   return (
     <SMainLayout>
@@ -138,8 +138,8 @@ const SMainLayout = styled.main`
 
 const STitle = styled.h2`
   margin: 54px 0 52px;
-  font-size: 2.25rem;
-  font-weight: 700;
+  font-size: var(--font-size-xxl) rem;
+  font-weight: var(--font-weight-bold);
   text-align: center;
 `;
 
@@ -151,8 +151,8 @@ const SCategoryList = styled.ul`
   padding: 19px 0;
 
   li {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-light);
 
     &:first-child {
       flex-basis: 5%;
@@ -204,13 +204,13 @@ const SCartListContainer = styled.section`
     text-align: center;
 
     strong {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
     }
     p {
-      font-size: 14px;
-      font-weight: 400;
-      color: #767676;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-light);
+      color: var(--dark-gray-color);
       margin-top: 17px;
     }
   }

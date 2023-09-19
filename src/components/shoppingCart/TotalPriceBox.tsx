@@ -43,16 +43,16 @@ const SCartTotalPriceContainer = styled.section`
   div {
     flex-basis: 25%;
     text-align: center;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-light);
 
     p {
       margin-bottom: 12px;
     }
 
     strong {
-      font-size: 24px;
-      font-weight: 700;
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
     }
   }
 

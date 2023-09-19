@@ -24,7 +24,7 @@ const ButtonStyle = styled.button<ButtonProps>`
   height: 100%;
   background-color: ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
   color: ${(props: ButtonProps) => props.color || '#fff'};
-  font-size: ${(props: ButtonProps) => props.fontSize || '18px'};
+  font-size: ${(props: ButtonProps) => props.fontSize || 'var(--dark-gray-color)'};
   font-weight: ${(props: ButtonProps) => props.fontWeight || '700'};
   padding: ${(props: ButtonProps) => props.padding || '19px 0'};
   border-radius: 5px;
@@ -33,7 +33,7 @@ const ButtonStyle = styled.button<ButtonProps>`
   transition: all 0.25s ease-out;
 
   &:disabled {
-    background-color: #c4c4c4;
+    background-color: var(--middle-gray-color);
   }
 
   &:not(:disabled):hover {

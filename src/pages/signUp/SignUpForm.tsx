@@ -217,14 +217,14 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
 }
 const SSignUpForm = styled.form`
   /* box-shadow: inset 0 0 10px blue; */
-  color: #767676;
+  color: var(--dark-gray-color);
 `;
 
 const SSignUpInputField = styled.fieldset`
   /* display: flex; */
   /* flex-direction: column; */
   padding: 50px 35px 36px;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--middle-gray-color);
   border-radius: 10px;
   /* box-shadow: inset 0 0 10px red; */
 
@@ -236,9 +236,9 @@ const SSignUpInputField = styled.fieldset`
   select {
     width: 100%;
     border-radius: 5px;
-    border: 1px solid #c4c4c4;
+    border: 1px solid var(--middle-gray-color);
     padding: 17px 16px;
-    font-size: 16px;
+    font-size: var(--font-size-md);
     box-sizing: border-box;
   }
 
@@ -311,8 +311,8 @@ const AgreeCheckBox = styled.div`
   gap: 10px;
   max-width: 480px;
   box-shadow: inset 0 0 10px red;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-light);
   line-height: 20.03px;
 
   label {
@@ -322,7 +322,7 @@ const AgreeCheckBox = styled.div`
   }
 
   strong {
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     border-bottom: 1px solid;
     /* text-decoration: underline; */
   }

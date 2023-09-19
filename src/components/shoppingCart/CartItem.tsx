@@ -248,9 +248,9 @@ const SCartItemContainer = styled(ProductListItemStyle)`
       display: flex;
       flex-direction: column;
       gap: 2.5rem;
-      color: #767676;
-      font-weight: 400;
-      font-size: 14px;
+      color: var(--dark-gray-color);
+      font-weight: var(--font-weight-light);
+      font-size: var(--font-size-sm);
 
       .product-name {
         color: #000;
@@ -258,9 +258,9 @@ const SCartItemContainer = styled(ProductListItemStyle)`
 
       .product-price,
       .product-price strong {
-        font-size: 16px;
+        font-size: var(--font-size-md);
         color: #000;
-        font-weight: 700;
+        font-weight: var(--font-weight-bold);
         line-height: normal;
       }
     }
@@ -286,8 +286,8 @@ const SCartItemContainer = styled(ProductListItemStyle)`
     p {
       margin-bottom: 26px;
       color: #eb5757;
-      font-size: 18px;
-      font-weight: 700;
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
     }
   }
 

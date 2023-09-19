@@ -83,22 +83,22 @@ const SLoginForm = styled.form`
   display: flex;
   flex-direction: column;
   padding: 34px 35px 36px;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--middle-gray-color);
   border-radius: 10px;
   box-sizing: border-box;
 
   input {
     width: 100%;
-    border-bottom: 1px solid #c4c4c4;
+    border-bottom: 1px solid var(--middle-gray-color);
     padding: 20px 0;
-    font-size: 16px;
+    font-size: var(--font-size-md);
 
     &:first-child {
       margin-bottom: 6px;
     }
 
     &::placeholder {
-      color: #767676;
+      color: var(--dark-gray-color);
     }
   }
 

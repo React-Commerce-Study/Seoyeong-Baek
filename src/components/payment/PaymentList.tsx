@@ -39,8 +39,8 @@ export default function PaymentList({ orderListId, finalPrice, orderListQuantity
 
 const STitle = styled.h2`
   margin: 54px 0 52px;
-  font-size: 2.25rem;
-  font-weight: 700;
+  font-size: var(--font-size-xxl) rem;
+  font-weight: var(--font-weight-bold);
   text-align: center;
 `;
 
@@ -52,8 +52,8 @@ const SCategoryList = styled.ul`
   padding: 19px 0;
 
   li {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-light);
 
     &:first-child {
       flex-basis: 40%;
@@ -73,13 +73,13 @@ const SCartListContainer = styled.section`
 
 const STotalPrice = styled.div`
   text-align: end;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
 
   strong {
     margin: 10px;
-    font-size: 24px;
-    font-weight: 700;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
     color: #eb5757;
   }
 `;

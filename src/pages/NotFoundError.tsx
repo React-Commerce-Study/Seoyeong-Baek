@@ -19,7 +19,7 @@ export default function NotFoundError() {
         </p>
         <div className="btn-wrapper">
           <Button onClick={() => navigate('/')}>메인으로</Button>
-          <Button onClick={() => navigate(-1)} color="#767676" bgColor="#fff">
+          <Button onClick={() => navigate(-1)} color="var(--dark-gray-color)" bgColor="#fff">
             이전 페이지
           </Button>
         </div>
@@ -49,15 +49,15 @@ const SErrorMain = styled.main`
     max-width: 414px;
 
     h1 {
-      font-size: 36px;
-      font-weight: 700;
+      font-size: var(--font-size-xxl);
+      font-weight: var(--font-weight-bold);
     }
 
     p {
       margin: 20px 0 40px;
       line-height: normal;
-      font-weight: 400;
-      color: #767676;
+      font-weight: var(--font-weight-light);
+      color: var(--dark-gray-color);
     }
 
     .btn-wrapper {
@@ -65,10 +65,10 @@ const SErrorMain = styled.main`
       gap: 14px;
 
       & > button:last-child {
-        box-shadow: inset 0 0 0 1px #c4c4c4;
+        box-shadow: inset 0 0 0 1px var(--middle-gray-color);
 
         &:hover {
-          background-color: #c4c4c4;
+          background-color: var(--middle-gray-color);
         }
       }
     }

@@ -101,7 +101,7 @@ const SMainLayout = styled.main`
   margin: 0 auto 200px;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: var(--font-size-xl);
     padding-bottom: 1.125rem;
   }
 

@@ -48,7 +48,7 @@ export default function ProductCount({ count, setCount, productStock, isCheck, s
 }
 
 const ZeroCount = styled.div`
-  font-size: 18px;
+  font-size: var(--font-size-lg);
 `;
 
 const ProductCountStyle = styled.div`
@@ -56,7 +56,7 @@ const ProductCountStyle = styled.div`
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--middle-gray-color);
   border-radius: 5px;
 
   .minus,
@@ -65,16 +65,16 @@ const ProductCountStyle = styled.div`
   }
 
   .minus {
-    border-right: 1px solid #c4c4c4;
+    border-right: 1px solid var(--middle-gray-color);
   }
 
   .plus {
-    border-left: 1px solid #c4c4c4;
+    border-left: 1px solid var(--middle-gray-color);
   }
 
   p {
     padding: 14px 0;
-    font-size: 18px;
+    font-size: var(--font-size-lg);
     color: #000;
   }
 `;

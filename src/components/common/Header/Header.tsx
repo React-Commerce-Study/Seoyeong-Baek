@@ -72,7 +72,7 @@ const SHeader = styled.header`
       padding: 13px 22px;
       border: 2px solid var(--point-color);
       border-radius: 50px;
-      color: #767676;
+      color: var(--dark-gray-color);
     }
 
     .search-btn {

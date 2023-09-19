@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Img1 from '../../assets/slide/img1.jpg';
 import Img2 from '../../assets/slide/img2.jpg';
@@ -92,8 +92,8 @@ type DotStyleProps = {
 };
 
 const DotStyle = styled.div<DotStyleProps>`
-  background: ${(props: DotStyleProps) => (props.bgColor ? '#fff' : '#767676')};
-  /* styled.div<DotStyleProps>는 DotStyle 컴포넌트의 div 요소에 대한 스타일을 정의하면서 DotStyleProps 타입을 적용. bgColor 프로퍼티를 사용할 때도 props: DotStyleProps를 명시하여 props의 타입을 지정. */
+  background: ${(props: DotStyleProps) => (props.bgColor ? '#fff' : 'var(--dark-gray-color)')};
+
   border-radius: 100%;
   height: 10px;
   width: 10px;

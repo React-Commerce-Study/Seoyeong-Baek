@@ -99,7 +99,12 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         <PurchaseButton type="button" onClick={() => handleClickBtn('buy')} disabled={product.stock === 0}>
           바로 구매
         </PurchaseButton>
-        <PurchaseButton type="button" bgColor="#767676" onClick={() => handleClickBtn('cart')} disabled={product.stock === 0}>
+        <PurchaseButton
+          type="button"
+          bgColor="var(--dark-gray-color)"
+          onClick={() => handleClickBtn('cart')}
+          disabled={product.stock === 0}
+        >
           장바구니
         </PurchaseButton>
       </ButtonWrapperStyle>
@@ -114,8 +119,8 @@ const PurchaseContainerStyle = styled.div`
   width: 100%;
 
   .product-count-wrapper {
-    border-top: 2px solid #c4c4c4;
-    border-bottom: 2px solid #c4c4c4;
+    border-top: 2px solid var(--middle-gray-color);
+    border-bottom: 2px solid var(--middle-gray-color);
     padding: 30px 0;
     margin: 20px 0 32px;
   }
@@ -126,31 +131,31 @@ const ProductTotalPriceStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 22px;
-  font-size: 18px;
+  font-size: var(--font-size-lg);
 
   p {
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: #000;
   }
 
   .total-price-wrapper {
     display: flex;
     align-items: center;
-    font-weight: 400;
+    font-weight: var(--font-weight-light);
 
     .total-count {
-      color: #767676;
+      color: var(--dark-gray-color);
 
       strong {
         color: var(--point-color);
-        font-weight: 700;
+        font-weight: var(--font-weight-bold);
       }
 
       &::after {
         content: '|';
         display: inline-block;
         margin: 0 12px;
-        color: #c4c4c4;
+        color: var(--middle-gray-color);
       }
     }
 
@@ -158,8 +163,8 @@ const ProductTotalPriceStyle = styled.div`
       color: var(--point-color);
 
       strong {
-        font-weight: 700;
-        font-size: 36px;
+        font-weight: var(--font-weight-bold);
+        font-size: var(--font-size-xxl);
         margin-right: 2px;
       }
     }

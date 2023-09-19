@@ -72,7 +72,7 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
         </SOrderInfoList>
         <SButtonWrapper>
           {/* TODO: 주문내역 보기로 이동 */}
-          <Button bgColor="#767676" onClick={() => navigate('/')}>
+          <Button bgColor="var(--dark-gray-color)" onClick={() => navigate('/')}>
             주문 내역 보기
           </Button>
           <Button onClick={() => navigate('/')}>홈 화면 가기</Button>
@@ -88,13 +88,13 @@ const SOrderCompleteLayout = styled(SModalLayout)`
   padding: 2.6rem 3rem;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: var(--font-size-xl);
     padding-bottom: 1.125rem;
-    font-weight: 800;
+    font-weight: var(--font-weight-black);
   }
 
   time {
-    color: #c4c4c4;
+    color: var(--middle-gray-color);
     font-size: 0.9rem;
   }
 
@@ -110,7 +110,7 @@ const SOrderInfoList = styled.ul`
   margin: 1.25rem 0;
 
   & > li:not(:nth-child(3)) {
-    border-bottom: 1px solid #c4c4c4;
+    border-bottom: 1px solid var(--middle-gray-color);
   }
 
   li {
@@ -130,7 +130,7 @@ const SOrderInfoList = styled.ul`
 `;
 
 const SPriceListContainer = styled.ul`
-  color: #c4c4c4;
+  color: var(--middle-gray-color);
 
   li {
     padding: 0.4rem 0;

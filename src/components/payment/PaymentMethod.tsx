@@ -53,13 +53,13 @@ const SSectionLayout = styled.section`
   flex-basis: 47.5rem;
 
   h3 {
-    border-bottom: 2px solid #c4c4c4;
+    border-bottom: 2px solid var(--middle-gray-color);
   }
 
   .payment-method-list {
     display: flex;
     padding: 1.125rem 0 1.125rem 0.75rem;
-    border-bottom: 2px solid #c4c4c4;
+    border-bottom: 2px solid var(--middle-gray-color);
 
     li {
       margin-right: 1.25rem;
@@ -70,8 +70,8 @@ const SSectionLayout = styled.section`
       }
 
       label {
-        font-size: 16px;
-        font-weight: 400;
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-light);
         display: flex;
         align-items: center;
         gap: 0.625rem;

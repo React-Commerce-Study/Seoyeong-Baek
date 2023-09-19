@@ -52,8 +52,8 @@ const FooterStyle = styled.footer`
   .container {
     max-width: 1280px;
     margin: 0 auto;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-light);
 
     .link-section {
       display: flex;
@@ -76,13 +76,13 @@ const FooterStyle = styled.footer`
     }
 
     .about-section {
-      border-top: 1px solid #c4c4c4;
+      border-top: 1px solid var(--middle-gray-color);
       padding-top: 20px;
-      color: #767676;
+      color: var(--dark-gray-color);
       line-height: 24px;
 
       strong {
-        font-weight: 700;
+        font-weight: var(--font-weight-bold);
       }
     }
   }

@@ -78,8 +78,8 @@ export default function Modal({ type, cartItemId, setIsChangeModalValue, setIsSh
           <Button
             onClick={type === 'successSignUp' ? handleAfterSuccessSignUp : closeModal}
             bgColor="inherit"
-            color="#767676"
-            boxShadow="inset 0 0 0 1px #767676"
+            color="var(--dark-gray-color)"
+            boxShadow="inset 0 0 0 1px var(--dark-gray-color)"
           >
             {typeCheck?.type === 'successSignUp' ? '홈' : '아니오'}
           </Button>

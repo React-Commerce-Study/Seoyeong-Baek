@@ -33,13 +33,13 @@ const SModalLayout = styled.article`
   box-sizing: border-box;
 
   p {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     margin-bottom: 26px;
     line-height: normal;
     white-space: pre-line;
 
     strong {
-      font-weight: 800;
+      font-weight: var(--font-weight-black);
       font-size: 1.2rem;
     }
   }
@@ -59,9 +59,9 @@ const SButtonWrapper = styled.div`
   gap: 10px;
 
   & > button {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     flex-basis: 50%;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     padding: 12px 0;
   }
 `;

@@ -41,7 +41,7 @@ export default function ConfirmPayment({ postOrder, orderData, setIsModalOpen }:
           })}
         </SPaymentInfoList>
         <SButtonWrapper>
-          <Button bgColor="#c4c4c4" onClick={postOrder}>
+          <Button bgColor="var(--middle-gray-color)" onClick={postOrder}>
             취소하기
           </Button>
           <Button onClick={postOrder}>결제하기</Button>
@@ -59,8 +59,8 @@ const SPaymentModalLayout = styled(SModalLayout)`
   background-color: #fff;
 
   h3 {
-    border-bottom: 2px solid #c4c4c4;
-    font-size: 1.5rem;
+    border-bottom: 2px solid var(--middle-gray-color);
+    font-size: var(--font-size-xl);
     padding-bottom: 1.125rem;
   }
 `;
@@ -76,7 +76,7 @@ const SPaymentInfoList = styled.ul`
     padding: 1rem 0;
 
     &:not(:last-child) {
-      border-bottom: 1px solid #c4c4c4;
+      border-bottom: 1px solid var(--middle-gray-color);
     }
 
     & > p:first-child {
