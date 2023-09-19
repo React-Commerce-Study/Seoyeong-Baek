@@ -1,27 +1,24 @@
-import React from 'react';
 import InstaImg from '../../../assets/icon/icon-insta.svg';
 import FacebookImg from '../../../assets/icon/icon-fb.svg';
 import YoutubeImg from '../../../assets/icon/icon-yt.svg';
 import styled from 'styled-components';
 
 export default function LinkSnsBtn() {
+  const snsLinks = [
+    { key: '인스타 이미지', value: InstaImg, link: 'https://www.instagram.com/' },
+    { key: '페이스북 이미지', value: FacebookImg, link: 'https://www.facebook.com/' },
+    { key: '유튜브 이미지', value: YoutubeImg, link: 'https://www.youtube.com/' },
+  ];
+
   return (
     <LinkBtnContainerStyle>
-      <li>
-        <a href="#">
-          <img src={InstaImg} alt="인스타 이미지" />
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <img src={FacebookImg} alt="페이스북 이미지" />
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <img src={YoutubeImg} alt="유튜브 이미지" />
-        </a>
-      </li>
+      {snsLinks.map((snsLink, index) => (
+        <li key={index}>
+          <a href={snsLink.link}>
+            <img src={snsLink.value} alt={snsLink.key} />
+          </a>
+        </li>
+      ))}
     </LinkBtnContainerStyle>
   );
 }
@@ -29,4 +26,9 @@ export default function LinkSnsBtn() {
 const LinkBtnContainerStyle = styled.ul`
   display: flex;
   gap: 14px;
+
+  li {
+    width: 32px;
+    height: 32px;
+  }
 `;
