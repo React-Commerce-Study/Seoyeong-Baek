@@ -87,6 +87,14 @@ interface ReqOrderData {
   created_at: string;
 }
 
+// carousel img
+interface UnsplashPhoto {
+  urls: {
+    regular?: string;
+    full?: string;
+  };
+}
+
 // props type
 interface PutCartItemProps {
   urlId: number;
@@ -106,5 +114,6 @@ export type {
   LoginData,
   UserData,
   ReqOrderData,
+  UnsplashPhoto,
   PutCartItemProps,
 };

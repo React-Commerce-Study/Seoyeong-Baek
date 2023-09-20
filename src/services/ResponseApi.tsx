@@ -5,6 +5,7 @@ import {
   SignUpData,
   UserNameData,
   LoginData,
+  UnsplashPhoto,
   PutCartItemProps,
 } from '../@types/types';
 
@@ -235,5 +236,28 @@ export async function postLogin(loginData: LoginData) {
     }
   } catch (error) {
     console.error('Login failed!', error);
+  }
+}
+
+// carousel unsplash api 랜덤 이미지
+export async function getRandomImages(): Promise<string[]> {
+  try {
+    const clientId = 'kCvJPqD4T-o5V3NrHiOjC6RaZU4I4zsuiqn_hmcNg1Y';
+    const url = `https://api.unsplash.com/photos/random/?client_id=${clientId}&query=product&orientation=landscape&count=10`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const urls = data.map((item: UnsplashPhoto) => item.urls.regular);
+      return urls;
+    } else {
+      throw new Error('Request failed!');
+    }
+  } catch (error) {
+    console.error('Request failed!', error);
+    throw error;
   }
 }
