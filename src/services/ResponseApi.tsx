@@ -22,7 +22,8 @@ export async function getProductList(fetchPage: number) {
     if (response.ok) {
       const data = await response.json();
       console.log(data.results);
-      return data.results;
+      // console.log(data.next);
+      return data;
     }
     throw new Error('네트워크에 문제가 있습니다.');
   } catch (error) {
@@ -222,11 +223,11 @@ export async function postLogin(loginData: LoginData) {
     if (res.ok) {
       const data = await res.json();
       console.log(data);
-      const { login_type, token } = data;
+      const { user_type, token } = data;
       const { username } = loginData;
       console.log('Login successful!');
       localStorage.setItem('username', username);
-      localStorage.setItem('user_type', login_type);
+      localStorage.setItem('user_type', user_type);
       localStorage.setItem('token', token);
       return data;
     } else {
