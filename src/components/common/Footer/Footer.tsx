@@ -1,6 +1,6 @@
 import LinkSnsBtn from './LinkSnsBtn';
 import styled from 'styled-components';
-import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
+import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 export default function Footer() {
   return (

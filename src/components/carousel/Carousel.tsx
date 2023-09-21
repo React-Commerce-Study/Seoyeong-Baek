@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LeftBtn from '../../assets/icon/icon-swiper-1.svg';
 import RightBtn from '../../assets/icon/icon-swiper-2.svg';
-import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 import { getRandomImages } from '../../services/ResponseApi';
 
 export default function Carousel() {
