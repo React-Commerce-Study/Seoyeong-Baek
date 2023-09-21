@@ -34,6 +34,7 @@
     "serve": "serve -s build",
     "build-and-serve": "npm run build && npm run serve"
   },
+  "homepage": "https://hodu-store.netlify.app/",
   "eslintConfig": {
     "extends": [
       "react-app",
