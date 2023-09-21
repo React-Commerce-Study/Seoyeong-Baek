@@ -54,7 +54,6 @@ const FooterStyle = styled.footer`
     margin: 0 auto;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-light);
-    box-shadow: inset 0 0 10px red;
 
     .link-section {
       display: flex;
@@ -100,15 +99,12 @@ const FooterStyle = styled.footer`
       .link-section {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 1.2rem;
 
         .link-footer-nav {
           flex-wrap: wrap;
           gap: 0.7rem;
 
-          li:not(:last-child) {
-            border-right: none;
-          }
           li:not(:first-child) {
             padding-left: 0;
           }

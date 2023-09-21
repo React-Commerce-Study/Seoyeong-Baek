@@ -140,11 +140,7 @@ const SHeader = styled.header`
     }
   }
 
-  //
   ${mediaQuery(BREAKPOINT_TABLET)} {
-    padding: 0 1rem;
-
-    h1 {
-    }
+    padding: 0 0.5rem 0 1rem;
   }
 `;

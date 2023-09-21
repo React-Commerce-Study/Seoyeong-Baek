@@ -31,7 +31,7 @@ function App() {
 }
 
 const SLayout = styled.div`
-  /* padding: 0 1em; */
+  width: 100vw;
 `;
 
 export default App;

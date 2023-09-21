@@ -17,11 +17,13 @@ const ProductDescriptionBtn: React.FC<ProductDescriptionBtnProps> = (props) => {
 
 const DescriptionBtnStyle = styled.button`
   box-sizing: border-box;
-  width: 320px;
+  width: 20rem;
   padding: 18px 0;
   color: var(--dark-gray-color);
   font-weight: var(--font-weight-medium);
-  box-shadow: 0 6px 0 0 var(--light-gray-color);
+  border-bottom: 0.375rem solid var(--light-gray-color);
+  /* box-shadow: inset 0 0 20px black; */
+
   font-size: var(--font-size-lg);
   ${(props: { className?: string }) => props.className && props.className.includes('active') && activeStyles}
 `;
@@ -29,7 +31,7 @@ const DescriptionBtnStyle = styled.button`
 
 const activeStyles = css`
   color: var(--point-color);
-  box-shadow: 0 6px 0 0 var(--point-color);
+  border-bottom: 0.375rem solid var(--point-color);
 `;
 
 export default ProductDescriptionBtn;

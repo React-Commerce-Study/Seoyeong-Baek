@@ -13,6 +13,7 @@ interface ButtonProps {
   style?: React.CSSProperties;
   onClick?: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
 export default function Button(props: ButtonProps) {

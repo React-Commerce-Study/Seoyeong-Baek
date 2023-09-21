@@ -15,17 +15,18 @@ export default function ProductDetails() {
     <>
       <ScrollTop />
       <Header />
-      <ProductInfoStyle>
+      <SProductInfoMain>
         <h2 className="a11y-hidden">상품 상세페이지</h2>
         <ProductDetailItem product={product} />
         <ProductDetailNav />
-      </ProductInfoStyle>
+      </SProductInfoMain>
       <Footer />
     </>
   );
 }
 
-const ProductInfoStyle = styled.main`
-  max-width: 1280px;
-  margin: 80px auto 0;
+const SProductInfoMain = styled.main`
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0 1rem;
 `;

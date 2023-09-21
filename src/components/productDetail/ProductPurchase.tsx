@@ -7,14 +7,16 @@ import { Product, ProductData } from '../../@types/types';
 import Modal from '../modal/Modal';
 import { fetchCartItemList, postCartList } from '../../services/ResponseApi';
 import { useTypedSelector } from '../../hooks/UseTypedSelector';
+import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface ProductPurchaseProps {
   product: Product;
+  mode?: string;
 }
 
 type ButtonType = 'cart' | 'buy'; // 버튼 유형을 나타내는 타입 정의
 
-export default function ProductPurchase({ product }: ProductPurchaseProps) {
+export default function ProductPurchase({ product, mode }: ProductPurchaseProps) {
   const navigate = useNavigate();
 
   const [count, setCount] = useState(1);
@@ -96,9 +98,6 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
       </ProductTotalPriceStyle>
       {/* 구매버튼 */}
       <ButtonWrapperStyle>
-        <PurchaseButton type="button" onClick={() => handleClickBtn('buy')} disabled={product.stock === 0}>
-          바로 구매
-        </PurchaseButton>
         <PurchaseButton
           type="button"
           bgColor="var(--dark-gray-color)"
@@ -106,6 +105,9 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
           disabled={product.stock === 0}
         >
           장바구니
+        </PurchaseButton>
+        <PurchaseButton type="button" onClick={() => handleClickBtn('buy')} disabled={product.stock === 0}>
+          바로 구매
         </PurchaseButton>
       </ButtonWrapperStyle>
       {isShowModal && <Modal type="requiredLogin" setIsShowModal={setIsShowModal} />}
@@ -121,8 +123,20 @@ const PurchaseContainerStyle = styled.div`
   .product-count-wrapper {
     border-top: 2px solid var(--middle-gray-color);
     border-bottom: 2px solid var(--middle-gray-color);
-    padding: 30px 0;
-    margin: 20px 0 32px;
+    padding: 1.875rem 0;
+    margin: 1.25rem 0 2rem;
+  }
+
+  ${mediaQuery(BREAKPOINT_PC)} {
+    .product-count-wrapper {
+      border-top: none;
+      border-bottom: 1px solid var(--middle-gray-color);
+    }
+  }
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    .product-count-wrapper {
+      padding: 1rem 0;
+    }
   }
 `;
 
@@ -130,12 +144,13 @@ const ProductTotalPriceStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 22px;
+  margin-bottom: 1.375rem;
   font-size: var(--font-size-lg);
 
   p {
     font-weight: var(--font-weight-medium);
     color: #000;
+    flex-shrink: 0;
   }
 
   .total-price-wrapper {
@@ -169,13 +184,42 @@ const ProductTotalPriceStyle = styled.div`
       }
     }
   }
+  ${mediaQuery(BREAKPOINT_PC)} {
+    gap: 1rem;
+    .total-price-wrapper {
+    }
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    gap: 1rem;
+    font-size: var(--font-size-sm);
+
+    .total-price-wrapper {
+      .total-price {
+        color: var(--point-color);
+
+        strong {
+          font-weight: var(--font-weight-bold);
+          font-size: var(--font-size-xl);
+          margin-right: 2px;
+        }
+      }
+    }
+  }
 `;
 
 const ButtonWrapperStyle = styled.div`
   display: flex;
-  gap: 14px;
+  gap: 0.875rem;
 
-  button:last-child {
+  button:first-child {
     flex-basis: 45%;
+  }
+
+  ${mediaQuery(BREAKPOINT_PC)} {
+    button {
+      flex-basis: 50%;
+      flex-grow: 1;
+    }
   }
 `;
