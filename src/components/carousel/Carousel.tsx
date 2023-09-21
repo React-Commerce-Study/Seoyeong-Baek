@@ -51,7 +51,6 @@ export default function Carousel() {
 
 const CarouselStyle = styled.section`
   width: 100%;
-  box-shadow: inset 0 0 10px red;
 
   .carousel-contents {
     max-height: 32rem;

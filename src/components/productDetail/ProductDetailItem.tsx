@@ -31,7 +31,7 @@ export default function ProductItemBox({ product }: ProductItemBoxProps) {
         ></SPurchaseModalBackground>
         <div className={`${isPurchaseClick ? 'open' : ''} product-purchase-wrapper`}>
           <span className="modal-close-btn" onClick={handlePurchaseClick}></span>
-          <ProductPurchase product={product} mode={isPurchaseClick ? 'pc' : 'mobile'} />
+          <ProductPurchase product={product} />
         </div>
       </div>
       <PurchaseButton className="purchase-modal-btn" onClick={handlePurchaseClick} disabled={product.stock === 0}>

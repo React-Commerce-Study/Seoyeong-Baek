@@ -11,12 +11,11 @@ import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuer
 
 interface ProductPurchaseProps {
   product: Product;
-  mode?: string;
 }
 
 type ButtonType = 'cart' | 'buy'; // 버튼 유형을 나타내는 타입 정의
 
-export default function ProductPurchase({ product, mode }: ProductPurchaseProps) {
+export default function ProductPurchase({ product }: ProductPurchaseProps) {
   const navigate = useNavigate();
 
   const [count, setCount] = useState(1);
