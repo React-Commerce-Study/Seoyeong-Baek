@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LeftBtn from '../../assets/icon/icon-swiper-1.svg';
 import RightBtn from '../../assets/icon/icon-swiper-2.svg';
+import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 import { getRandomImages } from '../../services/ResponseApi';
 
 export default function Carousel() {
@@ -50,7 +51,6 @@ export default function Carousel() {
 
 const CarouselStyle = styled.section`
   width: 100%;
-  position: relative;
   box-shadow: inset 0 0 10px red;
 
   .carousel-contents {
@@ -61,31 +61,64 @@ const CarouselStyle = styled.section`
   }
 
   button {
-    display: block;
+    display: flex;
+    align-items: center;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    padding: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
-    /* margin: 0 1rem; */
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    box-shadow: rgba(99, 99, 99, 0.3) 0px 2px 8px 0px;
+    background-color: rgba(255, 255, 255, 0.4);
     transition: all 0.2s ease-in-out;
 
+    &::before {
+      content: '';
+      display: block;
+      background: url(${LeftBtn}) no-repeat center;
+      width: 2.5rem;
+      height: 2.5rem;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
     &:hover {
       background-color: #fff;
-      box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     }
   }
 
   .pre-btn {
-    background: url(${LeftBtn}) no-repeat center center;
     left: 1.9rem;
   }
-
   .next-btn {
-    background: url(${RightBtn}) no-repeat center center;
     right: 1.9rem;
+  }
+  .next-btn::before {
+    background: url(${RightBtn}) no-repeat center;
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    button {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+
+    .pre-btn {
+      left: 1.3rem;
+      &::before {
+        background: url(${LeftBtn}) no-repeat center / cover;
+        right: -0.4rem;
+      }
+    }
+    .next-btn {
+      right: 1.3rem;
+      &::before {
+        background: url(${RightBtn}) no-repeat center / cover;
+        left: -0.4rem;
+      }
+    }
   }
 `;
 
@@ -96,6 +129,7 @@ const CarouselContainer = styled.div`
       aspect-ratio: 1280/512;
       width: 100%;
       height: 100%;
+      min-height: 18rem;
       object-fit: cover;
     }
   }
@@ -109,6 +143,12 @@ const CarouselContainer = styled.div`
     justify-content: center;
     gap: 0.75rem;
   }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    .dots-box {
+      gap: 0.6rem;
+    }
+  }
 `;
 
 type DotStyleProps = {
@@ -120,4 +160,9 @@ const DotStyle = styled.div<DotStyleProps>`
   border-radius: 50%;
   height: 0.55rem;
   width: 0.55rem;
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    height: 0.4rem;
+    width: 0.4rem;
+  }
 `;

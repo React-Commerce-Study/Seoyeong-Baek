@@ -69,7 +69,7 @@ const GlobalStyle = createGlobalStyle`
    input{
       border:none;
       margin: 0;
-    
+   
       /* IE의 경우 */
       &::-ms-clear,
       &::-ms-reveal{
@@ -82,6 +82,10 @@ const GlobalStyle = createGlobalStyle`
       &::-webkit-search-results-decoration{
          display:none;
       }
+   }
+   
+   input, select{
+   transition:all 0.3s ease-in;
    }
 `;
 
