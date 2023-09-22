@@ -26,8 +26,7 @@ export default function ProductList() {
     async function fetchProducts() {
       const productData = await getProductList(fetchPage);
       console.log(productData);
-      if (productData.next === null) return;
-      else setProductList((preProductList) => [...preProductList, ...productData.results]);
+      if (productData) setProductList((preProductList) => [...preProductList, ...productData.results]);
     }
   }, [fetchPage]);
 
