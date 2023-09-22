@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import CheckBox from '../../assets/icon/check-round.svg';
-import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
+import RoundCheckBox from './checkBox/RoundCheckBox';
 import DeleteIcon from '../../assets/icon/icon-delete.svg';
 import ProductCountButton from '../common/Buttons/ProductCountButton';
 import Button from '../common/Buttons/Button';
@@ -160,12 +159,7 @@ export default function CartItem({
     <>
       {product && (
         <SCartItemContainer>
-          <label
-            htmlFor="checkBox"
-            className={`check-box ${cartProduct.is_active ? 'checked' : ''}`}
-            onClick={handleCheckBoxClick}
-          ></label>
-          <input type="checkbox" id="checkBox" />
+          <RoundCheckBox className={cartProduct.is_active ? 'checked' : ''} onClick={handleCheckBoxClick} />
           <div className="product-info-wrapper">
             <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
             <ProductDataInfo product={product} isDelivery={true} />
@@ -212,30 +206,18 @@ export default function CartItem({
 const SCartItemContainer = styled(ProductListItemStyle)`
   display: flex;
   align-items: center;
-  padding: 20px 0;
+  padding: 1.25rem 0;
   position: relative;
   border: 2px solid #e0e0e0;
   border-radius: 10px;
+  box-shadow: inset 0 0 10px red;
+
+  &:first-child {
+    flex-basis: 5%;
+  }
 
   input {
     display: none;
-  }
-
-  .check-box {
-    background: url(${CheckBox}) no-repeat center center;
-    background-size: contain;
-    width: 1.25rem;
-    height: 1.25rem;
-    transition: all 0.3s ease;
-    flex-basis: 5%;
-    cursor: pointer;
-  }
-
-  .check-box.checked {
-    background: url(${CheckBoxFill}) no-repeat center center;
-    background-size: contain;
-    width: 1.25rem;
-    height: 1.25rem;
   }
 
   .product-info-wrapper {
@@ -287,11 +269,11 @@ const SCartItemContainer = styled(ProductListItemStyle)`
     flex-basis: 25%;
 
     button {
-      max-width: 130px;
+      max-width: 8.125rem;
     }
 
     p {
-      margin-bottom: 26px;
+      margin-bottom: 1.625rem;
       color: #eb5757;
       font-size: var(--font-size-lg);
       font-weight: var(--font-weight-bold);
@@ -301,10 +283,10 @@ const SCartItemContainer = styled(ProductListItemStyle)`
   .delete-btn {
     background: url(${DeleteIcon}) no-repeat center center;
     background-size: contain;
-    width: 22px;
-    height: 22px;
+    width: 1.375rem;
+    height: 1.375rem;
     position: absolute;
-    right: 18px;
-    top: 18px;
+    right: 1.125rem;
+    top: 1.125rem;
   }
 `;

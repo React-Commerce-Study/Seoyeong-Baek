@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import CheckBox from '../../assets/icon/check-round.svg';
-import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
 import CartItem from './CartItem';
 import TotalPriceBox from './TotalPriceBox';
 import Button from '../common/Buttons/Button';
 import { CartProduct } from '../../@types/types';
 import { fetchCartItemList } from '../../services/ResponseApi';
+import RoundCheckBox from './checkBox/RoundCheckBox';
 
 export default function ShoppingCart() {
   const navigate = useNavigate();
@@ -79,11 +78,9 @@ export default function ShoppingCart() {
 
   return (
     <SMainLayout>
-      <STitle>장바구니</STitle>
       <SCategoryList>
         <li>
-          <label htmlFor="checkBox" className={`check-box ${isAllCheck ? 'checked' : ''}`} onClick={handleCheckBoxClick}></label>
-          <input type="checkbox" id="checkBox" />
+          <RoundCheckBox className={isAllCheck ? 'checked' : ''} onClick={handleCheckBoxClick} />
         </li>
         <li>상품정보</li>
         <li>수량</li>
@@ -117,7 +114,7 @@ export default function ShoppingCart() {
           <TotalPriceBox />
 
           <SButtonContainer>
-            <Button onClick={handleOrderBtnClick} padding="19px 65px" fontSize="var(--font-size-xl)" disabled={!btnActive}>
+            <Button onClick={handleOrderBtnClick} padding="1.1875rem 4rem" fontSize="var(--font-size-xl)" disabled={!btnActive}>
               주문하기
             </Button>
           </SButtonContainer>
@@ -127,16 +124,10 @@ export default function ShoppingCart() {
   );
 }
 
-const SMainLayout = styled.main`
-  max-width: 1280px;
-  margin: 0 auto 180px;
-`;
-
-const STitle = styled.h2`
-  margin: 54px 0 52px;
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
-  text-align: center;
+const SMainLayout = styled.div`
+  max-width: 80rem;
+  margin: 0 auto;
+  box-shadow: inset 0 0 10px red;
 `;
 
 const SCategoryList = styled.ul`
@@ -144,9 +135,12 @@ const SCategoryList = styled.ul`
   text-align: center;
   border-radius: 10px;
   background: #f2f2f2;
-  padding: 19px 0;
+  padding: 1.1875rem 0;
+  box-shadow: inset 0 0 10px red;
 
   li {
+    box-shadow: inset 0 0 10px red;
+
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-light);
 
@@ -169,31 +163,15 @@ const SCategoryList = styled.ul`
     input {
       display: none;
     }
-
-    .check-box {
-      display: inline-block;
-      background: url(${CheckBox}) no-repeat center center;
-      background-size: contain;
-      width: 1.25rem;
-      height: 1.25rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .check-box.checked {
-      background: url(${CheckBoxFill}) no-repeat center center;
-      background-size: contain;
-      width: 1.25rem;
-      height: 1.25rem;
-    }
   }
 `;
 
 const SCartListContainer = styled.section`
-  margin: 35px 0 80px;
+  margin: 2.1875rem 0 5rem;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
+  box-shadow: inset 0 0 10px blue;
 
   .empty-cart {
     margin: 10.4rem 0 1.3rem;
@@ -207,12 +185,12 @@ const SCartListContainer = styled.section`
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-light);
       color: var(--dark-gray-color);
-      margin-top: 17px;
+      margin-top: 1.06rem;
     }
   }
 `;
 
 const SButtonContainer = styled.div`
-  margin: 40px auto 0;
-  width: 220px;
+  margin: 2.5rem auto 0;
+  width: 13.75rem;
 `;
