@@ -7,7 +7,7 @@ import Button from '../common/Buttons/Button';
 import { CartProduct } from '../../@types/types';
 import { fetchCartItemList } from '../../services/ResponseApi';
 import RoundCheckBox from './checkBox/RoundCheckBox';
-import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 export default function ShoppingCart() {
   const navigate = useNavigate();
