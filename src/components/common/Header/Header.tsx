@@ -1,9 +1,8 @@
 import Nav from './Nav';
+import Logo from './logo/Logo';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchImg from '../../../assets/icon/search.svg';
-import LogoImg from '../../../assets/icon/Logo-hodu.png';
-
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 interface HeaderProps {
@@ -14,11 +13,7 @@ export default function Header({ page }: HeaderProps) {
   return (
     <SHeaderLayout>
       <SHeader>
-        <h1>
-          <Link to="/">
-            <img src={LogoImg} className="logo" alt="로고 이미지" />
-          </Link>
-        </h1>
+        <Logo />
 
         <form className="search-form">
           <input type="search" placeholder="상품을 검색해보세요!" className="search-input" />
@@ -56,7 +51,7 @@ const SHeader = styled.header`
     max-width: 7.75rem;
     height: 2.375rem;
 
-    .logo {
+    img {
       width: 100%;
       min-width: 5.8rem;
     }
