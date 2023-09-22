@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export default function Button(props: ButtonProps) {
   return <ButtonStyle {...props}>{props.children}</ButtonStyle>;
 }
 
-const ButtonStyle = styled.button<ButtonProps>`
+const buttonStyles = css<ButtonProps>`
   width: 100%;
   height: 100%;
   background-color: ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
@@ -41,5 +41,29 @@ const ButtonStyle = styled.button<ButtonProps>`
     background-color: white;
     box-shadow: inset 0 0 0 1px ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
     color: ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
+  }
+`;
+
+const ButtonStyle = styled.button<ButtonProps>`
+  ${buttonStyles}
+
+  &.all-delete-btn {
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    border-radius: 5px;
+    border: 0.09rem solid var(--middle-gray-color);
+    transition: all 0.25s ease-out;
+    padding: 0;
+    width: 5rem;
+    &.active {
+      color: var(--dark-gray-color);
+      background: none;
+    }
+    &:hover,
+    &:focus {
+      border: 0.09rem solid var(--point-color);
+      background-color: var(--point-color);
+      color: #fff;
+    }
   }
 `;

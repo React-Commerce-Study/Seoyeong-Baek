@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 
-const ProductListItemStyle = styled.div`
+const ProductListItemStyle = styled.article`
   .img-box {
     overflow: hidden;
-    /* width: 23.75rem; */
-    /* height: 23.75rem; */
     width: inherit;
     height: inherit;
-    border: 1px solid var(--middle-gray-color);
+    border: 0.0625rem solid var(--middle-gray-color);
     box-sizing: border-box;
     border-radius: 10px;
 

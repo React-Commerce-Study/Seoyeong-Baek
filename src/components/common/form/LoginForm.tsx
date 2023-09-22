@@ -87,7 +87,6 @@ const SLoginForm = styled.form`
   border: 1px solid var(--middle-gray-color);
   border-radius: 10px;
   box-sizing: border-box;
-  box-shadow: inset 0 0 10px red;
 
   input {
     width: 100%;

@@ -52,8 +52,11 @@ const ZeroCount = styled.div`
 `;
 
 const ProductCountStyle = styled.div`
-  width: 150px;
+  max-width: 9.375rem;
+  height: 3.125rem;
+  min-height: 2rem;
   display: flex;
+  align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
   border: 1px solid var(--middle-gray-color);
@@ -61,7 +64,13 @@ const ProductCountStyle = styled.div`
 
   .minus,
   .plus {
-    padding: 0 14px;
+    flex-basis: 33%;
+    height: inherit;
+    min-height: inherit;
+
+    & > img {
+      max-width: 1.25rem;
+    }
   }
 
   .minus {
@@ -73,7 +82,10 @@ const ProductCountStyle = styled.div`
   }
 
   p {
-    padding: 14px 0;
+    flex-basis: 33%;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: hidden;
     font-size: var(--font-size-lg);
     color: #000;
   }

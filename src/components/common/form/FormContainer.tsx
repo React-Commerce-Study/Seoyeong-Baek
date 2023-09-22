@@ -56,7 +56,7 @@ export default function FormContainer({ setSuccessUserName }: FormContainer) {
 }
 
 const SFormLayout = styled.div`
-  margin-top: 6.25rem;
+  margin: 6.25rem 0;
   width: 100vw;
   min-width: 19rem;
   text-align: center;
@@ -78,6 +78,8 @@ const SFormLayout = styled.div`
   }
 
   ${mediaQuery(BREAKPOINT_TABLET)} {
+    margin: 4.5rem 0;
+
     h1 img {
       max-width: 10rem;
       margin-bottom: 3rem;
@@ -91,6 +93,7 @@ type ClickChangeType = {
 
 const SUserTypeBtn = styled.button`
   flex-grow: 1;
+  color: #000;
   margin-bottom: -10px;
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-lg);

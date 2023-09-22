@@ -7,6 +7,7 @@ import Button from '../common/Buttons/Button';
 import { CartProduct } from '../../@types/types';
 import { fetchCartItemList } from '../../services/ResponseApi';
 import RoundCheckBox from './checkBox/RoundCheckBox';
+import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 export default function ShoppingCart() {
   const navigate = useNavigate();
@@ -120,6 +121,16 @@ export default function ShoppingCart() {
           </SButtonContainer>
         </>
       )}
+
+      {
+        <Button
+          className={`${isClickAllCheck ? 'active' : ''} all-delete-btn`}
+          disabled={!btnActive}
+          onClick={() => console.log('delete')}
+        >
+          전체삭제
+        </Button>
+      }
     </SMainLayout>
   );
 }
@@ -127,20 +138,31 @@ export default function ShoppingCart() {
 const SMainLayout = styled.div`
   max-width: 80rem;
   margin: 0 auto;
-  box-shadow: inset 0 0 10px red;
+  position: relative;
+
+  .all-delete-btn {
+    position: absolute;
+    height: 2rem;
+    top: -2.7rem;
+    right: 0;
+  }
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    .all-delete-btn {
+      top: 0.8rem;
+    }
+  }
 `;
 
 const SCategoryList = styled.ul`
+  margin-top: 3.25rem;
   display: flex;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: #f2f2f2;
   padding: 1.1875rem 0;
-  box-shadow: inset 0 0 10px red;
+  transition: all 0.25s ease-out;
 
   li {
-    box-shadow: inset 0 0 10px red;
-
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-light);
 
@@ -164,6 +186,19 @@ const SCategoryList = styled.ul`
       display: none;
     }
   }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    background: none;
+    margin-top: 1.5rem;
+
+    li:first-child {
+      padding-left: 0.5rem;
+    }
+
+    & > li:not(:first-child) {
+      display: none;
+    }
+  }
 `;
 
 const SCartListContainer = styled.section`
@@ -171,7 +206,6 @@ const SCartListContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
-  box-shadow: inset 0 0 10px blue;
 
   .empty-cart {
     margin: 10.4rem 0 1.3rem;
@@ -188,9 +222,18 @@ const SCartListContainer = styled.section`
       margin-top: 1.06rem;
     }
   }
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    margin: 0 0 1.5rem 0;
+    gap: 0.5rem;
+  }
 `;
 
 const SButtonContainer = styled.div`
   margin: 2.5rem auto 0;
   width: 13.75rem;
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    width: 100%;
+    margin-top: 1rem;
+  }
 `;
