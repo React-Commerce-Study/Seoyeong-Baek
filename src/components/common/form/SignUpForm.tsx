@@ -7,6 +7,7 @@ import { postSignUp, postIdCheck } from '../../../services/ResponseApi';
 import { SignUpData, UserNameData, TelData } from '../../../@types/types';
 import AgreeCheckBox from './checkBox/AgreeCheckBox';
 import { AgreeCheckBoxStyle } from './checkBox/AgreeCheckBoxStyle';
+import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 interface SignUpFormProps {
   setSuccessUserName: React.Dispatch<React.SetStateAction<string>>;
@@ -211,7 +212,7 @@ const SSignUpForm = styled.form`
 `;
 
 const SSignUpInputField = styled.fieldset`
-  padding: 50px 35px 36px;
+  padding: 3.125rem 2.1875rem 2.25rem;
   border: 1px solid var(--middle-gray-color);
   border-radius: 10px;
 
@@ -224,7 +225,7 @@ const SSignUpInputField = styled.fieldset`
     width: 100%;
     border-radius: 5px;
     border: 1px solid var(--middle-gray-color);
-    padding: 17px 16px;
+    padding: 1.07rem 1rem;
     font-size: var(--font-size-md);
     box-sizing: border-box;
     box-shadow: 0 0 0 1px #fff;
@@ -239,28 +240,34 @@ const SSignUpInputField = styled.fieldset`
 
   label:not(:last-child) {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
+  }
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    padding: 2.4rem 1.5rem 2.2rem;
+    .btn-box {
+      margin-top: 2rem;
+    }
   }
 `;
 
 const SIdWrapper = styled.div`
   .id-input-check {
     display: flex;
-    gap: 12px;
+    gap: 0.75rem;
 
     input {
-      flex-basis: 346px;
+      flex-basis: 21.625rem;
     }
 
     button {
-      flex-basis: 122px;
+      flex-basis: 7.625rem;
     }
   }
 `;
 
 const SPasswordWrapper = styled.div`
   position: relative;
-  margin-top: 12px;
+  margin-top: 0.75rem;
 
   &::after {
     position: absolute;
@@ -271,24 +278,24 @@ const SPasswordWrapper = styled.div`
         : `url(${checkOffIcon}) center no-repeat`};
 
     display: inline-block;
-    width: 28px;
-    height: 28px;
-    bottom: 13px;
-    right: 16px;
+    width: 1.75rem;
+    height: 1.75rem;
+    bottom: 0.8125rem;
+    right: 1rem;
     background-size: contain;
   }
 `;
 
 const SNameWrapper = styled.div`
-  margin: 50px 0 0;
+  margin: 3.125rem 0 0;
 `;
 
 const SPhoneNumberWrapper = styled.div`
-  margin-top: 16px;
+  margin-top: 1rem;
 
   .phone-number-box {
     display: flex;
-    gap: 12px;
+    gap: 0.75rem;
 
     select {
       text-align: center;
@@ -297,13 +304,18 @@ const SPhoneNumberWrapper = styled.div`
 `;
 
 const SCheckBoxWrapper = styled(AgreeCheckBoxStyle)`
-  max-width: 480px;
-  margin: 34px auto 0;
+  max-width: 30rem;
+  margin: 2.125rem auto 0;
 
   .check-box {
     text-align: left;
     line-height: normal;
-    margin-bottom: 34px;
+    margin-bottom: 2.125rem;
+
+    label::before {
+      align-self: flex-start;
+      margin-top: 0.1rem;
+    }
   }
 
   .btn-box {
@@ -312,7 +324,6 @@ const SCheckBoxWrapper = styled(AgreeCheckBoxStyle)`
 `;
 
 const MessageError = styled.p`
-  /* color: red; */
   margin-top: 10px;
   text-align: left;
   white-space: pre-line;

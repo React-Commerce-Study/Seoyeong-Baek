@@ -6,6 +6,7 @@ import { postLogin } from '../../../services/ResponseApi';
 import { LoginData } from '../../../@types/types';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../features/loginSlice';
+import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 type LoginFormProps = {
   loginType: string;
@@ -82,15 +83,17 @@ export default function LoginForm({ loginType }: LoginFormProps) {
 const SLoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  padding: 34px 35px 36px;
+  padding: 2.125rem 2.1875rem 2.25rem;
   border: 1px solid var(--middle-gray-color);
   border-radius: 10px;
   box-sizing: border-box;
+  box-shadow: inset 0 0 10px red;
 
   input {
     width: 100%;
     border-bottom: 1px solid var(--middle-gray-color);
-    padding: 20px 0;
+    padding: 1.25rem 1rem;
+    box-sizing: border-box;
     font-size: var(--font-size-md);
 
     &:first-child {
@@ -113,11 +116,17 @@ const SLoginForm = styled.form`
   .btn-box {
     margin-top: 2.25rem;
   }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    padding: 2.125rem 1.5rem 2.2rem;
+    .btn-box {
+      margin-top: 2rem;
+    }
+  }
 `;
 
 const MessageError = styled.p`
   color: red;
   margin-bottom: 1.2rem;
   text-align: left;
-  box-shadow: inset 0 0 10px red;
 `;

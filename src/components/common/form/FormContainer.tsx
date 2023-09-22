@@ -2,8 +2,9 @@ import { useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
-import LogoImg from '../../../assets/icon/Logo-hodu.png';
+import Logo from '../Header/logo/Logo';
 import styled from 'styled-components';
+import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 interface FormContainer {
   setSuccessUserName?: React.Dispatch<React.SetStateAction<string>>;
@@ -25,46 +26,62 @@ export default function FormContainer({ setSuccessUserName }: FormContainer) {
 
   return (
     <>
-      <SFormContainer>
-        <h1>
-          <Link to="/">
-            <img src={LogoImg} alt="로고이미지" />
-          </Link>
-        </h1>
+      <SFormLayout>
+        <Logo />
+        <section className="contents-container">
+          <div className="login-type-btn-wrapper">
+            <SUserTypeBtn value="BUYER" onClick={handleLoginType} clickChange={userType === 'BUYER'}>
+              구매회원 {setSuccessUserName ? '회원가입' : '로그인'}
+            </SUserTypeBtn>
+            <SUserTypeBtn value="SELLER" onClick={handleLoginType} clickChange={userType === 'SELLER'}>
+              판매회원 {setSuccessUserName ? '회원가입' : '로그인'}
+            </SUserTypeBtn>
+          </div>
 
-        <div className="login-type-wrapper">
-          <SUserTypeBtn value="BUYER" onClick={handleLoginType} clickChange={userType === 'BUYER'}>
-            구매회원 {setSuccessUserName ? '회원가입' : '로그인'}
-          </SUserTypeBtn>
-          <SUserTypeBtn value="SELLER" onClick={handleLoginType} clickChange={userType === 'SELLER'}>
-            판매회원 {setSuccessUserName ? '회원가입' : '로그인'}
-          </SUserTypeBtn>
-        </div>
-
-        {setSuccessUserName ? (
-          <SignUpForm setSuccessUserName={setSuccessUserName} />
-        ) : (
-          <>
-            <LoginForm loginType={userType} />
-            <SJoinFindWrapper>
-              <Link to="/signup">회원가입</Link>
-              <Link to="">비밀번호 찾기</Link>
-            </SJoinFindWrapper>
-          </>
-        )}
-      </SFormContainer>
+          {setSuccessUserName ? (
+            <SignUpForm setSuccessUserName={setSuccessUserName} />
+          ) : (
+            <>
+              <LoginForm loginType={userType} />
+              <SJoinFindWrapper>
+                <Link to="/signup">회원가입</Link>
+                <Link to="">비밀번호 찾기</Link>
+              </SJoinFindWrapper>
+            </>
+          )}
+        </section>
+      </SFormLayout>
     </>
   );
 }
 
-const SFormContainer = styled.div`
-  margin: 100px auto;
-  max-width: 550px;
+const SFormLayout = styled.div`
+  margin-top: 6.25rem;
+  width: 100vw;
+  min-width: 19rem;
   text-align: center;
+  padding: 0 1rem;
+  box-sizing: border-box;
 
   h1 img {
-    max-width: 238px;
-    margin-bottom: 70px;
+    max-width: 14.875rem;
+    margin-bottom: 4.375rem;
+  }
+
+  .contents-container {
+    max-width: 34.375rem;
+    margin: 0 auto;
+  }
+
+  .login-type-btn-wrapper {
+    display: flex;
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    h1 img {
+      max-width: 10rem;
+      margin-bottom: 3rem;
+    }
   }
 `;
 
@@ -73,29 +90,35 @@ type ClickChangeType = {
 };
 
 const SUserTypeBtn = styled.button`
+  flex-grow: 1;
   margin-bottom: -10px;
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-lg);
-  line-height: 22px;
-  width: 275px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  line-height: 1.375rem;
+  border-radius: 10px 10px 0 0;
   border: 1px solid var(--middle-gray-color);
   border-bottom: ${(props: ClickChangeType) => (props.clickChange ? 'none' : '')};
   background-color: ${(props: ClickChangeType) => (props.clickChange ? '#fff' : '#F2F2F2')};
-  padding: 20px;
+  padding: 1.25rem 0;
 `;
 
 const SJoinFindWrapper = styled.div`
-  margin-top: 30px;
+  margin-top: 1.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
   a {
     color: #333;
     font-weight: var(--font-weight-light);
     font-size: var(--font-size-md);
-    &:first-child::after {
-      content: '|';
-      display: inline-block;
-      margin: 0 14px;
-    }
+    padding: 0.3rem;
+  }
+  & > :first-child::after {
+    content: '|';
+    position: absolute;
+    display: inline-block;
+    margin-left: 1.15rem;
   }
 `;
