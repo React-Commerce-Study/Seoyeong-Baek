@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import AgreeCheckBox from '../common/form/checkBox/AgreeCheckBox';
 import { AgreeCheckBoxStyle } from '../common/form/checkBox/AgreeCheckBoxStyle';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface FinalPaymentInfoProps {
   totalPrice: number;
@@ -46,7 +47,7 @@ export default function FinalPaymentInfo({ totalPrice, totalDeliveryFee }: Final
   );
 }
 
-const SSectionLayout = styled.section`
+const SSectionLayout = styled.article`
   flex-basis: 30rem;
 
   .payment-info {
@@ -58,7 +59,7 @@ const SSectionLayout = styled.section`
 `;
 
 const SPaymentInfoList = styled.ul`
-  padding: 32px 30px 20px;
+  padding: 2rem 1.875rem 1.25rem;
 
   li {
     display: flex;
@@ -66,7 +67,7 @@ const SPaymentInfoList = styled.ul`
 
     &:first-child,
     &:nth-child(2) {
-      margin-bottom: 12px;
+      margin-bottom: 0.75rem;
     }
 
     p {
@@ -76,14 +77,14 @@ const SPaymentInfoList = styled.ul`
       strong {
         font-size: var(--font-size-lg);
         font-weight: var(--font-weight-bold);
-        margin-right: 4px;
+        margin-right: 0.25rem;
       }
     }
 
     &.final-total-money {
       border-top: 1px solid var(--middle-gray-color);
-      padding-top: 24px;
-      margin-top: 19px;
+      padding-top: 1.5rem;
+      margin-top: 1.1875rem;
 
       strong {
         color: #eb5757;
@@ -91,18 +92,26 @@ const SPaymentInfoList = styled.ul`
       }
     }
   }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    padding: 2rem 1rem 1.25rem;
+  }
 `;
 
 const SAgreeCheckBoxWrapper = styled(AgreeCheckBoxStyle)`
   background-color: #f2f2f2;
-  padding: 30px 30px 34px;
+  padding: 1.875rem 1.875rem 2.125rem;
 
   .check-box {
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
   }
 
   .btn-box {
     margin: 0 auto;
-    max-width: 220px;
+    max-width: 13.75rem;
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    padding: 2rem 1rem 1.25rem;
   }
 `;

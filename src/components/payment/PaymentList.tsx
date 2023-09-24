@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import PaymentItem from './PaymentItem';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface PaymentListProps {
   orderListId: number[];
@@ -12,8 +13,7 @@ export default function PaymentList({ orderListId, finalPrice, orderListQuantity
   console.log(orderListQuantity);
 
   return (
-    <>
-      <STitle>주문/결제하기</STitle>
+    <section>
       <SCategoryList>
         <li>상품정보</li>
         <li>할인</li>
@@ -33,23 +33,16 @@ export default function PaymentList({ orderListId, finalPrice, orderListQuantity
           총 주문금액<strong>{finalPrice?.toLocaleString()}원</strong>
         </p>
       </STotalPrice>
-    </>
+    </section>
   );
 }
-
-const STitle = styled.h2`
-  margin: 54px 0 52px;
-  font-size: var(--font-size-xxl) rem;
-  font-weight: var(--font-weight-bold);
-  text-align: center;
-`;
 
 const SCategoryList = styled.ul`
   display: flex;
   text-align: center;
   border-radius: 10px;
   background: #f2f2f2;
-  padding: 19px 0;
+  padding: 1.1875rem 1rem;
 
   li {
     font-size: var(--font-size-lg);
@@ -63,12 +56,24 @@ const SCategoryList = styled.ul`
       flex-basis: 20%;
     }
   }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    padding: 1rem 0.6rem;
+
+    li {
+      font-size: var(--font-size-sm);
+    }
+  }
 `;
 
 const SCartListContainer = styled.section`
-  margin: 16px 0 30px;
+  margin: 1rem 0 1.875rem;
   display: flex;
   flex-direction: column;
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    margin: 0.7rem 0;
+  }
 `;
 
 const STotalPrice = styled.div`
@@ -77,7 +82,7 @@ const STotalPrice = styled.div`
   font-weight: var(--font-weight-medium);
 
   strong {
-    margin: 10px;
+    margin: 0.625rem;
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
     color: #eb5757;

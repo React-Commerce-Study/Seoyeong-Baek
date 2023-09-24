@@ -10,6 +10,7 @@ import { postOrderList } from '../../services/ResponseApi';
 import ConfirmModal from '../modal/PaymentModal';
 import OrderCompleteModal from '../modal/OrderCompleteModal';
 import { useTotalPrice, useTotalDeliveryPrice } from '../../hooks/UseFinalPrice';
+import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
 export default function PaymentMain() {
   const location = useLocation();
@@ -86,6 +87,7 @@ export default function PaymentMain() {
           </div>
         </form>
       </SMainLayout>
+
       {isModalOpen && (
         <ConfirmModal postOrder={postOrder} orderData={cartOrder ? orderData : oneOrderData} setIsModalOpen={setIsModalOpen} />
       )}
@@ -96,9 +98,10 @@ export default function PaymentMain() {
   );
 }
 
-const SMainLayout = styled.main`
+const SMainLayout = styled.div`
   max-width: 80rem;
-  margin: 0 auto 200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 
   h3 {
     font-size: var(--font-size-xl);
@@ -106,9 +109,20 @@ const SMainLayout = styled.main`
   }
 
   .payment-wrapper {
-    margin-top: 70px;
+    margin-top: 4.375rem;
     display: flex;
     justify-content: space-between;
     gap: 2.5rem;
+  }
+
+  ${mediaQuery(BREAKPOINT_PC)} {
+    .payment-wrapper {
+      margin-top: 2.5rem;
+      display: block;
+
+      & > :first-child {
+        margin-bottom: 2.5rem;
+      }
+    }
   }
 `;

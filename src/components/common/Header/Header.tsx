@@ -34,9 +34,10 @@ export default function Header({ page }: HeaderProps) {
 }
 
 const SHeaderLayout = styled.div`
-  padding: 22px 0;
+  padding: 1.375rem 0;
   box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 10px -10px;
+
+  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
 `;
 
 const SHeader = styled.header`

@@ -4,8 +4,7 @@ export const BREAKPOINT_MOBILE = 'mobile';
 
 const device = {
   mobile: 375,
-  tablet: 720,
-  // tablet: 768,
+  tablet: 768,
   pc: 1024,
 };
 

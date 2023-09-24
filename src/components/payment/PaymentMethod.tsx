@@ -48,21 +48,21 @@ export default function PaymentMethod({ setOrderData, order_kind, setOneOrderDat
   );
 }
 
-const SSectionLayout = styled.section`
-  /* width: 47.5rem; */
+const SSectionLayout = styled.article`
   flex-basis: 47.5rem;
 
   h3 {
-    border-bottom: 2px solid var(--middle-gray-color);
+    border-bottom: 0.125rem solid var(--middle-gray-color);
   }
 
   .payment-method-list {
     display: flex;
-    padding: 1.125rem 0 1.125rem 0.75rem;
+    padding: 1.125rem 0.75rem 1.125rem 0.75rem;
     border-bottom: 2px solid var(--middle-gray-color);
+    flex-wrap: wrap;
+    gap: 1.25rem;
 
     li {
-      margin-right: 1.25rem;
       flex-shrink: 0;
 
       input {
@@ -79,16 +79,16 @@ const SSectionLayout = styled.section`
         &::before {
           content: '';
           background: url(${CheckBox}) no-repeat center center;
-          width: 20px;
-          height: 20px;
+          width: 1.25rem;
+          height: 1.25rem;
           transition: all 0.3s ease;
         }
 
         &.selected::before {
           content: '';
           background: url(${CheckBoxFill}) no-repeat center center;
-          width: 20px;
-          height: 20px;
+          width: 1.25rem;
+          height: 1.25rem;
         }
       }
     }

@@ -4,6 +4,7 @@ import ProductDataImg from '../common/product/ProductDataImg';
 import styled from 'styled-components';
 import { Product } from '../../@types/types';
 import { getProductItem } from '../../services/ResponseApi';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface PaymentItemProps {
   // key: number;
@@ -37,7 +38,7 @@ export default function PaymentItem({ orderId, quantity }: PaymentItemProps) {
         <div>Loading...</div>
       ) : (
         <SOrderItemContainer>
-          <div className="img-info-box">
+          <div className="img-info-wrapper">
             <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
             <div className="info-box">
               <p className="store-name">{product.store_name}</p> <p className="product-name">{product.product_name}</p>
@@ -58,15 +59,17 @@ export default function PaymentItem({ orderId, quantity }: PaymentItemProps) {
 }
 
 const SOrderItemContainer = styled.div`
-  padding: 20px 0;
-  border-bottom: 1px solid var(--middle-gray-color);
+  padding: 1.25rem 1rem;
+  border: 1px solid var(--middle-gray-color);
   display: flex;
   align-items: center;
   color: var(--dark-gray-color);
   font-weight: var(--font-weight-light);
   font-size: var(--font-size-lg);
+  margin-bottom: 0.625rem;
+  border-radius: 10px;
 
-  .img-info-box {
+  .img-info-wrapper {
     flex-basis: 40%;
     display: flex;
     align-items: center;
@@ -74,10 +77,11 @@ const SOrderItemContainer = styled.div`
 
     .img-box {
       overflow: hidden;
-      width: 6.5rem;
-      height: 6.5rem;
+      max-width: 6.5rem;
+      max-height: 6.5rem;
       box-sizing: border-box;
       border-radius: 10px;
+      border: 1px solid var(--middle-gray-color);
 
       img {
         width: 100%;
@@ -94,12 +98,12 @@ const SOrderItemContainer = styled.div`
       }
 
       .store-name {
-        margin-bottom: 6px;
+        margin-bottom: 0.375rem;
       }
 
       .product-name {
         color: #000;
-        margin-bottom: 10px;
+        margin-bottom: 0.625rem;
       }
     }
   }
@@ -107,11 +111,35 @@ const SOrderItemContainer = styled.div`
   & > p {
     flex-basis: 20%;
     text-align: center;
+    flex-wrap: wrap;
   }
 
   .product-price,
   .product-price strong {
     color: #000;
     font-weight: var(--font-weight-bold);
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    padding: 0.6rem 0.6rem;
+    gap: 0.3rem;
+
+    .img-info-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .info-box {
+      .product-name {
+        font-size: var(--font-size-md);
+      }
+    }
+
+    & > p {
+      font-size: var(--font-size-sm);
+      word-break: break-all;
+      overflow: hidden;
+    }
   }
 `;

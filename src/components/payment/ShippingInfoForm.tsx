@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
 import { OrderData, ExtendedOrderData, TelData } from '../../@types/types';
 import AddressModal from '../modal/AddressModal';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface ShippingInfoFormProps {
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
@@ -58,7 +59,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
   };
 
   return (
-    <SSectionLayout>
+    <SInfoInputLayout>
       <h3>배송정보</h3>
       <fieldset className="customer-info">
         <legend>주문자 정보</legend>
@@ -69,7 +70,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
           </li>
           <li className="tel">
             <label htmlFor="shippingTel">휴대폰</label>
-            <div>
+            <div className="tel-input-box">
               <input type="tel" className="tel" id="shippingTel" name="shippingTel" required />
               <span>-</span>
               <input type="tel" className="tel" id="shippingTel" required />
@@ -93,7 +94,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
           </li>
           <li>
             <label htmlFor="">휴대폰</label>
-            <div>
+            <div className="tel-input-box">
               <input type="tel" className="tel" id="recipientTel" name="tel1" required onChange={handleTelChange} />
               <span>-</span>
               <input type="tel" className="tel" id="recipientTel" name="tel2" required onChange={handleTelChange} />
@@ -106,7 +107,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
             <div className="recipient-addr-wrapper">
               <div className="addr-search">
                 <input type="text" className="addr" id="recipientAddr" name="recipientAddr" required readOnly />
-                <Button type="button" padding="10px 31px" fontSize="16px" fontWeight="500" onClick={handleFindAddrClick}>
+                <Button type="button" padding="0.625rem 2rem" fontSize="1rem" fontWeight="500" onClick={handleFindAddrClick}>
                   우편번호조회
                 </Button>
               </div>
@@ -122,46 +123,58 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
             </div>
           </li>
           <li>
-            <label htmlFor="">배송메세지</label>
-            <input type="text" onChange={handleMessageChange} />
+            <label
+              htmlFor="
+            deliveryMessage"
+            >
+              배송메세지
+            </label>
+            <input id="deliveryMessage" type="text" onChange={handleMessageChange} />
           </li>
         </ul>
       </fieldset>
       {isOpenModal && <AddressModal setIsOpenModal={setIsOpenModal} setAddress={setAddress} />}
-    </SSectionLayout>
+    </SInfoInputLayout>
   );
 }
 
-const SSectionLayout = styled.section`
+const SInfoInputLayout = styled.article`
   margin-top: 6rem;
+  box-sizing: border-box;
+  width: inherit;
 
   h3 {
-    border-bottom: 2px solid var(--middle-gray-color);
+    border-bottom: 0.125rem solid var(--middle-gray-color);
   }
 
   fieldset {
-    margin-top: 40px;
+    margin-top: 2.5rem;
+    max-width: 100%;
 
     legend {
       font-size: var(--font-size-lg);
-      border-bottom: 2px solid var(--middle-gray-color);
+      border-bottom: 0.125rem solid var(--middle-gray-color);
       padding-bottom: 0.5rem;
       width: 100%;
     }
 
     li {
       padding: 0.5rem 0;
+      box-sizing: border-box;
       border-bottom: 1px solid var(--middle-gray-color);
       display: flex;
       align-items: center;
-      gap: 90px;
+      gap: 5.625rem;
 
       label {
-        display: inline-block;
-        width: 80px;
+        display: block;
+        width: 5rem;
+        flex-shrink: 0;
       }
 
       input {
+        flex-shrink: 1;
+        box-sizing: border-box;
         border: 1px solid var(--middle-gray-color);
         padding: 0.625rem 0.6rem;
         font-size: var(--font-size-md);
@@ -170,46 +183,86 @@ const SSectionLayout = styled.section`
         &#shippingName,
         &#shippingMail,
         &#recipientName {
-          width: 334px;
+          width: 20.875rem;
         }
-
-        &[type='tel'] {
-          width: 100px;
-
-          &:first-child {
-            width: 80px;
-          }
+        &#deliveryMessage {
+          max-width: 50rem;
+          width: 100%;
         }
       }
 
-      span {
-        margin: 0 10px;
+      .tel-input-box {
+        display: flex;
+        gap: 0.625rem;
+        align-items: center;
+        width: 100%;
+
+        & > input:not(:first-child) {
+          width: 6.25rem;
+        }
+        & > input:first-child {
+          width: 5rem;
+        }
       }
 
       .recipient-addr-wrapper {
         display: flex;
         flex-direction: column;
-        align-items: baseline;
-        gap: 8px;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
 
         .addr-search {
           display: flex;
-          gap: 10px;
+          gap: 0.625rem;
           align-items: center;
 
           input {
-            width: 170px;
+            min-width: 10.625rem;
+            width: 100%;
           }
         }
+
         & > input {
-          width: 800px;
+          width: 100%;
+          max-width: 50rem;
         }
       }
     }
+  }
 
-    &.address-info {
-      input {
-        width: 800px;
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    margin-top: 3rem;
+
+    fieldset {
+      li {
+        padding: 0.6rem 0;
+
+        flex-direction: column;
+        gap: 0.3rem;
+        align-items: flex-start;
+
+        input {
+          &#shippingName,
+          &#shippingMail,
+          &#recipientName {
+            width: 100%;
+          }
+        }
+
+        .tel-input-box {
+          & > input.tel {
+            flex-grow: 1;
+          }
+        }
+        .recipient-addr-wrapper {
+          .addr-search {
+            width: 100%;
+          }
+        }
       }
     }
   }
