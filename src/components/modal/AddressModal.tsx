@@ -7,10 +7,17 @@ import CloseButton from '../common/Buttons/CloseButton';
 interface AddressModalProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   setAddress: React.Dispatch<React.SetStateAction<string>>;
+  setZoneCode: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function AddressModal({ setIsOpenModal, setAddress }: AddressModalProps) {
-  const handleComplete = (data: { address: string; addressType: string; bname: string; buildingName: string }) => {
+export default function AddressModal({ setIsOpenModal, setAddress, setZoneCode }: AddressModalProps) {
+  const handleComplete = (data: {
+    address: string;
+    addressType: string;
+    bname: string;
+    buildingName: string;
+    zonecode: string;
+  }) => {
     let fullAddress = data.address;
     let extraAddress = '';
 
@@ -25,6 +32,7 @@ export default function AddressModal({ setIsOpenModal, setAddress }: AddressModa
     }
 
     setAddress(fullAddress);
+    setZoneCode(data.zonecode);
     console.log(fullAddress);
     closeModal();
   };

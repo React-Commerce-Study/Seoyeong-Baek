@@ -35,6 +35,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
     setIsOpenModal(true);
   };
 
+  const [zoneCode, setZoneCode] = useState('');
   const [address, setAddress] = useState('');
   const [extraAddress, setExtraAddress] = useState('');
   // console.log(extraAddress);
@@ -106,7 +107,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
             <label htmlFor="recipientAddr">배송주소</label>
             <div className="recipient-addr-wrapper">
               <div className="addr-search">
-                <input type="text" className="addr" id="recipientAddr" name="recipientAddr" required readOnly />
+                <input type="text" className="addr" id="recipientAddr" name="recipientAddr" required readOnly value={zoneCode} />
                 <Button type="button" padding="0.625rem 2rem" fontSize="1rem" fontWeight="500" onClick={handleFindAddrClick}>
                   우편번호조회
                 </Button>
@@ -133,7 +134,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
           </li>
         </ul>
       </fieldset>
-      {isOpenModal && <AddressModal setIsOpenModal={setIsOpenModal} setAddress={setAddress} />}
+      {isOpenModal && <AddressModal setIsOpenModal={setIsOpenModal} setAddress={setAddress} setZoneCode={setZoneCode} />}
     </SInfoInputLayout>
   );
 }
