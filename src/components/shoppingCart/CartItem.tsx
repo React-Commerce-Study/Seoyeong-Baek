@@ -147,12 +147,15 @@ export default function CartItem({
   };
 
   useEffect(() => {
-    if (isOneOrderBtnClick) {
+    if (isOneOrderBtnClick && product) {
       const orderListId = [cartProduct.product_id];
       const orderListQuantity = [count];
       const order_kind = 'cart_one_order';
-
       navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
+
+      // 주문하려는 상품의 가격으로 바꿔주기
+      dispatch(resetPrice());
+      dispatch(plusPrice({ price: price, deliveryFee: product.shipping_fee }));
     }
   }, [isOneOrderBtnClick]);
 

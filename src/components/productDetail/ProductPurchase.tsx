@@ -7,6 +7,8 @@ import { Product, ProductData } from '../../@types/types';
 import Modal from '../modal/Modal';
 import { fetchCartItemList, postCartList } from '../../services/ResponseApi';
 import { useTypedSelector } from '../../hooks/UseTypedSelector';
+import { useDispatch } from 'react-redux';
+import { plusPrice, resetPrice } from '../../features/finalPriceSlice';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface ProductPurchaseProps {
@@ -17,6 +19,7 @@ type ButtonType = 'cart' | 'buy'; // 버튼 유형을 나타내는 타입 정의
 
 export default function ProductPurchase({ product }: ProductPurchaseProps) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [count, setCount] = useState(1);
   console.log(product);
@@ -43,11 +46,12 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         console.log('구매 버튼 클릭');
         const orderListId = [product.product_id];
         const orderListQuantity = [count];
-        const totalPrice = product.price * count;
-        const totalDeliveryFee = product.shipping_fee;
         const order_kind = 'direct_order';
 
-        navigate('/payment', { state: { orderListId, totalPrice, totalDeliveryFee, orderListQuantity, order_kind } });
+        navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
+
+        dispatch(resetPrice());
+        dispatch(plusPrice({ price: product.price * count, deliveryFee: product.shipping_fee }));
       }
     }
   };
