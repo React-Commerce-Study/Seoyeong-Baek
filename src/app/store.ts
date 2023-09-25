@@ -13,12 +13,13 @@ const persistConfig = {
 };
 
 const persistedLoginReducer = persistReducer(persistConfig, isLoggedInReducer);
+const persistedPriceReducer = persistReducer(persistConfig, finalPriceReducer);
 
 export const store = configureStore({
   reducer: {
     // modal: modalReducer,
     isLoggedIn: persistedLoginReducer,
-    finalPrice: finalPriceReducer,
+    finalPrice: persistedPriceReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
