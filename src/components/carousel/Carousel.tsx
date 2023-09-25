@@ -17,6 +17,14 @@ export default function Carousel() {
     setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   };
 
+  useEffect(() => {
+    const interval = setInterval(handleNext, 4000); // 5초(5000 밀리초)마다 handleNext 함수를 호출
+
+    return () => {
+      clearInterval(interval); // 컴포넌트가 언마운트될 때 interval 정리
+    };
+  }, []); // 빈 배열을 두어 한 번만 실행
+
   // 랜덤이미지 불러오기
   useEffect(() => {
     getRandomImages()
@@ -39,7 +47,7 @@ export default function Carousel() {
           </div>
           <div className="dots-box">
             {images.map((_, index) => (
-              <DotStyle key={index} bgColor={index === currentIndex}></DotStyle>
+              <DotStyle key={index} indication={index === currentIndex}></DotStyle>
             ))}
           </div>
         </CarouselContainer>
@@ -140,6 +148,7 @@ const CarouselContainer = styled.div`
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.75rem;
   }
 
@@ -151,17 +160,20 @@ const CarouselContainer = styled.div`
 `;
 
 type DotStyleProps = {
-  bgColor: boolean;
+  indication: boolean;
 };
 
 const DotStyle = styled.div<DotStyleProps>`
-  background: ${(props: DotStyleProps) => (props.bgColor ? 'var(--point-color)' : 'var(--light-gray-color)')};
+  background: ${(props: DotStyleProps) => (props.indication ? 'var(--point-color)' : 'var(--light-gray-color)')};
   border-radius: 50%;
-  height: 0.55rem;
-  width: 0.55rem;
+  height: ${(props: DotStyleProps) => (props.indication ? '0.8rem' : '0.55rem')};
+  width: ${(props: DotStyleProps) => (props.indication ? '0.8rem' : '0.55rem')};
+  transition: all 0.25s ease-in-out;
 
   ${mediaQuery(BREAKPOINT_TABLET)} {
     height: 0.4rem;
     width: 0.4rem;
+    height: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.35rem')};
+    width: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.35rem')};
   }
 `;
