@@ -2,6 +2,7 @@ import Header from '../components/common/Header/Header';
 import CartList from 'components/shoppingCart/CartList';
 import Footer from '../components/common/Footer/Footer';
 import styled from 'styled-components';
+import ScrollTopButton from '../components/common/Buttons/ScrollTopButton';
 
 export default function Cart() {
   return (
@@ -11,6 +12,8 @@ export default function Cart() {
         <h2 className="title">장바구니</h2>
         <CartList />
       </SCartListMain>
+      <ScrollTopButton />
+
       <Footer />
     </>
   );

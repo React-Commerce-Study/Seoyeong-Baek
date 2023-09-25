@@ -5,6 +5,7 @@ import Footer from '../components/common/Footer/Footer';
 import styled from 'styled-components';
 import ProductDetailItem from '../components/productDetail/ProductDetailItem';
 import ProductDetailNav from '../components/productDetail/ProductDetailNav';
+import ScrollTopButton from '../components/common/Buttons/ScrollTopButton';
 
 export default function ProductDetails() {
   const location = useLocation();
@@ -20,6 +21,7 @@ export default function ProductDetails() {
         <ProductDetailItem product={product} />
         <ProductDetailNav />
       </SProductInfoMain>
+      <ScrollTopButton />
       <Footer />
     </>
   );
