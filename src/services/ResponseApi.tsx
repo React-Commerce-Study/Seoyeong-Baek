@@ -12,18 +12,28 @@ import {
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
 const token = localStorage.getItem('token');
 
+// interceptor
+// 로그인하고 장바구니 이동시 장바구니 리스트를 불러오지 못함 -> 새로고침시에는 불러와짐 -> 카트리스트컴포넌트에서 직접적으로 토큰을 넣어주니 잘 되더라~~ 인터셉트 함수를 이용해서 ~~
+async function fetchWithToken(url: string, options = {}) {
+  const token = localStorage.getItem('token');
+  const headers = {
+    'Content-type': 'application/json',
+    Authorization: `JWT ${token}`,
+  };
+
+  return fetch(url, { ...options, headers });
+}
+
 // 상품 리스트 가져오기
-export async function getProductList(fetchPage: number) {
+export async function getProductList(fetchPage?: number) {
+  const getProductUrl = fetchPage ? `${BASE_URL}products/?page=${fetchPage}` : `${BASE_URL}products/`;
   try {
-    const response = await fetch(`${BASE_URL}products/?page=${fetchPage}`, {
+    const response = await fetch(getProductUrl, {
       method: 'GET',
     });
-
-    console.log(`${BASE_URL}/?page=${fetchPage}`);
     if (response.ok) {
       const data = await response.json();
       console.log(data.results);
-      // console.log(data.next);
       return data;
     }
     throw new Error('네트워크에 문제가 있습니다.');
@@ -33,15 +43,34 @@ export async function getProductList(fetchPage: number) {
 }
 
 // 장바구니 리스트 가져오기
+// export async function fetchCartItemList(token: string) {
+//   try {
+//     const response = await fetch(`${BASE_URL}cart/`, {
+//       method: 'GET',
+//       headers: {
+//         Authorization: `JWT ${token}`,
+//       },
+//     });
+
+//     if (response.ok) {
+//       const data = await response.json();
+//       console.log(data.results);
+//       return data.results;
+//     } else {
+//       throw new Error('네트워크에 문제가 있습니다.');
+//     }
+//   } catch (error) {
+//     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+//   }
+// }
+
+// 장바구니 리스트 가져오기
 export async function fetchCartItemList() {
   try {
-    const response = await fetch(`${BASE_URL}cart/`, {
+    const response = await fetchWithToken(`${BASE_URL}cart/`, {
       method: 'GET',
-      headers: {
-        Authorization: `JWT ${token}`,
-      },
     });
-
+    console.log(response);
     if (response.ok) {
       const data = await response.json();
       console.log(data.results);

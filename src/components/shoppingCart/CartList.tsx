@@ -19,6 +19,8 @@ export default function ShoppingCart() {
 
   useEffect(() => {
     fetchCartItems();
+
+    return setIsChangeModalValue(false);
   }, [isChangeModalValue]);
   // cartItemList을 넣게되면 체크박스를 클릭할 때마다 재렌더링돼서 체크박스 on/off가 되지 않음
 
@@ -115,7 +117,7 @@ export default function ShoppingCart() {
           <TotalPriceBox />
 
           <SButtonContainer>
-            <Button onClick={handleOrderBtnClick} padding="1.1875rem 4rem" fontSize="var(--font-size-xl)" disabled={!btnActive}>
+            <Button onClick={handleOrderBtnClick} padding="19px 64px" fontSize="var(--font-size-xl)" disabled={!btnActive}>
               주문하기
             </Button>
           </SButtonContainer>
@@ -136,30 +138,30 @@ export default function ShoppingCart() {
 }
 
 const SMainLayout = styled.div`
-  max-width: 80rem;
+  max-width: 1280px;
   margin: 0 auto;
   position: relative;
 
   .all-delete-btn {
     position: absolute;
-    height: 2rem;
-    top: -2.7rem;
+    height: 32px;
+    top: -43.2px;
     right: 0;
   }
   ${mediaQuery(BREAKPOINT_TABLET)} {
     .all-delete-btn {
-      top: 0.8rem;
+      top: 12.8px;
     }
   }
 `;
 
 const SCategoryList = styled.ul`
-  margin-top: 3.25rem;
+  margin-top: 52px;
   display: flex;
   text-align: center;
-  border-radius: 0.625rem;
+  border-radius: 10px;
   background: #f2f2f2;
-  padding: 1.1875rem 0;
+  padding: 19px 0;
   transition: all 0.25s ease-out;
 
   li {
@@ -189,10 +191,10 @@ const SCategoryList = styled.ul`
 
   ${mediaQuery(BREAKPOINT_TABLET)} {
     background: none;
-    margin-top: 1.5rem;
+    margin-top: 24px;
 
     li:first-child {
-      padding-left: 0.5rem;
+      padding-left: 8px;
     }
 
     & > li:not(:first-child) {
@@ -202,13 +204,13 @@ const SCategoryList = styled.ul`
 `;
 
 const SCartListContainer = styled.section`
-  margin: 2.1875rem 0 5rem;
+  margin: 35px 0 80px;
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 10px;
 
   .empty-cart {
-    margin: 10.4rem 0 1.3rem;
+    margin: 166.4px 0 20.8px;
     text-align: center;
 
     strong {
@@ -219,21 +221,21 @@ const SCartListContainer = styled.section`
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-light);
       color: var(--dark-gray-color);
-      margin-top: 1.06rem;
+      margin-top: 16.96px;
     }
   }
   ${mediaQuery(BREAKPOINT_TABLET)} {
-    margin: 0 0 1.5rem 0;
-    gap: 0.5rem;
+    margin: 0 0 24px 0;
+    gap: 8px;
   }
 `;
 
 const SButtonContainer = styled.div`
-  margin: 2.5rem auto 0;
-  width: 13.75rem;
+  margin: 40px auto 0;
+  width: 220px;
 
   ${mediaQuery(BREAKPOINT_TABLET)} {
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 16px;
   }
 `;
