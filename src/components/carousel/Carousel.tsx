@@ -18,12 +18,12 @@ export default function Carousel() {
   };
 
   useEffect(() => {
-    const interval = setInterval(handleNext, 4000); // 5초(5000 밀리초)마다 handleNext 함수를 호출
+    const interval = setInterval(handleNext, 4000); // 4초(4000 밀리초)마다 handleNext 함수를 호출
 
     return () => {
       clearInterval(interval); // 컴포넌트가 언마운트될 때 interval 정리
     };
-  }, []); // 빈 배열을 두어 한 번만 실행
+  }, [currentIndex]); // currentIndex가 바뀔때 매번실행
 
   // 랜덤이미지 불러오기
   useEffect(() => {
@@ -40,7 +40,6 @@ export default function Carousel() {
   return (
     <CarouselStyle>
       <article className="carousel-contents">
-        <button className="pre-btn" type="button" onClick={handlePrevious}></button>
         <CarouselContainer>
           <div className="carousel-img-wrapper">
             <img src={images[currentIndex]} alt="Slideshow" />
@@ -51,6 +50,7 @@ export default function Carousel() {
             ))}
           </div>
         </CarouselContainer>
+        <button className="pre-btn" type="button" onClick={handlePrevious}></button>
         <button className="next-btn" type="button" onClick={handleNext}></button>
       </article>
     </CarouselStyle>
