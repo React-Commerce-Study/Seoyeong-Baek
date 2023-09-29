@@ -1,8 +1,7 @@
 import Nav from './Nav';
+import Search from './Search';
 import Logo from './logo/Logo';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchImg from '../../../assets/icon/search.svg';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 interface HeaderProps {
@@ -14,19 +13,7 @@ export default function Header({ page }: HeaderProps) {
     <SHeaderLayout>
       <SHeader>
         <Logo />
-
-        <form className="search-form">
-          <input type="search" placeholder="상품을 검색해보세요!" className="search-input" />
-          <button type="submit" className="search-btn">
-            <img src={SearchImg} alt="검색버튼" />
-          </button>
-          <button type="button" className="search-btn-mobile">
-            <Link to="/search">
-              <img src={SearchImg} alt="검색버튼" />
-            </Link>
-          </button>
-        </form>
-
+        <Search />
         <Nav page={page} />
       </SHeader>
     </SHeaderLayout>
