@@ -32,21 +32,49 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
   const [phoneNumberError, setPhoneNumberError] = useState('');
   const [nameError, setNameError] = useState('');
 
+  const [usernameError, setUsernameError] = useState('');
+  const [usernameSuccess, setUsernameSuccess] = useState('');
+
   // 회원가입 폼 post
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await postSignUp(signUpData);
-    const blankError = '이 필드는 필수항목 입니다.';
-    console.log(result);
-    if (result.user_type) {
-      console.log('회원가입 성공');
-      setSuccessUserName(result.username);
+    if (!usernameSuccess) {
+      setUsernameError('아이디 중복검사를 진행해주세요!');
     } else {
-      if (result.password) setPasswordError(result.password[0].includes('blank') ? blankError : result.password);
-      if (result.phone_number) setPhoneNumberError(result.phone_number[0].includes('blank') ? blankError : result.phone_number);
-      if (result.name) setNameError(result.name[0].includes('blank') ? blankError : result.name);
-      if (result.password2) setPassword2Error(result.password2[0].includes('blank') ? blankError : result.password2);
-      if (result.username) setUsernameError(result.username[0].includes('blank') ? blankError : result.username);
+      const result = await postSignUp(signUpData);
+      const blankError = '이 필드는 필수항목 입니다.';
+      console.log(result);
+      if (result.user_type) {
+        console.log('회원가입 성공');
+        setSuccessUserName(result.username);
+      } else {
+        if (result.password) setPasswordError(result.password[0].includes('blank') ? blankError : result.password);
+        if (result.phone_number) setPhoneNumberError(result.phone_number[0].includes('blank') ? blankError : result.phone_number);
+        if (result.name) setNameError(result.name[0].includes('blank') ? blankError : result.name);
+        if (result.password2) setPassword2Error(result.password2[0].includes('blank') ? blankError : result.password2);
+        if (result.username) setUsernameError(result.username[0].includes('blank') ? blankError : result.username);
+      }
+    }
+  };
+
+  // 아이디 validation
+  const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserNameData(() => ({ username: e.target.value }));
+    setSignUpData((prevData) => ({ ...prevData, username: e.target.value }));
+  };
+
+  // 아이디 중복 검사 및 validation
+  const usernameValidation = async () => {
+    // ^[a-zA-Z0-9]{1,20}$: 문자열의 시작(^)부터 끝($)까지 1에서 20개의 문자 중에 소문자(a-z), 대문자(A-Z), 숫자(0-9) 중 하나가 포함되어야 함
+    if (!/^[a-zA-Z0-9]{1,20}$/.test(usernameData.username)) {
+      setUsernameError('ID는 20자 이내의 영어 소문자, 대문자, 숫자만 가능합니다.');
+    } else {
+      const result = await postIdCheck(usernameData);
+
+      if (result.Success) {
+        setUsernameSuccess(result.Success);
+      }
+      setUsernameError(result.FAIL_Message);
     }
   };
 
@@ -86,30 +114,6 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
       setPassword2Error('비밀번호가 일치하지 않습니다.');
     }
   }, [signUpData.password, signUpData.password2]);
-
-  // 아이디 validation
-  const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserNameData(() => ({ username: e.target.value }));
-    setSignUpData((prevData) => ({ ...prevData, username: e.target.value }));
-  };
-
-  const [usernameError, setUsernameError] = useState('');
-  const [usernameSuccess, setUsernameSuccess] = useState('');
-
-  // 아이디 중복 검사 및 validation
-  const usernameValidation = async () => {
-    // ^[a-zA-Z0-9]{1,20}$: 문자열의 시작(^)부터 끝($)까지 1에서 20개의 문자 중에 소문자(a-z), 대문자(A-Z), 숫자(0-9) 중 하나가 포함되어야 함
-    if (!/^[a-zA-Z0-9]{1,20}$/.test(usernameData.username)) {
-      setUsernameError('ID는 20자 이내의 영어 소문자, 대문자, 숫자만 가능합니다.');
-    } else {
-      const result = await postIdCheck(usernameData);
-
-      if (result.Success) {
-        setUsernameSuccess(result.Success);
-      }
-      setUsernameError(result.FAIL_Message);
-    }
-  };
 
   // 전화번호
   const [tel, setTel] = useState<TelData>({
