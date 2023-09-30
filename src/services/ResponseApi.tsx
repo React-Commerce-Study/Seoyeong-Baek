@@ -31,10 +31,30 @@ export async function getProductList(fetchPage?: number) {
     const response = await fetch(getProductUrl, {
       method: 'GET',
     });
+
     if (response.ok) {
       const data = await response.json();
       console.log(data.results);
       return data;
+    }
+    throw new Error('네트워크에 문제가 있습니다.');
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}
+
+// 상품 검색
+export async function getSearchProduct(keyword: string) {
+  const getProductUrl = `${BASE_URL}products/?search=${keyword}`;
+  try {
+    const response = await fetch(getProductUrl, {
+      method: 'GET',
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.results);
+      return data.results;
     }
     throw new Error('네트워크에 문제가 있습니다.');
   } catch (error) {
