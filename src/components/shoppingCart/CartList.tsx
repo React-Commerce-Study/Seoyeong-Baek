@@ -5,9 +5,10 @@ import CartItem from './CartItem';
 import TotalPriceBox from './TotalPriceBox';
 import Button from '../common/Buttons/Button';
 import { CartProduct } from '../../@types/types';
-import { fetchCartItemList, DeleteAllItem } from '../../services/ResponseApi';
+import { fetchCartItemList } from '../../services/ResponseApi';
 import RoundCheckBox from './checkBox/RoundCheckBox';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+import Modal from '../../components/modal/Modal';
 
 export default function ShoppingCart() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function ShoppingCart() {
 
   // 모달로 확인한 값이 바뀌는 경우
   const [isDeleteItem, setIsDeleteItem] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     fetchCartItems();
@@ -67,8 +69,9 @@ export default function ShoppingCart() {
   };
 
   const handleDeleteAllItem = async () => {
-    await DeleteAllItem();
-    setIsDeleteItem(true);
+    // await DeleteAllItem();
+    // setIsDeleteItem(true);
+    setIsShowModal(true);
   };
 
   useEffect(() => {
@@ -85,56 +88,57 @@ export default function ShoppingCart() {
   const btnActive = cartItemList && cartItemList.some((cartItem) => cartItem.is_active);
 
   return (
-    <SMainLayout>
-      <SCategoryList>
-        <li>
-          <RoundCheckBox className={isAllCheck ? 'checked' : ''} onClick={handleCheckBoxClick} />
-        </li>
-        <li>상품정보</li>
-        <li>수량</li>
-        <li>상품금액</li>
-      </SCategoryList>
+    <>
+      <SMainLayout>
+        <SCategoryList>
+          <li>
+            <RoundCheckBox className={isAllCheck ? 'checked' : ''} onClick={handleCheckBoxClick} />
+          </li>
+          <li>상품정보</li>
+          <li>수량</li>
+          <li>상품금액</li>
+        </SCategoryList>
 
-      <SCartListContainer>
-        {cartItemList?.length !== 0 ? (
-          cartItemList?.map((cartItem) => {
-            return (
-              <CartItem
-                key={cartItem.cart_item_id}
-                cartProduct={cartItem}
-                setCartItemList={setCartItemList}
-                setIsDeleteItem={setIsDeleteItem}
-                isOrderBtnClick={isOrderBtnClick}
-                isClickAllCheck={isClickAllCheck}
-              />
-            );
-          })
-        ) : (
-          <div className="empty-cart">
-            <strong>장바구니에 담긴 상품이 없습니다.</strong>
-            <p>원하는 상품을 장바구니에 담아보세요.</p>
-          </div>
+        <SCartListContainer>
+          {cartItemList?.length !== 0 ? (
+            cartItemList?.map((cartItem) => {
+              return (
+                <CartItem
+                  key={cartItem.cart_item_id}
+                  cartProduct={cartItem}
+                  setCartItemList={setCartItemList}
+                  setIsDeleteItem={setIsDeleteItem}
+                  isOrderBtnClick={isOrderBtnClick}
+                  isClickAllCheck={isClickAllCheck}
+                />
+              );
+            })
+          ) : (
+            <div className="empty-cart">
+              <strong>장바구니에 담긴 상품이 없습니다.</strong>
+              <p>원하는 상품을 장바구니에 담아보세요.</p>
+            </div>
+          )}
+        </SCartListContainer>
+
+        {cartItemList.length !== 0 && (
+          <>
+            <TotalPriceBox />
+
+            <SButtonContainer>
+              <Button onClick={handleOrderBtnClick} padding="19px 64px" fontSize="var(--font-size-xl)" disabled={!btnActive}>
+                주문하기
+              </Button>
+            </SButtonContainer>
+          </>
         )}
-      </SCartListContainer>
 
-      {cartItemList.length !== 0 && (
-        <>
-          <TotalPriceBox />
-
-          <SButtonContainer>
-            <Button onClick={handleOrderBtnClick} padding="19px 64px" fontSize="var(--font-size-xl)" disabled={!btnActive}>
-              주문하기
-            </Button>
-          </SButtonContainer>
-        </>
-      )}
-
-      {
         <Button className={`${isAllCheck ? 'active' : ''} all-delete-btn`} disabled={!isAllCheck} onClick={handleDeleteAllItem}>
           전체삭제
         </Button>
-      }
-    </SMainLayout>
+      </SMainLayout>
+      {isShowModal && <Modal type="deleteAll" setIsShowModal={setIsShowModal} setIsDeleteItem={setIsDeleteItem} />}
+    </>
   );
 }
 

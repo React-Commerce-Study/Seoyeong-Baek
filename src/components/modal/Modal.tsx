@@ -1,5 +1,5 @@
 import Button from '../common/Buttons/Button';
-import { DeleteCartItem } from '../../services/ResponseApi';
+import { DeleteCartItem, DeleteAllItem } from '../../services/ResponseApi';
 import { handleModalLayoutClick } from 'utils/modalFunction';
 import { useNavigate } from 'react-router-dom';
 import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
@@ -47,6 +47,12 @@ export default function Modal({
     closeModal();
   };
 
+  const deleteAllItems = async () => {
+    await DeleteAllItem();
+    setIsDeleteItem?.(true);
+    closeModal();
+  };
+
   const navigatePath = (path: string) => {
     closeModal();
     navigate(path);
@@ -61,7 +67,7 @@ export default function Modal({
 
   const contents = [
     { type: 'delete', value: '상품을 삭제하시겠습니까?', event: deleteItem },
-    { type: 'deleteAll', value: '정말로 전체 삭제하시겠습니까?', event: deleteItem },
+    { type: 'deleteAll', value: '정말로 전체 삭제하시겠습니까?', event: deleteAllItems },
     { type: 'requiredLogin', value: '로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?', event: () => navigatePath('/login') },
     { type: 'logout', value: '정말로 로그아웃 하시겠습니까?', event: logout },
     { type: 'addToCart', value: '장바구니에 담겼습니다.\n장바구니로 이동 하시겠습니까?', event: () => navigatePath('/cart') },
