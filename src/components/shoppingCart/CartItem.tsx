@@ -18,7 +18,7 @@ import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuer
 type CartItemProps = {
   cartProduct: CartProduct;
   setCartItemList: Dispatch<SetStateAction<CartProduct[]>>;
-  setIsChangeModalValue: Dispatch<SetStateAction<boolean>>;
+  setIsDeleteItem: Dispatch<SetStateAction<boolean>>;
   isOrderBtnClick: boolean;
   isClickAllCheck: boolean;
 };
@@ -26,7 +26,7 @@ type CartItemProps = {
 export default function CartItem({
   cartProduct,
   setCartItemList,
-  setIsChangeModalValue,
+  setIsDeleteItem,
   isOrderBtnClick,
   isClickAllCheck,
 }: CartItemProps) {
@@ -199,7 +199,7 @@ export default function CartItem({
         <Modal
           type="delete"
           cartItemId={cartProduct.cart_item_id}
-          setIsChangeModalValue={setIsChangeModalValue}
+          setIsDeleteItem={setIsDeleteItem}
           setIsShowModal={setIsShowModal}
           price={isActive ? price : undefined}
           deliveryFee={isActive ? product?.shipping_fee : undefined}

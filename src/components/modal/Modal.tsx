@@ -6,11 +6,12 @@ import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalSt
 import CloseButton from '../common/Buttons/CloseButton';
 import { minusPrice } from '../../features/finalPriceSlice';
 import { useDispatch } from 'react-redux';
+// import getCartItems from '../../utils/getCartItems';
 
 interface ModalProps {
   type: string;
   cartItemId?: number;
-  setIsChangeModalValue?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDeleteItem?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
   successUserName?: string;
   price?: number;
@@ -20,7 +21,7 @@ interface ModalProps {
 export default function Modal({
   type,
   cartItemId,
-  setIsChangeModalValue,
+  setIsDeleteItem,
   setIsShowModal,
   successUserName,
   price,
@@ -37,8 +38,10 @@ export default function Modal({
 
   const deleteItem = async () => {
     if (cartItemId) {
-      setIsChangeModalValue?.(true);
+      setIsDeleteItem?.(true);
       await DeleteCartItem(cartItemId);
+      // getCartItems('deleteItem');
+
       if (price && deliveryFee) dispatch(minusPrice({ price: price, deliveryFee: deliveryFee }));
     }
     closeModal();
@@ -77,7 +80,7 @@ export default function Modal({
     if (event) {
       const buttonInnerHTML = event.currentTarget.innerHTML;
       console.log(buttonInnerHTML);
-      if (buttonInnerHTML === '로그인') navigatePath('login');
+      if (buttonInnerHTML === '로그인') navigatePath('/login');
       else if (buttonInnerHTML === '홈') navigatePath('/');
     }
   };

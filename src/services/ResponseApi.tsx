@@ -141,6 +141,20 @@ export async function DeleteCartItem(cartItemId: number) {
   }
 }
 
+// 장바구니 상품 전페 삭제하기
+export async function DeleteAllItem() {
+  try {
+    await fetch(`${BASE_URL}cart/`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    });
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}
+
 // 주문목록 가져오기
 export async function getOrderList() {
   try {

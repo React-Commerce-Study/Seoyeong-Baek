@@ -5,7 +5,7 @@ import CartItem from './CartItem';
 import TotalPriceBox from './TotalPriceBox';
 import Button from '../common/Buttons/Button';
 import { CartProduct } from '../../@types/types';
-import { fetchCartItemList } from '../../services/ResponseApi';
+import { fetchCartItemList, DeleteAllItem } from '../../services/ResponseApi';
 import RoundCheckBox from './checkBox/RoundCheckBox';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
@@ -15,13 +15,13 @@ export default function ShoppingCart() {
   const [cartItemList, setCartItemList] = useState<CartProduct[]>([]);
 
   // 모달로 확인한 값이 바뀌는 경우
-  const [isChangeModalValue, setIsChangeModalValue] = useState(false);
+  const [isDeleteItem, setIsDeleteItem] = useState(false);
 
   useEffect(() => {
     fetchCartItems();
 
-    return setIsChangeModalValue(false);
-  }, [isChangeModalValue]);
+    return setIsDeleteItem(false);
+  }, [isDeleteItem]);
   // cartItemList을 넣게되면 체크박스를 클릭할 때마다 재렌더링돼서 체크박스 on/off가 되지 않음
 
   async function fetchCartItems() {
@@ -66,6 +66,11 @@ export default function ShoppingCart() {
     setIsOrderBtnClick(true);
   };
 
+  const handleDeleteAllItem = async () => {
+    await DeleteAllItem();
+    setIsDeleteItem(true);
+  };
+
   useEffect(() => {
     if (isOrderBtnClick) {
       // is_active가 true인 아이템만 필터링
@@ -98,7 +103,7 @@ export default function ShoppingCart() {
                 key={cartItem.cart_item_id}
                 cartProduct={cartItem}
                 setCartItemList={setCartItemList}
-                setIsChangeModalValue={setIsChangeModalValue}
+                setIsDeleteItem={setIsDeleteItem}
                 isOrderBtnClick={isOrderBtnClick}
                 isClickAllCheck={isClickAllCheck}
               />
@@ -125,11 +130,7 @@ export default function ShoppingCart() {
       )}
 
       {
-        <Button
-          className={`${isClickAllCheck ? 'active' : ''} all-delete-btn`}
-          disabled={!btnActive}
-          onClick={() => console.log('delete')}
-        >
+        <Button className={`${isAllCheck ? 'active' : ''} all-delete-btn`} disabled={!isAllCheck} onClick={handleDeleteAllItem}>
           전체삭제
         </Button>
       }
