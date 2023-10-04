@@ -42,7 +42,7 @@ export default function FormContainer({ setSuccessUserName }: FormContainer) {
             <SignUpForm setSuccessUserName={setSuccessUserName} />
           ) : (
             <>
-              <LoginForm loginType={userType} />
+              <LoginForm userType={userType} />
               <SJoinFindWrapper>
                 <Link to="/signup">회원가입</Link>
                 <Link to="">비밀번호 찾기</Link>

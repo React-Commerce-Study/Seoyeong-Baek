@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Buttons/Button';
 import styled from 'styled-components';
@@ -9,18 +9,26 @@ import { login } from '../../../features/loginSlice';
 import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 type LoginFormProps = {
-  loginType: string;
+  userType: string;
 };
 
-export default function LoginForm({ loginType }: LoginFormProps) {
+export default function LoginForm({ userType }: LoginFormProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState<LoginData>({
     username: '',
     password: '',
-    login_type: loginType,
+    login_type: userType,
   });
+
+  // userType이 변경될 때 loginData를 업데이트(loginData의 login_type을 동적으로 업데이트하려면 부모 컴포넌트에서 userType이 변경될 때 loginData도 업데이트)
+  useEffect(() => {
+    setLoginData((prevLoginData) => ({
+      ...prevLoginData,
+      login_type: userType,
+    }));
+  }, [userType]);
 
   const [isUsernameError, setIsUsernameError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
