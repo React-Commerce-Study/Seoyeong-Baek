@@ -25,9 +25,9 @@ const buttonStyles = css<ButtonProps>`
   height: 100%;
   background-color: ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
   color: ${(props: ButtonProps) => props.color || '#fff'};
-  font-size: ${(props: ButtonProps) => props.fontSize || 'var(--dark-gray-color)'};
+  font-size: ${(props: ButtonProps) => props.fontSize || 'var( --font-size-lg)'};
   font-weight: ${(props: ButtonProps) => props.fontWeight || '700'};
-  padding: ${(props: ButtonProps) => props.padding || '19px 0'};
+  padding: ${(props: ButtonProps) => props.padding || '1.1875rem 0'};
   border-radius: 5px;
   box-sizing: border-box;
   box-shadow: ${(props: ButtonProps) => props.boxShadow || 'none'};

@@ -4,11 +4,13 @@ import ShoppingCart from '../../../assets/icon/icon-shopping-cart.svg';
 import ShoppingCartActive from '../../../assets/icon/icon-shopping-cart-2.svg';
 import User from '../../../assets/icon/icon-user.svg';
 import UserActive from '../../../assets/icon/icon-user-2.svg';
+import ShoppingBagIcon from '../icons/ShoppingBagIcon';
 import MyPageModal from '../../modal/MyPageModal';
 import Modal from '../../modal/Modal';
 import styled from 'styled-components';
 import { useIsLogin } from '../../../hooks/UseLoginData';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
+import Button from '../Buttons/Button';
 
 interface NavProps {
   page?: string;
@@ -19,7 +21,8 @@ export default function Nav({ page }: NavProps) {
   const isUserLoggedIn = useIsLogin();
   const [isShowModal, setIsShowModal] = useState(false);
   const [isLoginModal, setIsLoginModal] = useState(false);
-  const [isDropDown, setIsDropDown] = useState(false);
+
+  const userType = localStorage.getItem('user_type');
 
   const handleModalClick = () => {
     isShowModal ? setIsShowModal(false) : setIsShowModal(true);
@@ -29,38 +32,55 @@ export default function Nav({ page }: NavProps) {
     isUserLoggedIn ? navigate('/cart') : setIsLoginModal(true);
   };
 
-  console.log(isUserLoggedIn);
+  function renderMyPageButton() {
+    return (
+      <li className="modal-btn">
+        <button className={`nav-btn login ${isShowModal ? 'active' : ''}`} onClick={handleModalClick}>
+          마이페이지
+        </button>
+        {isShowModal && <MyPageModal />}
+      </li>
+    );
+  }
 
-  const handleDropDown = () => {
-    isDropDown ? setIsDropDown(false) : setIsDropDown(true);
-  };
+  console.log(isUserLoggedIn);
 
   return (
     <SNavContainer>
-      <button className={`nav-menu ${isDropDown ? 'drop-down' : ''}`} onClick={handleDropDown}>
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <SNavList className={isDropDown ? 'drop-down' : ''}>
-        <li onClick={handleLoginModal}>
-          <button className={`nav-btn ${page === 'cart' ? 'active' : ''}`}>장바구니</button>
-        </li>
-        {isUserLoggedIn ? (
-          <li className="modal-btn">
-            <button className={`nav-btn login ${isShowModal ? 'active' : ''}`} onClick={handleModalClick}>
-              마이페이지
-            </button>
-            {isShowModal && <MyPageModal />}
-          </li>
+      <SNavList>
+        {userType === 'SELLER' && isUserLoggedIn ? (
+          <>
+            {renderMyPageButton()}
+            <li className="seller-center-wrapper">
+              <Link to="/seller-center">
+                <Button className="seller-center" padding="0.69rem 1.25rem" fontWeight="500">
+                  <ShoppingBagIcon />
+                  <span>판매자센터</span>
+                </Button>
+              </Link>
+            </li>
+          </>
         ) : (
-          <li>
-            <Link to="/login">
-              <button className="nav-btn login">로그인</button>
-            </Link>
-          </li>
+          <>
+            <li onClick={handleLoginModal}>
+              <button className={`nav-btn ${page === 'cart' ? 'active' : ''}`}>장바구니</button>
+            </li>
+            {isUserLoggedIn ? (
+              renderMyPageButton()
+            ) : (
+              <li>
+                <Link to="/login">
+                  <button className="nav-btn login">
+                    <img src="" alt="" />
+                    로그인
+                  </button>
+                </Link>
+              </li>
+            )}
+          </>
         )}
       </SNavList>
+
       {isLoginModal && <Modal type={'requiredLogin'} setIsShowModal={setIsLoginModal} />}
     </SNavContainer>
   );
@@ -68,11 +88,6 @@ export default function Nav({ page }: NavProps) {
 
 const SNavContainer = styled.nav`
   flex-shrink: 1;
-  /* box-shadow: inset 0 0 10px black; */
-
-  .nav-menu {
-    display: none;
-  }
 `;
 
 const SNavList = styled.ul`
@@ -124,6 +139,15 @@ const SNavList = styled.ul`
   .login:hover::before {
     background: url(${UserActive}) no-repeat center / contain;
   }
+  .seller-center {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover svg path {
+      stroke: var(--point-color);
+    }
+  }
 
   ${mediaQuery(BREAKPOINT_PC)} {
     gap: 0.4rem;
@@ -153,6 +177,17 @@ const SNavList = styled.ul`
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+      }
+    }
+
+    .seller-center {
+      padding: 0.5rem 0.8rem;
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+      span {
+        display: none;
       }
     }
   }
