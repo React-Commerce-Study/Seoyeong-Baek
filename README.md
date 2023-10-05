@@ -1,6 +1,7 @@
 # 오픈마켓 서비스, Hodu Store
 
 `개발 기간 : 2023.05, 2023.08 ~ 2023.09`
+
 <br/>
 
 ## 🔗 배포 링크 및 테스트 계정
@@ -23,7 +24,9 @@ PW: hodu0910
 
 ## 📌 서비스 소개
 
-> **멋쟁이 사자처럼에서 제공된 API를 기반으로, 리액트와 타입스크립트를 사용한 SPA 오픈마켓 서비스 입니다.**
+> ### **멋쟁이 사자처럼에서 제공된 API를 기반으로, 리액트와 타입스크립트를 사용한 SPA 오픈마켓 서비스 입니다.**
+>
+> <br/>
 
 ### 1. 오픈마켓 서비스 특징
 
@@ -35,6 +38,8 @@ PW: hodu0910
 - `장바구니 기능` : 구매자는 원하는 상품을 찾아 상세 정보를 확인한 후 장바구니에 담을 수 있습니다. 이후 장바구니를 통해 상품을 결제할 수 있습니다.
 
 - `결제 처리` : 구매자는 장바구니를 통해 상품을 선택하고 결제할 수 있습니다.
+
+<br/>
 
 ### 2. 프로젝트 설명
 
@@ -65,5 +70,4 @@ PW: hodu0910
 
 ### Config & Deploy
 
- <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
-<img src="https://img.shields.io/badge/netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white">
+<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"> <img src="https://img.shields.io/badge/netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white">
