@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# 오픈마켓 서비스, Hodu Store
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`개발 기간 : 2023.05, 2023.08 ~ 2023.09`
+<br/>
 
-## Available Scripts
+## 🔗 배포 링크 및 테스트 계정
 
-In the project directory, you can run:
+🚀 **[호두 스토어 바로가기](https://hodu-store.netlify.app)**
 
-### `npm start`
+```
+[구매자 계정]
+ID: buyer1
+PW: hodu0910
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+[판매자 계정]
+ID: seller1
+PW: hodu0910
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<br/>
 
-### `npm test`
+## 📌 서비스 소개
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> **멋쟁이 사자처럼에서 제공된 API를 기반으로, 리액트와 타입스크립트를 사용한 SPA 오픈마켓 서비스 입니다.**
 
-### `npm run build`
+### 1. 오픈마켓 서비스 특징
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `판매자 구매자 구분` :
+  이 서비스에서는 판매자와 구매자를 구별합니다. 판매자는 상품을 등록하고 관리할 수 있으며, 구매자는 상품을 검색하고 구매할 수 있습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `상품 등록 및 수정` : 판매자는 로그인하여 자신의 계정으로 상품 정보를 등록하고 필요한 경우 수정할 수 있습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `장바구니 기능` : 구매자는 원하는 상품을 찾아 상세 정보를 확인한 후 장바구니에 담을 수 있습니다. 이후 장바구니를 통해 상품을 결제할 수 있습니다.
 
-### `npm run eject`
+- `결제 처리` : 구매자는 장바구니를 통해 상품을 선택하고 결제할 수 있습니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. 프로젝트 설명
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- 구매자 서비스의 경우 회원가입, 로그인, 메인, 장바구니, 결제 페이지로 구성되어 있습니다.
+- 판매자 서비스의 경우 장바구니와 결제 페이지를 제외하고 동일하며 상품등록과 판매자 센터 페이지로 구성되어 있습니다.
+- 상품 관리 : REST API를 활용하여 상품에 대한 CRUD(Create, Read, Update, Delete) 기능을 구현하였습니다.
+- Redux Toolkit과 localStorage를 사용하여 사용자 인증을 위한 회원가입 및 로그인 기능을 구현하였으며, 로그인 시 로그인 상태를 유지할 수 있도록 했습니다.
+- PC와 태블릿, 모바일 환경을 모두 고려한 반응형 디자인을 적용하여 사용자의 편의성을 향상시킵니다.
+- open Api 활용
+  - 배송 정보 중 주소 검색을 위해 다음 카카오 우편 주소 검색을 사용하였습니다.
+  - 메인 페이지의 캐러셀을 구현하기 위해 unsplash api(랜덤한 이미지 불러오기)를 사용하였습니다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<br/>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🔨 기술 및 개발환경
 
-## Learn More
+### Environment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Design
 
-### Code Splitting
+ <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Development
 
-### Analyzing the Bundle Size
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white"> <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white"> <img src="https://img.shields.io/badge/KakaoAPI-FFCD00?style=for-the-badge&logo=kakao&logoColor=white"> <img src="https://img.shields.io/badge/unsplash-000?style=for-the-badge&logo=unsplash&logoColor=white">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Config & Deploy
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
+<img src="https://img.shields.io/badge/netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white">
