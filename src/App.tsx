@@ -7,6 +7,7 @@ import Cart from './pages/Cart';
 import ProductDetails from './pages/ProductDetails';
 import Payment from './pages/Payment';
 import NotFoundError from './pages/NotFoundError';
+import SellerCenter from './pages/SellerCenter';
 import PostProduct from './pages/PostProduct';
 import styled from 'styled-components';
 import PrivateRoute from './route/PrivateRoute';
@@ -22,6 +23,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} />
 
         <Route element={<PrivateRoute />}>
+          <Route path="/seller-center" element={<SellerCenter />} />
           <Route path="/post-product" element={<PostProduct />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/payment" element={<Payment />} />
