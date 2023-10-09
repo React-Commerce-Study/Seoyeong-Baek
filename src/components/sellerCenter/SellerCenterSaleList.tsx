@@ -1,7 +1,21 @@
 import styled from 'styled-components';
 import SellerProductArticle from './SellerProductArticle';
+import { getSaleItems } from '../../services/ResponseApi';
+import { useEffect, useState } from 'react';
+import { Product } from '../../@types/types';
 
 export default function SellerCenterSaleList() {
+  const [saleItems, setSaleItems] = useState<Product[]>([]);
+
+  const getSaleItem = async () => {
+    const response = await getSaleItems();
+    setSaleItems(response);
+  };
+
+  useEffect(() => {
+    getSaleItem();
+  }, []);
+
   return (
     <>
       <SSaleInfoCategoryList>
@@ -11,7 +25,9 @@ export default function SellerCenterSaleList() {
         <li>삭제</li>
       </SSaleInfoCategoryList>
 
-      <SellerProductArticle />
+      {saleItems.map((item) => (
+        <SellerProductArticle item={item} key={item.product_id} />
+      ))}
     </>
   );
 }
@@ -25,18 +41,15 @@ const SSaleInfoCategoryList = styled.ul`
   border-bottom: 1px solid var(--middle-gray-color);
 
   li:first-child {
-    box-shadow: inset 0 0 10px blue;
     flex-basis: 50%;
   }
 
   li:nth-child(2) {
-    box-shadow: inset 0 0 10px blue;
     flex-basis: 30%;
   }
 
   li:nth-child(3),
   li:last-child {
-    box-shadow: inset 0 0 10px blue;
     flex-basis: 10%;
   }
 `;

@@ -324,3 +324,24 @@ export async function getRandomImages(): Promise<string[]> {
     throw error;
   }
 }
+
+/* seller */
+export async function getSaleItems() {
+  try {
+    const response = await fetch(`${BASE_URL}seller`, {
+      method: 'GET',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.results);
+      return data.results;
+    }
+    throw new Error('네트워크에 문제가 있습니다.');
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}

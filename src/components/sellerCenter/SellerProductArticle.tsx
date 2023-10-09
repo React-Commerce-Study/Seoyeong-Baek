@@ -1,17 +1,23 @@
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
+import { Product } from '../../@types/types';
 
-export default function SellerProductArticle() {
+interface SellerProductArticleProps {
+  item: Product;
+  key: number;
+}
+
+export default function SellerProductArticle({ item }: SellerProductArticleProps) {
   return (
     <SSellerProductArticle>
       <div className="product-info-wrapper">
-        <img src="" alt="" />
-        <div>
-          <p>상품명</p>
-          <span>재고</span>
+        <img src={item.image} alt="" />
+        <div className="product-name-stock">
+          <p>{item.product_name}</p>
+          <span>재고 : {item.stock}</span>
         </div>
       </div>
-      <p>가격</p>
+      <p>{item.price.toLocaleString()}원</p>
       <div className="btn-box">
         <Button padding="10px 0" fontSize="var(--font-size-ml)" fontWeight="var(--font-weight-light)">
           수정
@@ -29,21 +35,49 @@ export default function SellerProductArticle() {
 const SSellerProductArticle = styled.article`
   display: flex;
   align-items: center;
+  padding: 1rem 0;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-bottom: 1px solid var(--middle-gray-color);
+
+  p {
+    font-size: var(--ont-size-lg);
+  }
 
   .product-info-wrapper {
-    box-shadow: inset 0 0 10px blue;
     flex-basis: 50%;
+    display: flex;
+    align-items: center;
+    gap: 1.875rem;
+    padding-left: 1.875rem;
+    box-sizing: border-box;
+
+    img {
+      width: 4.375rem;
+      height: 4.375rem;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid var(--light-gray-color);
+    }
+
+    .product-name-stock {
+      p {
+        margin-bottom: 0.625rem;
+      }
+
+      span {
+        color: var(--dark-gray-color);
+      }
+    }
   }
 
   & > p:nth-child(2) {
-    box-shadow: inset 0 0 10px blue;
     flex-basis: 30%;
     text-align: center;
   }
 
   & > div:nth-child(3),
   & > div:last-child {
-    box-shadow: inset 0 0 10px blue;
     flex-basis: 10%;
     padding: 0 0.3rem;
     box-sizing: border-box;
