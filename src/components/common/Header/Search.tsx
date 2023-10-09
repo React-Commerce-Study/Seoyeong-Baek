@@ -4,8 +4,14 @@ import styled from 'styled-components';
 import SearchImg from '../../../assets/icon/search.svg';
 import { Product } from '../../../@types/types';
 import { getSearchProduct } from '../../../services/ResponseApi';
+import BackBtn from '../../../assets/icon/icon-rhigt-arrow.svg';
 
-export default function Search() {
+interface SearchFormProps {
+  isMobileSearch: boolean;
+  setIsMobileSearch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Search({ isMobileSearch, setIsMobileSearch }: SearchFormProps) {
   const navigate = useNavigate();
   const [searchWord, setSearchWord] = useState('');
   const [productList, setProductList] = useState<Product[]>([]);
@@ -16,7 +22,7 @@ export default function Search() {
   };
 
   useEffect(() => {
-    if (searchWord.length === 0) setProductList([]);
+    if (searchWord === '') setProductList([]);
     else fetchProducts(searchWord);
   }, [searchWord]);
 
@@ -50,17 +56,30 @@ export default function Search() {
   };
 
   console.log(productList);
+
+  const handleMobileSearchBtn = () => {
+    if (isMobileSearch) {
+      setIsMobileSearch(false);
+      setSearchWord(''); // 검색어 지우기
+    } else setIsMobileSearch(true);
+  };
+
   return (
-    <SSearchForm className="search-form" onSubmit={handleOnSubmit}>
-      <input type="search" placeholder="상품을 검색해보세요!" className="search-input" onChange={handleOnChange} />
+    <SSearchForm className={`search-form ${isMobileSearch ? 'search-form-mobile-active' : ''}`} onSubmit={handleOnSubmit}>
+      <input
+        type="search"
+        placeholder="상품을 검색해보세요!"
+        className="search-input"
+        onChange={handleOnChange}
+        value={searchWord}
+      />
       <button type="submit" className="search-btn">
         <img src={SearchImg} alt="검색버튼" />
       </button>
-      {/* <button type="button" className="search-btn-mobile">
-        <Link to="/search">
-          <img src={SearchImg} alt="검색버튼" />
-        </Link>
-      </button> */}
+
+      <button type="button" className="search-btn-mobile" onClick={handleMobileSearchBtn}>
+        <img src={isMobileSearch ? BackBtn : SearchImg} className={isMobileSearch ? 'back-btn' : ''} alt="검색버튼" />
+      </button>
 
       {productList.length > 0 && (
         <ul className="autocomplete">
@@ -85,27 +104,51 @@ const SSearchForm = styled.form`
   flex-grow: 1;
   box-sizing: border-box;
   position: relative;
-  box-shadow: inset 0 0 10px red;
+  transition: all 0.25s ease-in-out;
 
   .search-input {
     width: 100%;
-    padding: 13px 22px;
+    padding: 0.8125rem 3.3rem 0.8125rem 1.375rem;
     border: 2px solid var(--point-color);
     border-radius: 23px;
   }
 
   .search-btn {
-    max-width: 28px;
-    max-height: 28px;
+    width: 1.75rem;
+    height: 1.75rem;
     position: absolute;
     top: 50%;
-    right: 22px;
+    right: 1.375rem;
     transform: translate(0, -50%);
     transition: all 0.3s ease-in-out;
   }
 
   .search-btn-mobile {
-    display: none;
+    width: 2.3rem;
+    height: 2.3rem;
+    padding: 0.45rem;
+    border-radius: 50px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;
+    transition: all 0.25s ease-in-out;
+
+    img {
+      width: 100%;
+      transition: width 0.25s ease-in-out;
+    }
+
+    .back-btn {
+      transform: rotate(180deg);
+      width: 100%;
+      height: 90%;
+    }
+
+    &:hover {
+      background-color: #efffd2;
+      box-shadow: rgba(0, 0, 0, 0.22) 0px 3px 8px;
+    }
   }
 
   .autocomplete {

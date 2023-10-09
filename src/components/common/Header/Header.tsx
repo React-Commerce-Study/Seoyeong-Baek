@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import Logo from './logo/Logo';
@@ -9,11 +10,13 @@ interface HeaderProps {
 }
 
 export default function Header({ page }: HeaderProps) {
+  const [isMobileSearch, setIsMobileSearch] = useState(false);
+
   return (
     <SHeaderLayout>
       <SHeader>
-        <Logo />
-        <Search />
+        <Logo className={isMobileSearch ? 'hide-logo' : ''} />
+        <Search isMobileSearch={isMobileSearch} setIsMobileSearch={setIsMobileSearch} />
         <Nav page={page} />
       </SHeader>
     </SHeaderLayout>
@@ -23,7 +26,6 @@ export default function Header({ page }: HeaderProps) {
 const SHeaderLayout = styled.div`
   padding: 1.375rem 0;
   box-sizing: border-box;
-
   box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
 `;
 
@@ -45,36 +47,8 @@ const SHeader = styled.header`
     }
   }
 
-  .search-form {
-    flex-shrink: 1;
-    margin-right: auto;
-    /* min-width: 0; */
-    max-width: 25rem;
-    height: 46px;
-    flex-grow: 1;
-    box-sizing: border-box;
-    position: relative;
-
-    .search-input {
-      width: 100%;
-      padding: 13px 22px;
-      border: 2px solid var(--point-color);
-      border-radius: 23px;
-    }
-
-    .search-btn {
-      max-width: 28px;
-      max-height: 28px;
-      position: absolute;
-      top: 50%;
-      right: 22px;
-      transform: translate(0, -50%);
-      transition: all 0.3s ease-in-out;
-    }
-
-    .search-btn-mobile {
-      display: none;
-    }
+  .search-btn-mobile {
+    display: none;
   }
 
   ${mediaQuery(BREAKPOINT_PC)} {
@@ -85,40 +59,50 @@ const SHeader = styled.header`
       margin: 0 auto;
       left: 50%;
       transform: translate(-50%, 0);
+      transition: all 0.25s ease-out;
+
+      &.hide-logo {
+        display: none;
+      }
     }
 
     .search-form {
-      /* order: -1; */
       flex-grow: 0;
       margin-right: 0;
-      /* width: 2.2rem; */
-      /* height: 2.2rem; */
+      width: 2.3rem;
+      height: 2.3rem;
+
+      &.search-form-mobile-active {
+        flex-grow: 1;
+        max-width: 100%;
+
+        .search-input,
+        .search-btn {
+          display: block;
+          height: 100%;
+        }
+        .search-btn {
+          right: 1.3rem;
+        }
+      }
+      .search-input {
+        padding-left: 2.7rem;
+        padding-right: 2.2rem;
+      }
 
       .search-input,
       .search-btn {
         display: none;
       }
+      .search-btn {
+        width: 1.35rem;
+        height: 1.35rem;
+        right: 50%;
+        transform: translate(50%, -50%);
+      }
 
       .search-btn-mobile {
         display: block;
-        width: 2.3rem;
-        height: 2.3rem;
-        padding: 0.45rem;
-        border-radius: 50px;
-        position: absolute;
-        top: 50%;
-        transform: translate(0, -50%);
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;
-        transition: all 0.25s ease-in-out;
-
-        img {
-          width: 100%;
-        }
-
-        &:hover {
-          background-color: #efffd2;
-          box-shadow: rgba(0, 0, 0, 0.22) 0px 3px 8px;
-        }
       }
     }
   }
