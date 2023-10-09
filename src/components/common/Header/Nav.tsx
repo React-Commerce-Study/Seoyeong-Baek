@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ShoppingCart from '../../../assets/icon/icon-shopping-cart.svg';
+import ShoppingCartIcon from '../icons/ShoppingCartIcon';
+import UserIcon from '../icons/UserIcon';
+// import ShoppingCart from '../../../assets/icon/icon-shopping-cart.svg';
 import ShoppingCartActive from '../../../assets/icon/icon-shopping-cart-2.svg';
 import User from '../../../assets/icon/icon-user.svg';
 import UserActive from '../../../assets/icon/icon-user-2.svg';
@@ -63,7 +65,10 @@ export default function Nav({ page }: NavProps) {
         ) : (
           <>
             <li onClick={handleLoginModal}>
-              <button className={`nav-btn ${page === 'cart' ? 'active' : ''}`}>장바구니</button>
+              <button className={`nav-btn ${page === 'cart' ? 'active' : ''}`}>
+                <ShoppingCartIcon />
+                장바구니
+              </button>
             </li>
             {isUserLoggedIn ? (
               renderMyPageButton()
@@ -71,7 +76,7 @@ export default function Nav({ page }: NavProps) {
               <li>
                 <Link to="/login">
                   <button className="nav-btn login">
-                    <img src="" alt="" />
+                    <UserIcon />
                     로그인
                   </button>
                 </Link>
@@ -104,41 +109,39 @@ const SNavList = styled.ul`
   .nav-btn {
     color: var(--dark-gray-color);
     font-size: var(--font-size-xs);
-    transition: all 0.25s ease-out;
     max-width: 3.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+    transition: all 0.25s ease-out;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+
+      path {
+        transition: all 0.25s ease-out;
+      }
+    }
 
     &:hover {
       color: var(--point-color);
+
+      svg path {
+        stroke: var(--point-color);
+      }
     }
 
     &.active {
       color: var(--point-color);
+
+      svg path {
+        stroke: var(--point-color);
+      }
     }
   }
 
-  .nav-btn::before {
-    display: block;
-    margin: 0 auto 0.25rem;
-    background: url(${ShoppingCart}) no-repeat center / contain;
-    content: '';
-    width: 2rem;
-    height: 2rem;
-    transition: all 0.25s ease-out;
-  }
-
-  .nav-btn.active::before,
-  .nav-btn:hover::before {
-    background: url(${ShoppingCartActive}) no-repeat center / contain;
-  }
-
-  .login::before {
-    background: url(${User}) no-repeat center / contain;
-  }
-
-  .login.active::before,
-  .login:hover::before {
-    background: url(${UserActive}) no-repeat center / contain;
-  }
   .seller-center {
     display: flex;
     align-items: center;
@@ -169,10 +172,9 @@ const SNavList = styled.ul`
         color: transparent;
       }
 
-      &::before {
+      svg {
         width: 1.5rem;
         height: 1.5rem;
-        margin-bottom: 0;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -182,10 +184,12 @@ const SNavList = styled.ul`
 
     .seller-center {
       padding: 0.5rem 0.8rem;
+
       svg {
         width: 1.5rem;
         height: 1.5rem;
       }
+
       span {
         display: none;
       }

@@ -1,5 +1,5 @@
 import Button from '../common/Buttons/Button';
-import PlusIcon from '../../assets/icon/icon-plus.svg';
+import PlusIcon from '../common/icons/PlusIcon';
 import styled from 'styled-components';
 
 export default function SellerCenterTitleWrapper() {
@@ -10,6 +10,7 @@ export default function SellerCenterTitleWrapper() {
       </h2>
       <div className="btn-box">
         <Button padding="16px 0 16px 39px" fontWeight="var(--font-weight-medium)">
+          <PlusIcon />
           상품 업로드
         </Button>
       </div>
@@ -27,16 +28,18 @@ const SSellerCenterTitleWrapper = styled.div`
     width: 10.5rem;
     position: relative;
 
-    & > button::before {
-      content: '';
-      display: block;
+    svg {
+      width: 1.875rem;
+      height: 1.875rem;
       position: absolute;
       left: 1.25rem;
       top: 50%;
       transform: translateY(-50%);
-      background: url(${PlusIcon}) center no-repeat;
-      width: 1.875rem;
-      height: 1.875rem;
+      transition: all 0.25s ease-out;
+    }
+
+    &:hover svg > * {
+      stroke: var(--point-color);
     }
   }
 
