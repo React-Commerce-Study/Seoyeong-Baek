@@ -83,7 +83,8 @@ export default function PostProductForm() {
         <div className={`input-wrapper image ${fileURL !== '' && 'uploaded'}`}>
           <label htmlFor="productImg">상품 이미지</label>
           <button type="button" onClick={handleImgUpload}>
-            {(fileURL || item.image) && <img src={fileURL || item.image} alt={postProductData.product_name} />}
+            {fileURL && <img src={fileURL} alt={postProductData.product_name} />}
+            {item && <img src={item.image} alt={postProductData.product_name} />}
           </button>
           <input
             type="file"
@@ -118,7 +119,7 @@ export default function PostProductForm() {
               name="price"
               onChange={handleInputChange}
               required
-              defaultValue={item ? item.price : 0}
+              defaultValue={item && item.price}
             />
           </li>
           <li className="input-wrapper delivery">
@@ -156,7 +157,7 @@ export default function PostProductForm() {
               name="shipping_fee"
               onChange={handleInputChange}
               required
-              defaultValue={item ? item.shipping_fee : 0}
+              defaultValue={item && item.shipping_fee}
             />
           </li>
           <li className="input-wrapper stock">
@@ -168,7 +169,7 @@ export default function PostProductForm() {
               name="stock"
               onChange={handleInputChange}
               required
-              defaultValue={item ? item.stock : 0}
+              defaultValue={item && item.stock}
             />
           </li>
         </ul>
