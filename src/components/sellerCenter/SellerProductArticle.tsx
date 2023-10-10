@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
 import { Product } from '../../@types/types';
+import { useNavigate } from 'react-router-dom';
 
 interface SellerProductArticleProps {
   item: Product;
@@ -8,6 +9,8 @@ interface SellerProductArticleProps {
 }
 
 export default function SellerProductArticle({ item }: SellerProductArticleProps) {
+  const navigate = useNavigate();
+
   return (
     <SSellerProductArticle>
       <div className="product-info-wrapper">
@@ -19,7 +22,12 @@ export default function SellerProductArticle({ item }: SellerProductArticleProps
       </div>
       <p>{item.price.toLocaleString()}원</p>
       <div className="btn-box">
-        <Button padding="10px 0" fontSize="var(--font-size-ml)" fontWeight="var(--font-weight-light)">
+        <Button
+          padding="10px 0"
+          fontSize="var(--font-size-ml)"
+          fontWeight="var(--font-weight-light)"
+          onClick={() => navigate('/seller/edit/product', { state: item })}
+        >
           수정
         </Button>
       </div>

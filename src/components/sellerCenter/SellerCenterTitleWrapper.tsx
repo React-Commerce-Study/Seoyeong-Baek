@@ -1,6 +1,7 @@
 import Button from '../common/Buttons/Button';
 import PlusIcon from '../common/icons/PlusIcon';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export default function SellerCenterTitleWrapper() {
   return (
@@ -9,10 +10,12 @@ export default function SellerCenterTitleWrapper() {
         대시보드 <strong>백엔드글로벌</strong>
       </h2>
       <div className="btn-box">
-        <Button padding="16px 0 16px 39px" fontWeight="var(--font-weight-medium)">
-          <PlusIcon />
-          상품 업로드
-        </Button>
+        <Link to="/seller/post-product">
+          <Button padding="1rem 0 1rem 2.4375rem" fontWeight="var(--font-weight-medium)">
+            <PlusIcon />
+            상품 업로드
+          </Button>
+        </Link>
       </div>
     </SSellerCenterTitleWrapper>
   );
