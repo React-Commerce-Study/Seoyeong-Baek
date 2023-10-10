@@ -347,6 +347,7 @@ export async function getSaleItems() {
   }
 }
 
+// 상품등록
 export async function postProduct(reqData: PostProductData) {
   console.log(reqData);
 
@@ -378,6 +379,7 @@ export async function postProduct(reqData: PostProductData) {
   }
 }
 
+// 상품수정
 export async function putEditProduct({ urlId, editData }: PutItemProps) {
   try {
     const formData = new FormData();
@@ -396,6 +398,22 @@ export async function putEditProduct({ urlId, editData }: PutItemProps) {
         Authorization: `JWT ${token}`,
       },
       body: formData,
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}
+
+// 상품삭제
+export async function deleteSaleItem(productId: number) {
+  try {
+    const response = await fetch(`${BASE_URL}products/${productId}/`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
     });
     const data = await response.json();
     console.log(data);
