@@ -5,8 +5,9 @@ import {
   SignUpData,
   UserNameData,
   LoginData,
+  PostProductData,
   UnsplashPhoto,
-  PutCartItemProps,
+  PutItemProps,
 } from '../@types/types';
 
 const BASE_URL = 'https://openmarket.weniv.co.kr/';
@@ -225,7 +226,7 @@ export async function postOrderList({ orderData, oneOrderData }: postOrderListPr
 }
 
 // 장바구니 상품 수량 수정 및 상품 active값 변경
-export async function putCartItem({ urlId, orderData }: PutCartItemProps) {
+export async function putCartItem({ urlId, orderData }: PutItemProps) {
   try {
     const response = await fetch(`${BASE_URL}cart/${urlId}/`, {
       method: 'PUT',
@@ -341,6 +342,37 @@ export async function getSaleItems() {
       return data.results;
     }
     throw new Error('네트워크에 문제가 있습니다.');
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}
+
+export async function postProduct(reqData: PostProductData) {
+  console.log(reqData);
+
+  try {
+    // multipart/form-data로 데이터를 전송할 때, 해당 형식에 맞게 데이터를 FormData 객체에 추가
+    const formData = new FormData();
+
+    if (reqData.image instanceof Blob) {
+      formData.append('image', reqData.image, 'image.jpg');
+    }
+    formData.append('price', String(reqData.price));
+    formData.append('product_name', String(reqData.product_name));
+    formData.append('product_info', String(reqData.product_info));
+    formData.append('shipping_fee', String(reqData.shipping_fee));
+    formData.append('shipping_method', String(reqData.shipping_method));
+    formData.append('stock', String(reqData.stock));
+
+    const response = await fetch(`${BASE_URL}products/`, {
+      method: 'POST',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+      body: formData,
+    });
+    const data = await response.json();
+    console.log(data);
   } catch (error) {
     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
   }
