@@ -2,41 +2,54 @@ import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
 import { Product } from '../../@types/types';
 import { useNavigate } from 'react-router-dom';
+import { Dispatch, SetStateAction, useState } from 'react';
+import Modal from '../modal/Modal';
 
 interface SellerProductArticleProps {
   item: Product;
+  setIsDeleteItem?: Dispatch<SetStateAction<boolean>>;
   key: number;
 }
 
-export default function SellerProductArticle({ item }: SellerProductArticleProps) {
+export default function SellerProductArticle({ item, setIsDeleteItem }: SellerProductArticleProps) {
   const navigate = useNavigate();
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const handleDelete = () => {
+    setIsShowModal(true);
+  };
 
   return (
-    <SSellerProductArticle>
-      <div className="product-info-wrapper">
-        <img src={item.image} alt="" />
-        <div className="product-name-stock">
-          <p>{item.product_name}</p>
-          <span>재고 : {item.stock}</span>
+    <>
+      <SSellerProductArticle>
+        <div className="product-info-wrapper">
+          <img src={item.image} alt="" />
+          <div className="product-name-stock">
+            <p>{item.product_name}</p>
+            <span>재고 : {item.stock}</span>
+          </div>
         </div>
-      </div>
-      <p>{item.price.toLocaleString()}원</p>
-      <div className="btn-box">
-        <Button
-          padding="10px 0"
-          fontSize="var(--font-size-ml)"
-          fontWeight="var(--font-weight-light)"
-          onClick={() => navigate('/seller/edit/product', { state: item })}
-        >
-          수정
-        </Button>
-      </div>
-      <div className="btn-box">
-        <Button padding="10px 0" fontSize="var(--font-size-ml)" fontWeight="var(--font-weight-light)">
-          삭제
-        </Button>
-      </div>
-    </SSellerProductArticle>
+        <p>{item.price.toLocaleString()}원</p>
+        <div className="btn-box">
+          <Button
+            padding="10px 0"
+            fontSize="var(--font-size-ml)"
+            fontWeight="var(--font-weight-light)"
+            onClick={() => navigate('/seller/edit/product', { state: item })}
+          >
+            수정
+          </Button>
+        </div>
+        <div className="btn-box">
+          <Button padding="10px 0" fontSize="var(--font-size-ml)" fontWeight="var(--font-weight-light)" onClick={handleDelete}>
+            삭제
+          </Button>
+        </div>
+      </SSellerProductArticle>
+      {isShowModal && (
+        <Modal type="delete" setIsDeleteItem={setIsDeleteItem} productId={item.product_id} setIsShowModal={setIsShowModal} />
+      )}
+    </>
   );
 }
 

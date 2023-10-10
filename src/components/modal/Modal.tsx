@@ -1,5 +1,5 @@
 import Button from '../common/Buttons/Button';
-import { DeleteCartItem, DeleteAllItem } from '../../services/ResponseApi';
+import { deleteSaleItem, DeleteCartItem, DeleteAllItem } from '../../services/ResponseApi';
 import { handleModalLayoutClick } from 'utils/modalFunction';
 import { useNavigate } from 'react-router-dom';
 import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 
 interface ModalProps {
   type: string;
+  productId?: number;
   cartItemId?: number;
   setIsDeleteItem?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,6 +22,7 @@ interface ModalProps {
 export default function Modal({
   type,
   cartItemId,
+  productId,
   setIsDeleteItem,
   setIsShowModal,
   successUserName,
@@ -37,13 +39,17 @@ export default function Modal({
   };
 
   const deleteItem = async () => {
-    if (cartItemId) {
+    if (productId) {
+      setIsDeleteItem?.(true);
+      await deleteSaleItem(productId);
+    } else if (cartItemId) {
       setIsDeleteItem?.(true);
       await DeleteCartItem(cartItemId);
       // getCartItems('deleteItem');
 
       if (price && deliveryFee) dispatch(minusPrice({ price: price, deliveryFee: deliveryFee }));
     }
+
     closeModal();
   };
 

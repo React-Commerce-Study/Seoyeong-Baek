@@ -6,6 +6,7 @@ import { Product } from '../../@types/types';
 
 export default function SellerCenterSaleList() {
   const [saleItems, setSaleItems] = useState<Product[]>([]);
+  const [isDeleteItem, setIsDeleteItem] = useState(false);
 
   const getSaleItem = async () => {
     const response = await getSaleItems();
@@ -14,7 +15,7 @@ export default function SellerCenterSaleList() {
 
   useEffect(() => {
     getSaleItem();
-  }, []);
+  }, [isDeleteItem]);
 
   return (
     <>
@@ -26,7 +27,7 @@ export default function SellerCenterSaleList() {
       </SSaleInfoCategoryList>
 
       {saleItems.map((item) => (
-        <SellerProductArticle item={item} key={item.product_id} />
+        <SellerProductArticle setIsDeleteItem={setIsDeleteItem} item={item} key={item.product_id} />
       ))}
     </>
   );
