@@ -90,7 +90,7 @@ interface ReqOrderData {
 //postProduct
 interface PostProductData {
   product_name: string;
-  image: string;
+  image?: Blob;
   price: number;
   shipping_method: string;
   stock: number;
@@ -107,9 +107,10 @@ interface UnsplashPhoto {
 }
 
 // props type
-interface PutCartItemProps {
+interface PutItemProps {
   urlId: number;
-  orderData: CartActiveData;
+  orderData?: CartActiveData;
+  editData?: PostProductData;
 }
 
 export type {
@@ -127,5 +128,5 @@ export type {
   ReqOrderData,
   PostProductData,
   UnsplashPhoto,
-  PutCartItemProps,
+  PutItemProps,
 };

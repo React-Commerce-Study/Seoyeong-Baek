@@ -377,3 +377,29 @@ export async function postProduct(reqData: PostProductData) {
     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
   }
 }
+
+export async function putEditProduct({ urlId, editData }: PutItemProps) {
+  try {
+    const formData = new FormData();
+
+    if (editData && editData.image) formData.append('image', editData.image, 'image.jpg');
+    formData.append('price', String(editData && editData.price));
+    formData.append('product_name', String(editData && editData.product_name));
+    formData.append('product_info', String(editData && editData.product_info));
+    formData.append('shipping_fee', String(editData && editData.shipping_fee));
+    formData.append('shipping_method', String(editData && editData.shipping_method));
+    formData.append('stock', String(editData && editData.stock));
+
+    const response = await fetch(`${BASE_URL}products/${urlId}/`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+      body: formData,
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+  }
+}
