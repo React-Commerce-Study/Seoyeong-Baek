@@ -1,18 +1,22 @@
+import { useLocation } from 'react-router-dom';
 import { useState, FormEvent, ChangeEvent, MouseEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
 import IconImg from '../../assets/icon/icon-img.png';
 import { PostProductData } from '../../@types/types';
+import { postProduct, putEditProduct } from '../../services/ResponseApi';
 
 export default function PostProductForm() {
+  const location = useLocation();
+  const item = location.state;
+
   const [postProductData, setPostProductData] = useState<PostProductData>({
-    product_name: '',
-    image: '',
-    price: 0,
-    shipping_method: '',
-    stock: 0,
-    shipping_fee: 0,
-    product_info: '',
+    product_name: item?.product_name || '',
+    price: item?.price || 0,
+    shipping_method: item?.shipping_method || '',
+    stock: item?.stock || 0,
+    shipping_fee: item?.shipping_fee || 0,
+    product_info: item?.product_info || '',
   });
 
   const [fileURL, setFileURL] = useState('');
@@ -31,11 +35,15 @@ export default function PostProductForm() {
     const { name, value } = e.target;
 
     if (e.target.files) {
-      setPostProductData((prevData) => ({ ...prevData, [name]: e.target.files }));
-      const newFileURL = URL.createObjectURL(e.target.files[0]);
+      const img = e.target.files[0];
+      setPostProductData((prevData) => ({ ...prevData, [name]: img }));
+      const newFileURL = URL.createObjectURL(img);
       setFileURL(newFileURL);
-    } else {
+    } else if (name === 'product_name') {
+      console.log(value);
       setPostProductData((prevData) => ({ ...prevData, [name]: value }));
+    } else {
+      setPostProductData((prevData) => ({ ...prevData, [name]: parseInt(value) }));
     }
   };
 
@@ -56,7 +64,16 @@ export default function PostProductForm() {
     } else {
       // 모달확인
       // postData
+      postItem();
     }
+  };
+
+  const postItem = async () => {
+    if (item) {
+      const urlId = item.product_id;
+      const editData = postProductData;
+      await putEditProduct({ urlId, editData });
+    } else await postProduct(postProductData);
   };
 
   return (
@@ -66,7 +83,7 @@ export default function PostProductForm() {
         <div className={`input-wrapper image ${fileURL !== '' && 'uploaded'}`}>
           <label htmlFor="productImg">상품 이미지</label>
           <button type="button" onClick={handleImgUpload}>
-            {fileURL && <img src={fileURL} alt={postProductData.product_name} />}
+            {(fileURL || item.image) && <img src={fileURL || item.image} alt={postProductData.product_name} />}
           </button>
           <input
             type="file"
@@ -75,18 +92,34 @@ export default function PostProductForm() {
             onChange={handleInputChange}
             name="image"
             accept="image/*"
-            required
+            required={!item}
           />
         </div>
 
         <ul className="info-wrapper">
           <li className="input-wrapper name">
             <label htmlFor="">상품명</label>
-            <input type="text" className="" id="" name="product_name" onChange={handleInputChange} required />
+            <input
+              type="text"
+              className=""
+              id=""
+              name="product_name"
+              onChange={handleInputChange}
+              required
+              defaultValue={item ? item.product_name : ''}
+            />
           </li>
           <li className="input-wrapper price">
             <label htmlFor="">판매가</label>
-            <input type="number" className="" id="" name="price" onChange={handleInputChange} required />
+            <input
+              type="number"
+              className=""
+              id=""
+              name="price"
+              onChange={handleInputChange}
+              required
+              defaultValue={item ? item.price : 0}
+            />
           </li>
           <li className="input-wrapper delivery">
             <label htmlFor="delivery">배송방법</label>
@@ -116,23 +149,47 @@ export default function PostProductForm() {
           </li>
           <li className="input-wrapper delivery-fee">
             <label htmlFor="">기본 배송비</label>
-            <input type="number" className="" id="" name="shipping_fee" onChange={handleInputChange} required />
+            <input
+              type="number"
+              className=""
+              id=""
+              name="shipping_fee"
+              onChange={handleInputChange}
+              required
+              defaultValue={item ? item.shipping_fee : 0}
+            />
           </li>
           <li className="input-wrapper stock">
             <label htmlFor="">재고</label>
-            <input type="number" className="" id="" name="stock" onChange={handleInputChange} required />
+            <input
+              type="number"
+              className=""
+              id=""
+              name="stock"
+              onChange={handleInputChange}
+              required
+              defaultValue={item ? item.stock : 0}
+            />
           </li>
         </ul>
       </SProductInfoContainer>
 
       <SProductDetailContainer className="input-wrapper">
         <label htmlFor="">상품 상세 정보</label>
-        <textarea rows={10} className="" id="" name="product_info" onChange={handleTextAreaChange} required />
+        <textarea
+          rows={10}
+          className=""
+          id=""
+          name="product_info"
+          onChange={handleTextAreaChange}
+          required
+          defaultValue={item?.product_info || ''}
+        />
       </SProductDetailContainer>
 
       <SButtonContainer>
         <Button bgColor="var(--dark-gray-color)">취소</Button>
-        <Button type="submit">저장하기</Button>
+        <Button type="submit">{item ? '수정하기' : '저장하기'}</Button>
       </SButtonContainer>
     </SPostProductForm>
   );
