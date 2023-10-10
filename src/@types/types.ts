@@ -87,6 +87,17 @@ interface ReqOrderData {
   created_at: string;
 }
 
+//postProduct
+interface PostProductData {
+  product_name: string;
+  image: string;
+  price: number;
+  shipping_method: string;
+  stock: number;
+  shipping_fee: number;
+  product_info: string;
+}
+
 // carousel img
 interface UnsplashPhoto {
   urls: {
@@ -114,6 +125,7 @@ export type {
   LoginData,
   UserData,
   ReqOrderData,
+  PostProductData,
   UnsplashPhoto,
   PutCartItemProps,
 };

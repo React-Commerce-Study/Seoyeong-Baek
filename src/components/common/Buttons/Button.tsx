@@ -1,4 +1,4 @@
-import React from 'react';
+import { MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 
 interface ButtonProps {
@@ -11,9 +11,10 @@ interface ButtonProps {
   boxShadow?: string;
   type?: string;
   style?: React.CSSProperties;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   className?: string;
+  value?: string;
 }
 
 export default function Button(props: ButtonProps) {
