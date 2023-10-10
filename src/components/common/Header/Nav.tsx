@@ -38,6 +38,7 @@ export default function Nav({ page }: NavProps) {
     return (
       <li className="modal-btn">
         <button className={`nav-btn login ${isShowModal ? 'active' : ''}`} onClick={handleModalClick}>
+          <UserIcon />
           마이페이지
         </button>
         {isShowModal && <MyPageModal />}
@@ -54,7 +55,7 @@ export default function Nav({ page }: NavProps) {
           <>
             {renderMyPageButton()}
             <li className="seller-center-wrapper">
-              <Link to="/seller-center">
+              <Link to="/seller/center">
                 <Button className="seller-center" padding="0.69rem 1.25rem" fontWeight="500">
                   <ShoppingBagIcon />
                   <span>판매자센터</span>
