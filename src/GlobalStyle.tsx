@@ -82,6 +82,13 @@ const GlobalStyle = createGlobalStyle`
       &::-webkit-search-results-decoration{
          display:none;
       }
+
+      /* 인풋 타입 숫자 입력시 number 버튼 없애기  */
+      &::-webkit-inner-spin-button {
+         appearance: none;
+         -moz-appearance: none;
+         -webkit-appearance: none;
+      }
    }
    
    input, select{

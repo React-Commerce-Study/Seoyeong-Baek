@@ -30,7 +30,7 @@ export default function ProductInfoDescription() {
 const DescriptionStyle = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
   margin: 8.75rem 0 23rem;
 
   ${mediaQuery(BREAKPOINT_TABLET)} {
