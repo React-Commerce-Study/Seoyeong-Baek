@@ -5,10 +5,15 @@ import Button from '../common/Buttons/Button';
 import IconImg from '../../assets/icon/icon-img.png';
 import { PostProductData } from '../../@types/types';
 import { postProduct, putEditProduct } from '../../services/ResponseApi';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../modal/Modal';
 
 export default function PostProductForm() {
   const location = useLocation();
   const item = location.state;
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [isConfigModal, setIsConfigModal] = useState(false);
+  const navigate = useNavigate();
 
   const [postProductData, setPostProductData] = useState<PostProductData>({
     product_name: item?.product_name || '',
@@ -62,11 +67,13 @@ export default function PostProductForm() {
     if (postProductData.shipping_method === '') {
       alert('배송방법을 선택해주세요.');
     } else {
-      // 모달확인
-      // postData
-      postItem();
+      setIsShowModal(true);
     }
   };
+
+  useEffect(() => {
+    if (isConfigModal) postItem();
+  }, [isConfigModal]);
 
   const postItem = async () => {
     if (item) {
@@ -74,125 +81,130 @@ export default function PostProductForm() {
       const editData = postProductData;
       await putEditProduct({ urlId, editData });
     } else await postProduct(postProductData);
+
+    navigate('/seller/center');
   };
 
   return (
-    <SPostProductForm onSubmit={handleSubmit}>
-      <h3 className="a11y-hidden">postProductForm</h3>
-      <SProductInfoContainer>
-        <div className={`input-wrapper image ${fileURL !== '' && 'uploaded'}`}>
-          <label htmlFor="productImg">상품 이미지</label>
-          <button type="button" onClick={handleImgUpload}>
-            {fileURL && <img src={fileURL} alt={postProductData.product_name} />}
-            {item && <img src={item.image} alt={postProductData.product_name} />}
-          </button>
-          <input
-            type="file"
-            className="img"
-            id="productImg"
-            onChange={handleInputChange}
-            name="image"
-            accept="image/*"
-            required={!item}
+    <>
+      <SPostProductForm onSubmit={handleSubmit}>
+        <h3 className="a11y-hidden">postProductForm</h3>
+        <SProductInfoContainer>
+          <div className={`input-wrapper image ${fileURL !== '' && 'uploaded'}`}>
+            <label htmlFor="productImg">상품 이미지</label>
+            <button type="button" onClick={handleImgUpload}>
+              {fileURL && <img src={fileURL} alt={postProductData.product_name} />}
+              {item && <img src={item.image} alt={postProductData.product_name} />}
+            </button>
+            <input
+              type="file"
+              className="img"
+              id="productImg"
+              onChange={handleInputChange}
+              name="image"
+              accept="image/*"
+              required={!item}
+            />
+          </div>
+
+          <ul className="info-wrapper">
+            <li className="input-wrapper name">
+              <label htmlFor="">상품명</label>
+              <input
+                type="text"
+                className=""
+                id=""
+                name="product_name"
+                onChange={handleInputChange}
+                required
+                defaultValue={item ? item.product_name : ''}
+              />
+            </li>
+            <li className="input-wrapper price">
+              <label htmlFor="">판매가</label>
+              <input
+                type="number"
+                className=""
+                id=""
+                name="price"
+                onChange={handleInputChange}
+                required
+                defaultValue={item && item.price}
+              />
+            </li>
+            <li className="input-wrapper delivery">
+              <label htmlFor="delivery">배송방법</label>
+              <div className="delivery-btn-wrapper">
+                <Button
+                  fontWeight="var(--font-weight-medium)"
+                  fontSize="var(--font-size-md)"
+                  padding="1.0625rem 0"
+                  type="button"
+                  data-value="PARCEL"
+                  onClick={handleShippingMethod}
+                >
+                  배달, 소포, 등기
+                </Button>
+                <Button
+                  fontWeight="var(--font-weight-medium)"
+                  fontSize="var(--font-size-md)"
+                  padding="1.0625rem 0"
+                  bgColor="var(--dark-gray-color)"
+                  type="button"
+                  data-value="DELIVERY"
+                  onClick={handleShippingMethod}
+                >
+                  직접배송(화물배달)
+                </Button>
+              </div>
+            </li>
+            <li className="input-wrapper delivery-fee">
+              <label htmlFor="">기본 배송비</label>
+              <input
+                type="number"
+                className=""
+                id=""
+                name="shipping_fee"
+                onChange={handleInputChange}
+                required
+                defaultValue={item && item.shipping_fee}
+              />
+            </li>
+            <li className="input-wrapper stock">
+              <label htmlFor="">재고</label>
+              <input
+                type="number"
+                className=""
+                id=""
+                name="stock"
+                onChange={handleInputChange}
+                required
+                defaultValue={item && item.stock}
+              />
+            </li>
+          </ul>
+        </SProductInfoContainer>
+
+        <SProductDetailContainer className="input-wrapper">
+          <label htmlFor="">상품 상세 정보</label>
+          <textarea
+            rows={10}
+            className=""
+            id=""
+            name="product_info"
+            onChange={handleTextAreaChange}
+            required
+            defaultValue={item?.product_info || ''}
           />
-        </div>
+        </SProductDetailContainer>
 
-        <ul className="info-wrapper">
-          <li className="input-wrapper name">
-            <label htmlFor="">상품명</label>
-            <input
-              type="text"
-              className=""
-              id=""
-              name="product_name"
-              onChange={handleInputChange}
-              required
-              defaultValue={item ? item.product_name : ''}
-            />
-          </li>
-          <li className="input-wrapper price">
-            <label htmlFor="">판매가</label>
-            <input
-              type="number"
-              className=""
-              id=""
-              name="price"
-              onChange={handleInputChange}
-              required
-              defaultValue={item && item.price}
-            />
-          </li>
-          <li className="input-wrapper delivery">
-            <label htmlFor="delivery">배송방법</label>
-            <div className="delivery-btn-wrapper">
-              <Button
-                fontWeight="var(--font-weight-medium)"
-                fontSize="var(--font-size-md)"
-                padding="1.0625rem 0"
-                type="button"
-                data-value="PARCEL"
-                onClick={handleShippingMethod}
-              >
-                배달, 소포, 등기
-              </Button>
-              <Button
-                fontWeight="var(--font-weight-medium)"
-                fontSize="var(--font-size-md)"
-                padding="1.0625rem 0"
-                bgColor="var(--dark-gray-color)"
-                type="button"
-                data-value="DELIVERY"
-                onClick={handleShippingMethod}
-              >
-                직접배송(화물배달)
-              </Button>
-            </div>
-          </li>
-          <li className="input-wrapper delivery-fee">
-            <label htmlFor="">기본 배송비</label>
-            <input
-              type="number"
-              className=""
-              id=""
-              name="shipping_fee"
-              onChange={handleInputChange}
-              required
-              defaultValue={item && item.shipping_fee}
-            />
-          </li>
-          <li className="input-wrapper stock">
-            <label htmlFor="">재고</label>
-            <input
-              type="number"
-              className=""
-              id=""
-              name="stock"
-              onChange={handleInputChange}
-              required
-              defaultValue={item && item.stock}
-            />
-          </li>
-        </ul>
-      </SProductInfoContainer>
-
-      <SProductDetailContainer className="input-wrapper">
-        <label htmlFor="">상품 상세 정보</label>
-        <textarea
-          rows={10}
-          className=""
-          id=""
-          name="product_info"
-          onChange={handleTextAreaChange}
-          required
-          defaultValue={item?.product_info || ''}
-        />
-      </SProductDetailContainer>
-
-      <SButtonContainer>
-        <Button bgColor="var(--dark-gray-color)">취소</Button>
-        <Button type="submit">{item ? '수정하기' : '저장하기'}</Button>
-      </SButtonContainer>
-    </SPostProductForm>
+        <SButtonContainer>
+          <Button bgColor="var(--dark-gray-color)">취소</Button>
+          <Button type="submit">{item ? '수정하기' : '저장하기'}</Button>
+        </SButtonContainer>
+      </SPostProductForm>
+      {isShowModal && <Modal setIsShowModal={setIsShowModal} setIsConfigModal={setIsConfigModal} type={item ? 'edit' : 'post'} />}
+    </>
   );
 }
 
