@@ -14,6 +14,7 @@ interface ModalProps {
   cartItemId?: number;
   setIsDeleteItem?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsConfigModal?: React.Dispatch<React.SetStateAction<boolean>>;
   successUserName?: string;
   price?: number;
   deliveryFee?: number;
@@ -21,6 +22,7 @@ interface ModalProps {
 
 export default function Modal({
   type,
+  setIsConfigModal,
   cartItemId,
   productId,
   setIsDeleteItem,
@@ -36,6 +38,13 @@ export default function Modal({
     // 옵셔널 체이닝(Optional Chaining) 연산자(?.)
     // null 또는 undefined일 경우에는 호출하지 않고 그냥 넘어가게 됨. 이렇게 함으로써 해당 함수가 존재하지 않을 때 발생할 수 있는 오류를 방지하고, 안전하게 함수 호출
     setIsShowModal?.(false);
+  };
+
+  const configItem = () => {
+    setIsConfigModal?.(true);
+    // setIsDeleteItem?.(true);
+
+    closeModal();
   };
 
   const deleteItem = async () => {
@@ -72,7 +81,9 @@ export default function Modal({
   };
 
   const contents = [
-    { type: 'delete', value: '상품을 삭제하시겠습니까?', event: deleteItem },
+    { type: 'edit', value: '상품을 수정하시겠습니까?', event: configItem },
+    { type: 'post', value: '상품을 등록하시겠습니까?', event: configItem },
+    { type: 'delete', value: '상품을 삭제하시겠습니까?', event: configItem },
     { type: 'deleteAll', value: '정말로 전체 삭제하시겠습니까?', event: deleteAllItems },
     { type: 'requiredLogin', value: '로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?', event: () => navigatePath('/login') },
     { type: 'logout', value: '정말로 로그아웃 하시겠습니까?', event: logout },

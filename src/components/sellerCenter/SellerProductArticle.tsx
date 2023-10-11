@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import Button from '../common/Buttons/Button';
 import { Product } from '../../@types/types';
 import { useNavigate } from 'react-router-dom';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Modal from '../modal/Modal';
+import ProductDataImg from '../common/product/ProductDataImg';
+import { deleteSaleItem } from '../../services/ResponseApi';
 
 interface SellerProductArticleProps {
   item: Product;
@@ -14,16 +16,33 @@ interface SellerProductArticleProps {
 export default function SellerProductArticle({ item, setIsDeleteItem }: SellerProductArticleProps) {
   const navigate = useNavigate();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isConfigModal, setIsConfigModal] = useState(false);
 
-  const handleDelete = () => {
+  const handleDeleteBtn = () => {
     setIsShowModal(true);
+    setIsDeleteItem?.(false);
+  };
+
+  const deleteItem = async () => {
+    await deleteSaleItem(item.product_id);
+  };
+
+  useEffect(() => {
+    if (isConfigModal) {
+      deleteItem();
+      setIsDeleteItem?.(true);
+    }
+  }, [isConfigModal]);
+
+  const handleClick = () => {
+    navigate(`/product/${item.product_id}`, { state: item });
   };
 
   return (
     <>
       <SSellerProductArticle>
         <div className="product-info-wrapper">
-          <img src={item.image} alt="" />
+          <ProductDataImg productImg={item.image} imgName={item.product_name} handleClick={handleClick} />
           <div className="product-name-stock">
             <p>{item.product_name}</p>
             <span>재고 : {item.stock}</span>
@@ -41,13 +60,13 @@ export default function SellerProductArticle({ item, setIsDeleteItem }: SellerPr
           </Button>
         </div>
         <div className="btn-box">
-          <Button padding="10px 0" fontSize="var(--font-size-ml)" fontWeight="var(--font-weight-light)" onClick={handleDelete}>
+          <Button padding="10px 0" fontSize="var(--font-size-ml)" fontWeight="var(--font-weight-light)" onClick={handleDeleteBtn}>
             삭제
           </Button>
         </div>
       </SSellerProductArticle>
       {isShowModal && (
-        <Modal type="delete" setIsDeleteItem={setIsDeleteItem} productId={item.product_id} setIsShowModal={setIsShowModal} />
+        <Modal type="delete" setIsConfigModal={setIsConfigModal} productId={item.product_id} setIsShowModal={setIsShowModal} />
       )}
     </>
   );
