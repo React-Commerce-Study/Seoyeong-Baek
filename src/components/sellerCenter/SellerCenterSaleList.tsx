@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 import SellerProductArticle from './SellerProductArticle';
 import { getSaleItems } from '../../services/ResponseApi';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Product } from '../../@types/types';
 
-export default function SellerCenterSaleList() {
+interface SellerCenterSaleListProps {
+  setSaleCount: Dispatch<SetStateAction<number>>;
+}
+
+export default function SellerCenterSaleList({ setSaleCount }: SellerCenterSaleListProps) {
   const [saleItems, setSaleItems] = useState<Product[]>([]);
   const [isDeleteItem, setIsDeleteItem] = useState(false);
 
@@ -14,8 +18,16 @@ export default function SellerCenterSaleList() {
   };
 
   useEffect(() => {
-    getSaleItem();
+    if (isDeleteItem) getSaleItem();
   }, [isDeleteItem]);
+
+  useEffect(() => {
+    getSaleItem();
+  }, []);
+
+  useEffect(() => {
+    setSaleCount(saleItems.length);
+  }, [saleItems]);
 
   return (
     <>
@@ -40,6 +52,7 @@ const SSaleInfoCategoryList = styled.ul`
   font-size: var(--font-size-lg);
   text-align: center;
   border-bottom: 1px solid var(--middle-gray-color);
+  box-shadow: inset 0 0 10px red;
 
   li:first-child {
     flex-basis: 50%;

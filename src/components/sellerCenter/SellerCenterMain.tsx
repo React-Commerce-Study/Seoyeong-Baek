@@ -1,8 +1,10 @@
 import SellerCenterSaleList from './SellerCenterSaleList';
 import styled from 'styled-components';
+import { useState } from 'react';
 
 export default function SellerCenterMain() {
-  const categories = [`판매중인 상품(${3})`, '주문/배송', '문의/리뷰', '통계', '스토어 설정'];
+  const [saleCount, setSaleCount] = useState(0);
+  const categories = [`판매중인 상품(${saleCount})`, '주문/배송', '문의/리뷰', '통계', '스토어 설정'];
 
   const handleClickNav = () => {
     console.log('click');
@@ -21,7 +23,7 @@ export default function SellerCenterMain() {
       </nav>
 
       <section className="display-nav-info">
-        <SellerCenterSaleList />
+        <SellerCenterSaleList setSaleCount={setSaleCount} />
       </section>
     </SSellerCenterSection>
   );
@@ -34,7 +36,7 @@ const SSellerCenterSection = styled.section`
   margin-top: 2.625rem;
 
   .category-nav {
-    box-shadow: inset 0 0 10px blue;
+    box-shadow: inset 0 0 10px red;
     width: 250px;
 
     li:not(:last-child) {
@@ -44,7 +46,7 @@ const SSellerCenterSection = styled.section`
     ul li button {
       font-weight: var(--font-weight-medium);
       font-size: var(--font-size-md);
-      padding: 15px 20px;
+      padding: 0.9375rem 1.25rem;
       width: 100%;
       text-align: start;
     }
