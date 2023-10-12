@@ -415,9 +415,11 @@ export async function deleteSaleItem(productId: number) {
         Authorization: `JWT ${token}`,
       },
     });
-    const data = await response.json();
-    console.log(data);
+    // const data = await response.json();
+
+    console.log('delete', response);
   } catch (error) {
     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
+    throw error;
   }
 }

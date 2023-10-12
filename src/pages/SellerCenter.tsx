@@ -18,7 +18,7 @@ export default function SellerCenter() {
 const SMainContainer = styled.main`
   max-width: 120rem;
   margin: 0 auto;
-  padding: 2.75rem 6.25rem;
+  padding: 2.75rem 1rem;
   box-sizing: border-box;
   box-shadow: inset 0 0 10px pink;
 `;
