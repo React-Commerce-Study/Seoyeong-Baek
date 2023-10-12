@@ -3,6 +3,7 @@ import SellerProductArticle from './SellerProductArticle';
 import { getSaleItems } from '../../services/ResponseApi';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Product } from '../../@types/types';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface SellerCenterSaleListProps {
   setSaleCount: Dispatch<SetStateAction<number>>;
@@ -52,7 +53,6 @@ const SSaleInfoCategoryList = styled.ul`
   font-size: var(--font-size-lg);
   text-align: center;
   border-bottom: 1px solid var(--middle-gray-color);
-  box-shadow: inset 0 0 10px red;
 
   li:first-child {
     flex-basis: 50%;
@@ -65,5 +65,16 @@ const SSaleInfoCategoryList = styled.ul`
   li:nth-child(3),
   li:last-child {
     flex-basis: 10%;
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    li:nth-child(3),
+    li:last-child {
+      display: none;
+    }
+
+    li {
+      flex-grow: 1;
+    }
   }
 `;

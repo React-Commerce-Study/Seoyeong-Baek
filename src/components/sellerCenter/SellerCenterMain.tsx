@@ -1,6 +1,7 @@
 import SellerCenterSaleList from './SellerCenterSaleList';
 import styled from 'styled-components';
 import { useState } from 'react';
+import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
 export default function SellerCenterMain() {
   const [saleCount, setSaleCount] = useState(0);
@@ -30,20 +31,18 @@ export default function SellerCenterMain() {
 }
 
 const SSellerCenterSection = styled.section`
-  box-shadow: inset 0 0 10px blue;
   display: flex;
   gap: 1.875rem;
   margin-top: 2.625rem;
 
   .category-nav {
-    box-shadow: inset 0 0 10px red;
-    width: 250px;
+    width: 15.625rem;
 
     li:not(:last-child) {
       margin-bottom: 0.625rem;
     }
 
-    ul li button {
+    li button {
       font-weight: var(--font-weight-medium);
       font-size: var(--font-size-md);
       padding: 0.9375rem 1.25rem;
@@ -51,7 +50,7 @@ const SSellerCenterSection = styled.section`
       text-align: start;
     }
 
-    ul li button.active {
+    li button.active {
       color: #fff;
       background-color: var(--point-color);
       border-radius: 5px;
@@ -59,10 +58,38 @@ const SSellerCenterSection = styled.section`
   }
 
   .display-nav-info {
-    box-shadow: inset 0 0 10px blue;
-    width: 90rem;
+    width: 100%;
     border-radius: 5px;
     border: 1px solid var(--middle-gray-color);
     background: #f2f2f2;
+    box-sizing: border-box;
+  }
+
+  ${mediaQuery(BREAKPOINT_PC)} {
+    flex-direction: column;
+
+    .category-nav {
+      width: 100%;
+
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+
+        li {
+          flex-grow: 1;
+          margin-bottom: 0;
+          box-shadow: inset 0 0 10px red;
+
+          button {
+            text-align: center;
+            padding: 0.9375rem 0.8rem;
+          }
+
+          &:not(:last-child) {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
   }
 `;

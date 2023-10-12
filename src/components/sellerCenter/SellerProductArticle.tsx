@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Modal from '../modal/Modal';
 import ProductDataImg from '../common/product/ProductDataImg';
 import { deleteSaleItem } from '../../services/ResponseApi';
+import { mediaQuery, BREAKPOINT_TABLET, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
 interface SellerProductArticleProps {
   item: Product;
@@ -49,7 +50,7 @@ export default function SellerProductArticle({ item, setIsDeleteItem }: SellerPr
           </div>
         </div>
         <p>{item.price.toLocaleString()}원</p>
-        <div className="btn-box">
+        <div className="btn-wrapper">
           <Button
             padding="10px 0"
             fontSize="var(--font-size-ml)"
@@ -58,8 +59,6 @@ export default function SellerProductArticle({ item, setIsDeleteItem }: SellerPr
           >
             수정
           </Button>
-        </div>
-        <div className="btn-box">
           <Button padding="10px 0" fontSize="var(--font-size-ml)" fontWeight="var(--font-weight-light)" onClick={handleDeleteBtn}>
             삭제
           </Button>
@@ -91,6 +90,7 @@ const SSellerProductArticle = styled.article`
     gap: 1.875rem;
     padding-left: 1.875rem;
     box-sizing: border-box;
+    flex-grow: 1;
 
     img {
       width: 4.375rem;
@@ -114,20 +114,44 @@ const SSellerProductArticle = styled.article`
   & > p:nth-child(2) {
     flex-basis: 30%;
     text-align: center;
+    flex-grow: 1;
   }
 
-  & > div:nth-child(3),
-  & > div:last-child {
-    flex-basis: 10%;
-    padding: 0 0.3rem;
-    box-sizing: border-box;
-  }
-
-  .btn-box {
-    text-align: center;
+  .btn-wrapper {
+    flex-basis: 20%;
+    display: flex;
+    flex-grow: 1;
 
     button {
+      box-sizing: border-box;
       max-width: 5rem;
+      margin: 0 0.5rem;
+    }
+  }
+
+  ${mediaQuery(BREAKPOINT_PC)} {
+    .product-info-wrapper {
+      padding-left: 0.8rem;
+    }
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .product-info-wrapper {
+      gap: 1rem;
+      float: left;
+    }
+
+    .btn-wrapper {
+      min-width: 15rem;
+      padding: 0 0.4rem;
+      box-sizing: border-box;
+
+      button {
+        max-width: 100%;
+      }
     }
   }
 `;
