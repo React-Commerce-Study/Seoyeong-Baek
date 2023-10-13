@@ -93,10 +93,10 @@ export default function PostProductForm() {
         <SProductInfoContainer>
           <div className={`input-wrapper image-wrapper ${fileURL !== '' && 'uploaded'}`}>
             <label htmlFor="productImg">상품 이미지</label>
-            <div onClick={handleImgUpload}>
+            <button onClick={handleImgUpload} className={fileURL || item?.image ? '' : 'empty'}>
               {fileURL && <img src={fileURL} alt={postProductData.product_name} />}
               {item && <img src={item.image} alt={postProductData.product_name} />}
-            </div>
+            </button>
             <input
               type="file"
               className="img"
@@ -254,12 +254,12 @@ const SProductInfoContainer = styled.fieldset`
     flex-grow: 1;
   }
 
-  .image-wrapper div {
+  .image-wrapper button {
     background-color: var(--middle-gray-color);
     aspect-ratio: 1/1;
     position: relative;
 
-    &::after {
+    &.empty::after {
       content: '';
       background: url(${IconImg}) center / contain no-repeat;
       width: 3.125rem;
