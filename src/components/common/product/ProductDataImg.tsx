@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ProductImgProps {
   productImg: string;
   imgName: string;
@@ -8,8 +6,8 @@ interface ProductImgProps {
 
 export default function ProductImg({ productImg, imgName, handleClick }: ProductImgProps) {
   return (
-    <div className="img-box">
-      <img src={productImg} alt={imgName} onClick={handleClick} />
+    <div className="img-box" onClick={handleClick}>
+      <img src={productImg} alt={imgName} />
     </div>
   );
 }
