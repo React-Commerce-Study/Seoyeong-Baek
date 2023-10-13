@@ -329,13 +329,9 @@ export async function getRandomImages(): Promise<string[]> {
 /* seller */
 export async function getSaleItems() {
   try {
-    const response = await fetch(`${BASE_URL}seller`, {
+    const response = await fetchWithToken(`${BASE_URL}seller/`, {
       method: 'GET',
-      headers: {
-        Authorization: `JWT ${token}`,
-      },
     });
-
     if (response.ok) {
       const data = await response.json();
       console.log(data.results);
