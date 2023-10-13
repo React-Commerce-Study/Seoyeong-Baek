@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '../icons/ShoppingCartIcon';
 import UserIcon from '../icons/UserIcon';
-// import ShoppingCart from '../../../assets/icon/icon-shopping-cart.svg';
-import ShoppingCartActive from '../../../assets/icon/icon-shopping-cart-2.svg';
-import User from '../../../assets/icon/icon-user.svg';
-import UserActive from '../../../assets/icon/icon-user-2.svg';
+
 import ShoppingBagIcon from '../icons/ShoppingBagIcon';
 import MyPageModal from '../../modal/MyPageModal';
 import Modal from '../../modal/Modal';
