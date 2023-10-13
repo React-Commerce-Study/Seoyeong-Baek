@@ -11,7 +11,7 @@ import { store, persistor } from './app/store';
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         {/* <ScrollTop /> */}
