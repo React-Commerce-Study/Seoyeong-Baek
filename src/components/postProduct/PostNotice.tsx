@@ -25,6 +25,7 @@ export default function PostNotice() {
 
 const SNoticeArticle = styled.article`
   line-height: normal;
+  min-width: 15rem;
 
   h3 {
     color: #eb5757;
@@ -33,7 +34,7 @@ const SNoticeArticle = styled.article`
   }
 
   .notice-contents {
-    width: 20rem;
+    width: 100%;
     border-radius: 5px;
     background-color: #ffefe8;
     padding: 1.25rem;

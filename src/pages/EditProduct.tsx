@@ -1,6 +1,7 @@
 import Header from '../components/common/Header/Header';
-import PostProductSection from '../components/postProduct/PostProductSection';
+import PostEditProductSection from '../components/postProduct/PostEditProductSection';
 import styled from 'styled-components';
+import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../components/style/mediaQuery/MediaQueryType';
 
 export default function SellerCenter() {
   return (
@@ -8,7 +9,7 @@ export default function SellerCenter() {
       <Header />
       <SMainContainer>
         <h2>상품 수정</h2>
-        <PostProductSection />
+        <PostEditProductSection />
       </SMainContainer>
     </>
   );
@@ -24,5 +25,13 @@ const SMainContainer = styled.main`
   h2 {
     font-size: var(--font-size-xxl);
     font-weight: var(--font-weight-bold);
+  }
+
+  ${mediaQuery(BREAKPOINT_PC)} {
+    padding: 2.75rem 3rem;
+  }
+
+  ${mediaQuery(BREAKPOINT_TABLET)} {
+    padding: 2.75rem 1rem;
   }
 `;

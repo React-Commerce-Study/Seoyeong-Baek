@@ -7,6 +7,7 @@ import { PostProductData } from '../../@types/types';
 import { postProduct, putEditProduct } from '../../services/ResponseApi';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../modal/Modal';
+import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
 export default function PostProductForm() {
   const location = useLocation();
@@ -90,12 +91,12 @@ export default function PostProductForm() {
       <SPostProductForm onSubmit={handleSubmit}>
         <h3 className="a11y-hidden">postProductForm</h3>
         <SProductInfoContainer>
-          <div className={`input-wrapper image ${fileURL !== '' && 'uploaded'}`}>
+          <div className={`input-wrapper image-wrapper ${fileURL !== '' && 'uploaded'}`}>
             <label htmlFor="productImg">상품 이미지</label>
-            <button type="button" onClick={handleImgUpload}>
+            <div onClick={handleImgUpload}>
               {fileURL && <img src={fileURL} alt={postProductData.product_name} />}
               {item && <img src={item.image} alt={postProductData.product_name} />}
-            </button>
+            </div>
             <input
               type="file"
               className="img"
@@ -209,7 +210,7 @@ export default function PostProductForm() {
 }
 
 const SPostProductForm = styled.form`
-  width: 82.5rem;
+  width: 100%;
   line-height: normal;
 
   .input-wrapper {
@@ -246,11 +247,17 @@ const SPostProductForm = styled.form`
 const SProductInfoContainer = styled.fieldset`
   display: flex;
   gap: 2.5rem;
+  width: 100%;
 
-  .image button {
-    width: 28.375rem;
-    height: 28.375rem;
+  .image-wrapper {
+    max-width: 28.375rem;
+    flex-grow: 1;
+  }
+
+  .image-wrapper div {
     background-color: var(--middle-gray-color);
+    aspect-ratio: 1/1;
+    position: relative;
 
     &::after {
       content: '';
@@ -259,6 +266,10 @@ const SProductInfoContainer = styled.fieldset`
       height: 3.125rem;
       margin: 0 auto;
       display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     &.uploaded::after {
@@ -267,7 +278,8 @@ const SProductInfoContainer = styled.fieldset`
   }
 
   .info-wrapper {
-    width: 100%;
+    max-width: 100%;
+    flex-grow: 1;
 
     li:not(:first-child) {
       margin-top: 1.13rem;
@@ -275,7 +287,7 @@ const SProductInfoContainer = styled.fieldset`
 
     li:not(:first-child, :nth-child(3)) {
       position: relative;
-      max-width: 220px;
+      max-width: 13.75rem;
 
       input {
         background-color: transparent;
@@ -301,8 +313,28 @@ const SProductInfoContainer = styled.fieldset`
 
     .delivery-btn-wrapper {
       display: flex;
-      gap: 10px;
-      max-width: 450px;
+      gap: 0.625rem;
+      max-width: 28.125rem;
+    }
+  }
+
+  ${mediaQuery(BREAKPOINT_PC)} {
+    flex-direction: column;
+
+    .image-wrapper {
+      max-width: 100%;
+    }
+
+    .info-wrapper {
+      li:not(:first-child, :nth-child(3)) {
+        max-width: 100%;
+      }
+
+      .delivery-btn-wrapper {
+        display: flex;
+        gap: 0.625rem;
+        max-width: inherit;
+      }
     }
   }
 `;
@@ -317,7 +349,7 @@ const SProductDetailContainer = styled.fieldset`
 
 const SButtonContainer = styled.div`
   display: flex;
-  width: 414px;
+  max-width: 25.875rem;
   gap: 0.875rem;
   margin-left: auto;
 `;
