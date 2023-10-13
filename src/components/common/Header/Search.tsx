@@ -52,7 +52,12 @@ export default function Search({ isMobileSearch, setIsMobileSearch }: SearchForm
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate('/search', { state: productList });
+    navigate(`/product/${productList[0].product_id}`, { state: productList[0] });
+    handleLinkClick();
+  };
+
+  const handleLinkClick = () => {
+    setProductList([]);
   };
 
   console.log(productList);
@@ -85,7 +90,7 @@ export default function Search({ isMobileSearch, setIsMobileSearch }: SearchForm
         <ul className="autocomplete">
           {productList.map((product) => (
             <li>
-              <Link to="/product/:id" state={product} key={product.product_id}>
+              <Link to={`/product/${product.product_id}`} state={product} key={product.product_id} onClick={handleLinkClick}>
                 {highlightMatchedText(product.product_name, searchWord)}
               </Link>
             </li>
