@@ -8,11 +8,12 @@ import Button from '../common/Buttons/Button';
 import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
-import { Product, CartProduct, CartActiveData, PutCartItemProps } from '../../@types/types';
+import { Product, CartProduct, CartActiveData, PutItemProps } from '../../@types/types';
 import { putCartItem, getProductItem } from '../../services/ResponseApi';
 import Modal from '../../components/modal/Modal';
 import { useDispatch } from 'react-redux';
 import { plusPrice, minusPrice, resetPrice } from '../../features/finalPriceSlice';
+import { deleteItem } from '../../utils/deleteItem';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 type CartItemProps = {
@@ -40,6 +41,7 @@ export default function CartItem({
 
   // 모달 상태를 관리하는 상태 변수
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isConfigModal, setIsConfigModal] = useState(false);
 
   useEffect(() => {
     fetchCartItem();
@@ -93,7 +95,7 @@ export default function CartItem({
   // order목록 보내기(active및 수량 변경)
   const urlId = cartProduct.cart_item_id;
 
-  async function putCartItems({ urlId, orderData }: PutCartItemProps) {
+  async function putCartItems({ urlId, orderData }: PutItemProps) {
     await putCartItem({ urlId, orderData });
     console.log('yes');
   }
@@ -159,6 +161,16 @@ export default function CartItem({
     }
   }, [isOneOrderBtnClick]);
 
+  useEffect(() => {
+    if (isConfigModal) {
+      deleteItem(cartProduct.cart_item_id);
+      setIsDeleteItem?.(true);
+      console.log('delete');
+
+      isActive && product && dispatch(minusPrice({ price: price, deliveryFee: product.shipping_fee }));
+    }
+  }, [isConfigModal]);
+
   return (
     <>
       {product && (
@@ -195,16 +207,7 @@ export default function CartItem({
         </SCartItemContainer>
       )}
 
-      {isShowModal && (
-        <Modal
-          type="delete"
-          cartItemId={cartProduct.cart_item_id}
-          setIsDeleteItem={setIsDeleteItem}
-          setIsShowModal={setIsShowModal}
-          price={isActive ? price : undefined}
-          deliveryFee={isActive ? product?.shipping_fee : undefined}
-        />
-      )}
+      {isShowModal && <Modal type="delete" setIsConfigModal={setIsConfigModal} setIsShowModal={setIsShowModal} />}
     </>
   );
 }
@@ -235,7 +238,6 @@ const SCartItemContainer = styled(ProductListItemStyle)`
     .img-box {
       max-width: 10rem;
       max-height: 10rem;
-      /* border: none; */
     }
 
     .info-box {

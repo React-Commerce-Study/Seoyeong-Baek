@@ -9,6 +9,7 @@ import { fetchCartItemList } from '../../services/ResponseApi';
 import RoundCheckBox from './checkBox/RoundCheckBox';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 import Modal from '../../components/modal/Modal';
+import { deleteAllItem } from '../../utils/deleteItem';
 
 export default function ShoppingCart() {
   const navigate = useNavigate();
@@ -18,19 +19,31 @@ export default function ShoppingCart() {
   // 모달로 확인한 값이 바뀌는 경우
   const [isDeleteItem, setIsDeleteItem] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isConfigModal, setIsConfigModal] = useState(false);
 
   useEffect(() => {
     fetchCartItems();
+  }, []);
 
-    return setIsDeleteItem(false);
+  useEffect(() => {
+    if (isDeleteItem) {
+      fetchCartItems();
+      return setIsDeleteItem(false);
+    }
   }, [isDeleteItem]);
-  // cartItemList을 넣게되면 체크박스를 클릭할 때마다 재렌더링돼서 체크박스 on/off가 되지 않음
 
   async function fetchCartItems() {
     const cartList = await fetchCartItemList();
     console.log(cartList);
     setCartItemList(cartList);
   }
+
+  useEffect(() => {
+    if (isConfigModal) {
+      deleteAllItem();
+      setIsDeleteItem?.(true);
+    }
+  }, [isConfigModal]);
 
   // 전체 선택상태 일때
   const [isAllCheck, setAllIsCheck] = useState<boolean>(true);
@@ -69,8 +82,6 @@ export default function ShoppingCart() {
   };
 
   const handleDeleteAllItem = async () => {
-    // await DeleteAllItem();
-    // setIsDeleteItem(true);
     setIsShowModal(true);
   };
 
@@ -137,7 +148,7 @@ export default function ShoppingCart() {
           전체삭제
         </Button>
       </SMainLayout>
-      {isShowModal && <Modal type="deleteAll" setIsShowModal={setIsShowModal} setIsDeleteItem={setIsDeleteItem} />}
+      {isShowModal && <Modal type="deleteAll" setIsShowModal={setIsShowModal} setIsConfigModal={setIsConfigModal} />}
     </>
   );
 }

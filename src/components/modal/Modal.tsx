@@ -1,38 +1,18 @@
 import Button from '../common/Buttons/Button';
-import { deleteSaleItem, DeleteCartItem, DeleteAllItem } from '../../services/ResponseApi';
 import { handleModalLayoutClick } from 'utils/modalFunction';
 import { useNavigate } from 'react-router-dom';
 import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 import CloseButton from '../common/Buttons/CloseButton';
-import { minusPrice } from '../../features/finalPriceSlice';
-import { useDispatch } from 'react-redux';
-// import getCartItems from '../../utils/getCartItems';
 
 interface ModalProps {
   type: string;
-  productId?: number;
-  cartItemId?: number;
-  setIsDeleteItem?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsConfigModal?: React.Dispatch<React.SetStateAction<boolean>>;
   successUserName?: string;
-  price?: number;
-  deliveryFee?: number;
 }
 
-export default function Modal({
-  type,
-  setIsConfigModal,
-  cartItemId,
-  productId,
-  setIsDeleteItem,
-  setIsShowModal,
-  successUserName,
-  price,
-  deliveryFee,
-}: ModalProps) {
+export default function Modal({ type, setIsConfigModal, setIsShowModal, successUserName }: ModalProps) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const closeModal = () => {
     // 옵셔널 체이닝(Optional Chaining) 연산자(?.)
@@ -42,29 +22,6 @@ export default function Modal({
 
   const configItem = () => {
     setIsConfigModal?.(true);
-    // setIsDeleteItem?.(true);
-
-    closeModal();
-  };
-
-  const deleteItem = async () => {
-    if (productId) {
-      setIsDeleteItem?.(true);
-      await deleteSaleItem(productId);
-    } else if (cartItemId) {
-      setIsDeleteItem?.(true);
-      await DeleteCartItem(cartItemId);
-      // getCartItems('deleteItem');
-
-      if (price && deliveryFee) dispatch(minusPrice({ price: price, deliveryFee: deliveryFee }));
-    }
-
-    closeModal();
-  };
-
-  const deleteAllItems = async () => {
-    await DeleteAllItem();
-    setIsDeleteItem?.(true);
     closeModal();
   };
 
@@ -84,7 +41,7 @@ export default function Modal({
     { type: 'edit', value: '상품을 수정하시겠습니까?', event: configItem },
     { type: 'post', value: '상품을 등록하시겠습니까?', event: configItem },
     { type: 'delete', value: '상품을 삭제하시겠습니까?', event: configItem },
-    { type: 'deleteAll', value: '정말로 전체 삭제하시겠습니까?', event: deleteAllItems },
+    { type: 'deleteAll', value: '정말로 전체 삭제하시겠습니까?', event: configItem },
     { type: 'requiredLogin', value: '로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?', event: () => navigatePath('/login') },
     { type: 'logout', value: '정말로 로그아웃 하시겠습니까?', event: logout },
     { type: 'addToCart', value: '장바구니에 담겼습니다.\n장바구니로 이동 하시겠습니까?', event: () => navigatePath('/cart') },

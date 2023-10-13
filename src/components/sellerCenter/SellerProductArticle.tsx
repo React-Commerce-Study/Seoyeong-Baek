@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Modal from '../modal/Modal';
 import ProductDataImg from '../common/product/ProductDataImg';
-import { deleteSaleItem } from '../../services/ResponseApi';
+// import { deleteSaleItem } from '../../services/ResponseApi';
+import { deleteItem } from '../../utils/deleteItem';
 import { mediaQuery, BREAKPOINT_TABLET, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
 interface SellerProductArticleProps {
@@ -21,16 +22,11 @@ export default function SellerProductArticle({ item, setIsDeleteItem }: SellerPr
 
   const handleDeleteBtn = () => {
     setIsShowModal(true);
-    setIsDeleteItem?.(false);
-  };
-
-  const deleteItem = async () => {
-    await deleteSaleItem(item.product_id);
   };
 
   useEffect(() => {
     if (isConfigModal) {
-      deleteItem();
+      deleteItem(item.product_id);
       setIsDeleteItem?.(true);
     }
   }, [isConfigModal]);
@@ -64,9 +60,7 @@ export default function SellerProductArticle({ item, setIsDeleteItem }: SellerPr
           </Button>
         </div>
       </SSellerProductArticle>
-      {isShowModal && (
-        <Modal type="delete" setIsConfigModal={setIsConfigModal} productId={item.product_id} setIsShowModal={setIsShowModal} />
-      )}
+      {isShowModal && <Modal type="delete" setIsConfigModal={setIsConfigModal} setIsShowModal={setIsShowModal} />}
     </>
   );
 }

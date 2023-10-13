@@ -19,7 +19,10 @@ export default function SellerCenterSaleList({ setSaleCount }: SellerCenterSaleL
   };
 
   useEffect(() => {
-    if (isDeleteItem) getSaleItem();
+    if (isDeleteItem) {
+      getSaleItem();
+      return setIsDeleteItem(false);
+    }
   }, [isDeleteItem]);
 
   useEffect(() => {
