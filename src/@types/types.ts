@@ -51,12 +51,21 @@ interface SignUpData {
   name: string;
 }
 
+interface ExtendedSignUpData extends SignUpData {
+  company_registration_number: string;
+  store_name: string;
+}
+
 interface TelData {
   [key: string]: string;
 }
 
 interface UserNameData {
   username: string;
+}
+
+interface CompanyRegistrationNumberData {
+  company_registration_number: string;
 }
 
 interface LoginData {
@@ -121,10 +130,12 @@ export type {
   CartActiveData,
   ExtendedOrderData,
   SignUpData,
+  ExtendedSignUpData,
   TelData,
   UserNameData,
   LoginData,
   UserData,
+  CompanyRegistrationNumberData,
   ReqOrderData,
   PostProductData,
   UnsplashPhoto,
