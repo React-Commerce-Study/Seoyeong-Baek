@@ -1,23 +1,20 @@
 import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
-import Button from '../Buttons/Button';
+import ValidInputBox from './formInput/ValidInputBox';
 import styled from 'styled-components';
 import checkOffIcon from '../../../assets/icon/icon-check-off.svg';
 import checkOnIcon from '../../../assets/icon/icon-check-on.svg';
-import { postSignUp, postIdCheck } from '../../../services/ResponseApi';
-import { SignUpData, UserNameData, TelData } from '../../../@types/types';
+import { postSignUp } from '../../../services/ResponseApi';
+import { SignUpData, ExtendedSignUpData, TelData } from '../../../@types/types';
 import AgreeCheckBox from './checkBox/AgreeCheckBox';
 import { AgreeCheckBoxStyle } from './checkBox/AgreeCheckBoxStyle';
 import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 interface SignUpFormProps {
   setSuccessUserName: React.Dispatch<React.SetStateAction<string>>;
+  userType?: string;
 }
 
-export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
-  const [usernameData, setUserNameData] = useState<UserNameData>({
-    username: '',
-  });
-
+export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormProps) {
   const [signUpData, setSignUpData] = useState<SignUpData>({
     username: '',
     password: '',
@@ -25,7 +22,17 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
     phone_number: '',
     name: '',
   });
-  // console.log(signUpData);
+  console.log('form', userType);
+
+  const [sellerSignUpData, setSellerSignUpData] = useState<ExtendedSignUpData>({
+    username: '',
+    password: '',
+    password2: '',
+    phone_number: '',
+    name: '',
+    company_registration_number: '',
+    store_name: '',
+  });
 
   const [passwordError, setPasswordError] = useState('');
   const [password2Error, setPassword2Error] = useState('');
@@ -34,6 +41,8 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
 
   const [usernameError, setUsernameError] = useState('');
   const [usernameSuccess, setUsernameSuccess] = useState('');
+  const [companyRegistrationNumError, setCompanyRegistrationNumError] = useState('');
+  const [companyRegistrationNumSuccess, setCompanyRegistrationNumSuccess] = useState('');
 
   // 회원가입 폼 post
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -54,27 +63,6 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
         if (result.password2) setPassword2Error(result.password2[0].includes('blank') ? blankError : result.password2);
         if (result.username) setUsernameError(result.username[0].includes('blank') ? blankError : result.username);
       }
-    }
-  };
-
-  // 아이디 validation
-  const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserNameData(() => ({ username: e.target.value }));
-    setSignUpData((prevData) => ({ ...prevData, username: e.target.value }));
-  };
-
-  // 아이디 중복 검사 및 validation
-  const usernameValidation = async () => {
-    // ^[a-zA-Z0-9]{1,20}$: 문자열의 시작(^)부터 끝($)까지 1에서 20개의 문자 중에 소문자(a-z), 대문자(A-Z), 숫자(0-9) 중 하나가 포함되어야 함
-    if (!/^[a-zA-Z0-9]{1,20}$/.test(usernameData.username)) {
-      setUsernameError('ID는 20자 이내의 영어 소문자, 대문자, 숫자만 가능합니다.');
-    } else {
-      const result = await postIdCheck(usernameData);
-
-      if (result.Success) {
-        setUsernameSuccess(result.Success);
-      }
-      setUsernameError(result.FAIL_Message);
     }
   };
 
@@ -146,23 +134,12 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
   return (
     <SSignUpForm action="" onSubmit={handleSubmit}>
       <SSignUpInputField>
-        <SIdWrapper>
-          <label htmlFor="username">아이디</label>
-          <div className="id-input-check">
-            <input type="text" id="username" value={signUpData.username} onChange={onChangeUserName} />
-            <Button
-              type="button"
-              fontWeight="500"
-              padding="17px 0"
-              onClick={usernameValidation}
-              disabled={usernameData.username.length < 1}
-            >
-              중복확인
-            </Button>
-          </div>
-        </SIdWrapper>
+        <ValidInputBox setUsernameError={setUsernameError} setUsernameSuccess={setUsernameSuccess} setSignUpData={setSignUpData}>
+          아이디
+        </ValidInputBox>
+
         {(usernameError || usernameSuccess) && (
-          <MessageError usernameSuccess={usernameSuccess !== ''}>{usernameError || usernameSuccess}</MessageError>
+          <MessageError usernameSuccess={usernameSuccess.length > 0}>{usernameError || usernameSuccess}</MessageError>
         )}
 
         <SPasswordWrapper isConfirmPassword={isConfirmPassword}>
@@ -176,7 +153,7 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
         </SPasswordWrapper>
         {password2Error !== '' && <MessageError>{password2Error}</MessageError>}
 
-        <SNameWrapper>
+        <SNameWrapper className="name">
           <label htmlFor="name">이름</label>
           <input
             type="text"
@@ -187,7 +164,7 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
           {nameError && <MessageError>{nameError}</MessageError>}
         </SNameWrapper>
 
-        <SPhoneNumberWrapper>
+        <SPhoneNumberWrapper className={userType === 'SELLER' && 'seller'}>
           <label htmlFor="tel1 tel2 tel3">휴대폰 번호</label>
           <div className="phone-number-box">
             <select name="tel1" id="tel1" onChange={handleTel1Change}>
@@ -201,6 +178,34 @@ export default function SignUpForm({ setSuccessUserName }: SignUpFormProps) {
           </div>
           {phoneNumberError && <MessageError>{phoneNumberError}</MessageError>}
         </SPhoneNumberWrapper>
+
+        {userType === 'SELLER' && (
+          <>
+            <ValidInputBox
+              setUsernameError={setCompanyRegistrationNumError}
+              setUsernameSuccess={setCompanyRegistrationNumSuccess}
+              setSellerSignUpData={setSellerSignUpData}
+            >
+              사업자 등록번호
+            </ValidInputBox>
+            {(companyRegistrationNumError || companyRegistrationNumSuccess) && (
+              <MessageError usernameSuccess={companyRegistrationNumSuccess.length > 0}>
+                {companyRegistrationNumError || companyRegistrationNumSuccess}
+              </MessageError>
+            )}
+
+            <SNameWrapper>
+              <label htmlFor="storeName">스토어 이름</label>
+              <input
+                type="text"
+                id="storeName"
+                value={signUpData.name}
+                onChange={(e) => setSellerSignUpData({ ...sellerSignUpData, store_name: e.target.value })}
+              />
+              {nameError && <MessageError>{nameError}</MessageError>}
+            </SNameWrapper>
+          </>
+        )}
       </SSignUpInputField>
 
       <SCheckBoxWrapper>
@@ -254,21 +259,6 @@ const SSignUpInputField = styled.fieldset`
   }
 `;
 
-const SIdWrapper = styled.div`
-  .id-input-check {
-    display: flex;
-    gap: 0.75rem;
-
-    input {
-      flex-basis: 21.625rem;
-    }
-
-    button {
-      flex-basis: 7.625rem;
-    }
-  }
-`;
-
 const SPasswordWrapper = styled.div`
   position: relative;
   margin-top: 0.75rem;
@@ -291,11 +281,15 @@ const SPasswordWrapper = styled.div`
 `;
 
 const SNameWrapper = styled.div`
-  margin: 3.125rem 0 0;
+  margin: 1rem 0 0;
+
+  &.name {
+    margin: 3.125rem 0 0;
+  }
 `;
 
 const SPhoneNumberWrapper = styled.div`
-  margin-top: 1rem;
+  margin: 1rem 0 0;
 
   .phone-number-box {
     display: flex;
@@ -304,6 +298,10 @@ const SPhoneNumberWrapper = styled.div`
     select {
       text-align: center;
     }
+  }
+
+  &.seller {
+    margin: 1rem 0 3.125rem;
   }
 `;
 

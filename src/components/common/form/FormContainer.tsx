@@ -39,7 +39,7 @@ export default function FormContainer({ setSuccessUserName }: FormContainer) {
           </div>
 
           {setSuccessUserName ? (
-            <SignUpForm setSuccessUserName={setSuccessUserName} />
+            <SignUpForm setSuccessUserName={setSuccessUserName} userType={userType} />
           ) : (
             <>
               <LoginForm userType={userType} />
