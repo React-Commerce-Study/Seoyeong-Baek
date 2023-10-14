@@ -4,6 +4,7 @@ import {
   ExtendedOrderData,
   SignUpData,
   UserNameData,
+  CompanyRegistrationNumberData,
   LoginData,
   PostProductData,
   UnsplashPhoto,
@@ -260,13 +261,17 @@ export async function postSignUp(signUpData: SignUpData) {
   }
 }
 
-// 회원가입 중복 아이디 체크
-export async function postIdCheck(username: UserNameData) {
+// 회원가입 아이디 및 사업자등록번호 검증 체크
+export async function postValidCheck(
+  validType: string,
+  validData: { company_registration_number: string } | { username: string }
+) {
   try {
-    const res = await fetch(BASE_URL + 'accounts/signup/valid/username/', {
+    const URL = BASE_URL + `accounts/signup/valid/${validType}/`;
+    const res = await fetch(URL, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(username),
+      body: JSON.stringify(validData),
     });
     const data = await res.json();
     console.log(data);
