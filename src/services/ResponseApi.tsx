@@ -3,8 +3,7 @@ import {
   OrderData,
   ExtendedOrderData,
   SignUpData,
-  UserNameData,
-  CompanyRegistrationNumberData,
+  ExtendedSignUpData,
   LoginData,
   PostProductData,
   UnsplashPhoto,
@@ -245,9 +244,10 @@ export async function putCartItem({ urlId, orderData }: PutItemProps) {
 }
 
 // 회원가입
-export async function postSignUp(signUpData: SignUpData) {
+export async function postSignUp(userType: string, signUpData: SignUpData | ExtendedSignUpData) {
   try {
-    const res = await fetch(BASE_URL + 'accounts/signup/', {
+    const URL = BASE_URL + `accounts/signup${userType === 'SELLER' ? '_seller' : ''}/`;
+    const res = await fetch(URL, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(signUpData),

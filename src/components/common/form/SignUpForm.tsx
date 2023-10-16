@@ -11,7 +11,7 @@ import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQuery
 
 interface SignUpFormProps {
   setSuccessUserName: React.Dispatch<React.SetStateAction<string>>;
-  userType?: string;
+  userType: string;
 }
 
 export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormProps) {
@@ -50,7 +50,7 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
     if (!usernameSuccess) {
       setUsernameError('아이디 중복검사를 진행해주세요!');
     } else {
-      const result = await postSignUp(signUpData);
+      const result = await postSignUp(userType, userType === 'SELLER' ? sellerSignUpData : signUpData);
       const blankError = '이 필드는 필수항목 입니다.';
       console.log(result);
       if (result.user_type) {
@@ -70,7 +70,9 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
   const [isConfirmPassword, setIsConfirmPassword] = useState(false);
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
-    setSignUpData((prevData) => ({ ...prevData, password: newPassword }));
+    userType === 'SELLER'
+      ? setSellerSignUpData((prevData) => ({ ...prevData, password: newPassword }))
+      : setSignUpData((prevData) => ({ ...prevData, password: newPassword }));
     setPasswordError('');
 
     if (newPassword.length < 8) setPasswordError((prevErr) => `비밀번호는 8자 이상이어야 합니다. \n ${prevErr}`);
@@ -90,7 +92,9 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
   const [isConfirmPassword2, setIsConfirmPassword2] = useState(false);
   const onChangePassword2 = (e: ChangeEvent<HTMLInputElement>) => {
     const newPassword2 = e.target.value;
-    setSignUpData((prevData) => ({ ...prevData, password2: newPassword2 }));
+    userType === 'SELLER'
+      ? setSellerSignUpData((prevData) => ({ ...prevData, password2: newPassword2 }))
+      : setSignUpData((prevData) => ({ ...prevData, password2: newPassword2 }));
   };
 
   useEffect(() => {
@@ -128,13 +132,21 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
 
   useEffect(() => {
     const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
-    setSignUpData((prevData) => ({ ...prevData, phone_number: combinedTel }));
+    userType === 'SELLER'
+      ? setSellerSignUpData((prevData) => ({ ...prevData, phone_number: combinedTel }))
+      : setSignUpData((prevData) => ({ ...prevData, phone_number: combinedTel }));
   }, [tel]);
 
   return (
     <SSignUpForm action="" onSubmit={handleSubmit}>
       <SSignUpInputField>
-        <ValidInputBox setUsernameError={setUsernameError} setUsernameSuccess={setUsernameSuccess} setSignUpData={setSignUpData}>
+        <ValidInputBox
+          userType={userType}
+          setUsernameError={setUsernameError}
+          setUsernameSuccess={setUsernameSuccess}
+          setSignUpData={setSignUpData}
+          setSellerSignUpData={setSellerSignUpData}
+        >
           아이디
         </ValidInputBox>
 
@@ -144,12 +156,24 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
 
         <SPasswordWrapper isConfirmPassword={isConfirmPassword}>
           <label htmlFor="pw">비밀번호</label>
-          <input type="password" id="pw" value={signUpData.password} onChange={onChangePassword} />
+          <input
+            type="password"
+            id="pw"
+            onChange={onChangePassword}
+            value={userType === 'SELLER' ? sellerSignUpData.password : signUpData.password}
+            required
+          />
         </SPasswordWrapper>
         {passwordError !== '' && <MessageError>{passwordError}</MessageError>}
         <SPasswordWrapper isConfirmPassword2={isConfirmPassword2}>
           <label htmlFor="check-pw">비밀번호 재확인</label>
-          <input type="password" id="check-pw" value={signUpData.password2} onChange={onChangePassword2} />
+          <input
+            type="password"
+            id="check-pw"
+            onChange={onChangePassword2}
+            value={userType === 'SELLER' ? sellerSignUpData.password2 : signUpData.password2}
+            required
+          />
         </SPasswordWrapper>
         {password2Error !== '' && <MessageError>{password2Error}</MessageError>}
 
@@ -158,8 +182,13 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
           <input
             type="text"
             id="name"
-            value={signUpData.name}
-            onChange={(e) => setSignUpData({ ...signUpData, name: e.target.value })}
+            onChange={(e) =>
+              userType === 'SELLER'
+                ? setSellerSignUpData({ ...sellerSignUpData, name: e.target.value })
+                : setSignUpData({ ...signUpData, name: e.target.value })
+            }
+            value={userType === 'SELLER' ? sellerSignUpData.name : signUpData.name}
+            required
           />
           {nameError && <MessageError>{nameError}</MessageError>}
         </SNameWrapper>
@@ -167,14 +196,14 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
         <SPhoneNumberWrapper className={userType === 'SELLER' && 'seller'}>
           <label htmlFor="tel1 tel2 tel3">휴대폰 번호</label>
           <div className="phone-number-box">
-            <select name="tel1" id="tel1" onChange={handleTel1Change}>
+            <select name="tel1" id="tel1" onChange={handleTel1Change} required>
               <option value="010">010</option>
               <option value="011">011</option>
               <option value="016">016</option>
               <option value="017">017</option>
             </select>
-            <input type="tel" id="tel2" name="tel2" onChange={handleTelChange} />
-            <input type="tel" id="tel3" name="tel3" onChange={handleTelChange} />
+            <input type="tel" id="tel2" name="tel2" onChange={handleTelChange} required />
+            <input type="tel" id="tel3" name="tel3" onChange={handleTelChange} required />
           </div>
           {phoneNumberError && <MessageError>{phoneNumberError}</MessageError>}
         </SPhoneNumberWrapper>
@@ -199,8 +228,9 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
               <input
                 type="text"
                 id="storeName"
-                value={signUpData.name}
+                value={sellerSignUpData.store_name}
                 onChange={(e) => setSellerSignUpData({ ...sellerSignUpData, store_name: e.target.value })}
+                required
               />
               {nameError && <MessageError>{nameError}</MessageError>}
             </SNameWrapper>
@@ -329,7 +359,6 @@ const MessageError = styled.p`
   margin-top: 10px;
   text-align: left;
   white-space: pre-line;
-  box-shadow: inset 0 0 10px rosybrown;
 
   /* .success */
   color: ${(props: { usernameSuccess: boolean }) => (props.usernameSuccess ? 'var(--point-color)' : 'red')};

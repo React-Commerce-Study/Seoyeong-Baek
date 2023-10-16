@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 interface ValidInputProps {
   children: React.ReactNode;
+  userType?: string;
   setUsernameError: React.Dispatch<React.SetStateAction<string>>;
   setUsernameSuccess: React.Dispatch<React.SetStateAction<string>>;
   setSignUpData?: React.Dispatch<React.SetStateAction<SignUpData | ExtendedSignUpData>>;
@@ -14,6 +15,7 @@ interface ValidInputProps {
 
 export default function ValidInputBox({
   children,
+  userType,
   setUsernameError,
   setUsernameSuccess,
   setSignUpData,
@@ -29,14 +31,16 @@ export default function ValidInputBox({
 
   // 아이디, 사업자등록번호
   const onChangeValidData = (e: ChangeEvent<HTMLInputElement>) => {
-    if (children === '아이디') setUserNameData(() => ({ username: e.target.value }));
-    else if (children === '사업자 등록번호') setCompanyRegistrationNumberData({ company_registration_number: e.target.value });
+    if (children === '아이디') {
+      setUserNameData(() => ({ username: e.target.value }));
+    } else if (children === '사업자 등록번호') setCompanyRegistrationNumberData({ company_registration_number: e.target.value });
   };
 
   //  validation
   const validation = () => {
     if (children === '아이디') usernameValid();
     else if (children === '사업자 등록번호') companyRegistrationNumberValid();
+    console.log(usernameData.username);
   };
 
   async function usernameValid() {
@@ -47,10 +51,12 @@ export default function ValidInputBox({
     } else {
       const result = await postValidCheck('username', usernameData);
 
-      if (result.Success && setSignUpData) {
+      if (result.Success) {
         setUsernameError('');
         setUsernameSuccess(result.Success);
-        setSignUpData((prevData) => ({ ...prevData, username: usernameData.username }));
+        userType === 'SELLER'
+          ? setSellerSignUpData?.((prevData) => ({ ...prevData, username: usernameData.username }))
+          : setSignUpData?.((prevData) => ({ ...prevData, username: usernameData.username }));
       } else {
         setUsernameSuccess('');
         setUsernameError(result.FAIL_Message);
@@ -61,9 +67,9 @@ export default function ValidInputBox({
   async function companyRegistrationNumberValid() {
     console.log('result');
 
-    if (!/^[0-9]{1,30}$/.test(companyRegistrationNumberData.company_registration_number)) {
+    if (!/^[0-9]{1,10}$/.test(companyRegistrationNumberData.company_registration_number)) {
       setUsernameSuccess('');
-      setUsernameError('사업자등록번호는 30자 이내의 숫자만 가능합니다.');
+      setUsernameError('사업자등록번호는 10자 이내의 숫자만 가능합니다.');
       console.log('result2');
     } else {
       console.log('result3');
@@ -89,12 +95,7 @@ export default function ValidInputBox({
     <SIdWrapper>
       <label htmlFor="username">{children}</label>
       <div className="id-input-check">
-        <input
-          type="text"
-          id="username"
-          value={children === '아이디' ? usernameData.username : companyRegistrationNumberData.company_registration_number}
-          onChange={onChangeValidData}
-        />
+        <input type="text" id="username" onChange={onChangeValidData} required />
         <Button
           type="button"
           fontWeight="500"
