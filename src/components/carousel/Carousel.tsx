@@ -149,13 +149,7 @@ const CarouselContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.75rem;
-  }
-
-  ${mediaQuery(BREAKPOINT_TABLET)} {
-    .dots-box {
-      gap: 0.6rem;
-    }
+    gap: 0.375rem;
   }
 `;
 
@@ -166,14 +160,14 @@ type DotStyleProps = {
 const DotStyle = styled.div<DotStyleProps>`
   background: ${(props: DotStyleProps) => (props.indication ? 'var(--point-color)' : 'var(--light-gray-color)')};
   border-radius: 50%;
-  height: ${(props: DotStyleProps) => (props.indication ? '0.8rem' : '0.55rem')};
-  width: ${(props: DotStyleProps) => (props.indication ? '0.8rem' : '0.55rem')};
+  height: ${(props: DotStyleProps) => (props.indication ? '0.7rem' : '0.375rem')};
+  width: ${(props: DotStyleProps) => (props.indication ? '0.7rem' : '0.375rem')};
   transition: all 0.25s ease-in-out;
 
   ${mediaQuery(BREAKPOINT_TABLET)} {
     height: 0.4rem;
     width: 0.4rem;
-    height: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.35rem')};
-    width: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.35rem')};
+    height: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.25rem')};
+    width: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.25rem')};
   }
 `;
