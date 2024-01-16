@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import ProductCountButton from '../common/Buttons/ProductCountButton';
-import PurchaseButton from '../common/Buttons/Button';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { Product, ProductData } from '../../@types/types';
-import Modal from '../modal/Modal';
-import { fetchCartItemList, postCartList } from '../../services/ResponseApi';
-import { useTypedSelector } from '../../hooks/UseTypedSelector';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import { Product, ProductData } from '../../@types/types';
 import { plusPrice, resetPrice } from '../../features/finalPriceSlice';
+import { useTypedSelector } from '../../hooks/UseTypedSelector';
+import { fetchCartItemList, postCartList } from '../../services/ResponseApi';
+import PurchaseButton from '../common/Buttons/Button';
+import ProductCountButton from '../common/Buttons/ProductCountButton';
+import Modal from '../modal/Modal';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface ProductPurchaseProps {
@@ -23,7 +25,7 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
 
   const [count, setCount] = useState(1);
   console.log(product);
-  const isUserLoggedIn = useTypedSelector((state) => state.isLoggedIn.isLogin);
+  const isUserLoggedIn = useTypedSelector((state) => { return state.isLoggedIn.isLogin; });
   const [isShowModal, setIsShowModal] = useState(false);
   const [isCartModal, setIsCartModal] = useState(false);
   const [isIncludedCartModal, setIsIncludedCartModal] = useState(false);
@@ -92,10 +94,14 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         <p>총 상품 금액</p>
         <div className="total-price-wrapper">
           <p className="total-count">
-            총 수량 <strong>{product.stock === 0 ? 0 : count}</strong>개
+            총 수량
+            {' '}
+            <strong>{product.stock === 0 ? 0 : count}</strong>
+            개
           </p>
           <p className="total-price">
-            <strong>{product.stock === 0 ? 0 : (count * product.price).toLocaleString()}</strong>원
+            <strong>{product.stock === 0 ? 0 : (count * product.price).toLocaleString()}</strong>
+            원
           </p>
         </div>
       </ProductTotalPriceStyle>
@@ -104,12 +110,12 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         <PurchaseButton
           type="button"
           bgColor="var(--dark-gray-color)"
-          onClick={() => handleClickBtn('cart')}
+          onClick={() => { return handleClickBtn('cart'); }}
           disabled={product.stock === 0}
         >
           장바구니
         </PurchaseButton>
-        <PurchaseButton type="button" onClick={() => handleClickBtn('buy')} disabled={product.stock === 0}>
+        <PurchaseButton type="button" onClick={() => { return handleClickBtn('buy'); }} disabled={product.stock === 0}>
           바로 구매
         </PurchaseButton>
       </ButtonWrapperStyle>

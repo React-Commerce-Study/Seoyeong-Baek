@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
 import styled from 'styled-components';
-import CheckBox from '../../assets/icon/check-round.svg';
-import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
+
 import { OrderData, ExtendedOrderData } from '../../@types/types';
+import CheckBoxFill from '../../assets/icon/check-round-Fill.svg';
+import CheckBox from '../../assets/icon/check-round.svg';
 
 interface PaymentMethodProps {
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>;
@@ -19,8 +21,8 @@ export default function PaymentMethod({ setOrderData, order_kind, setOneOrderDat
   const handleRadioChange = (value: string) => {
     setSelectedPayment(value);
     order_kind !== 'cart_order'
-      ? setOneOrderData((prevData) => ({ ...prevData, payment_method: value }))
-      : setOrderData((prevData) => ({ ...prevData, payment_method: value }));
+      ? setOneOrderData((prevData) => { return { ...prevData, payment_method: value }; })
+      : setOrderData((prevData) => { return { ...prevData, payment_method: value }; });
   };
 
   return (
@@ -34,7 +36,7 @@ export default function PaymentMethod({ setOrderData, order_kind, setOneOrderDat
                 <input type="radio" id={method} name="payment-method" value={method} />
                 <label
                   htmlFor={method}
-                  onClick={() => handleRadioChange(method)}
+                  onClick={() => { return handleRadioChange(method); }}
                   className={selectedPayment === method ? 'selected' : ''}
                 >
                   {paymentMethodLabel[i]}

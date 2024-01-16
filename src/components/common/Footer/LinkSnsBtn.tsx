@@ -1,7 +1,8 @@
-import InstaImg from '../../../assets/icon/icon-insta.svg';
-import FacebookImg from '../../../assets/icon/icon-fb.svg';
-import YoutubeImg from '../../../assets/icon/icon-yt.svg';
 import styled from 'styled-components';
+
+import FacebookImg from '../../../assets/icon/icon-fb.svg';
+import InstaImg from '../../../assets/icon/icon-insta.svg';
+import YoutubeImg from '../../../assets/icon/icon-yt.svg';
 
 export default function LinkSnsBtn() {
   const snsLinks = [
@@ -12,13 +13,15 @@ export default function LinkSnsBtn() {
 
   return (
     <LinkBtnContainerStyle>
-      {snsLinks.map((snsLink, index) => (
-        <li key={index}>
-          <a href={snsLink.link}>
-            <img src={snsLink.value} alt={snsLink.key} />
-          </a>
-        </li>
-      ))}
+      {snsLinks.map((snsLink, index) => {
+        return (
+          <li key={index}>
+            <a href={snsLink.link}>
+              <img src={snsLink.value} alt={snsLink.key} />
+            </a>
+          </li>
+        );
+      })}
     </LinkBtnContainerStyle>
   );
 }

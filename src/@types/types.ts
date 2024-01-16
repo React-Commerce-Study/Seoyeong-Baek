@@ -96,7 +96,7 @@ interface ReqOrderData {
   created_at: string;
 }
 
-//postProduct
+// postProduct
 interface PostProductData {
   product_name: string;
   image?: Blob;

@@ -1,14 +1,18 @@
+import { Link } from 'react-router-dom';
+
+import styled from 'styled-components';
+
 import Button from '../common/Buttons/Button';
 import PlusIcon from '../common/icons/PlusIcon';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 export default function SellerCenterTitleWrapper() {
   return (
     <SSellerCenterTitleWrapper>
       <h2>
-        대시보드 <strong>백엔드글로벌</strong>
+        대시보드
+        {' '}
+        <strong>백엔드글로벌</strong>
       </h2>
       <Link to="/seller/post-product">
         <Button fontWeight="var(--font-weight-medium)">

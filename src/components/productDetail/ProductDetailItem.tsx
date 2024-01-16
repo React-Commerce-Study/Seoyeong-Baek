@@ -1,13 +1,16 @@
 import { useState } from 'react';
+
 import styled from 'styled-components';
+
+import { Product } from '../../@types/types';
 import PurchaseButton from '../common/Buttons/Button';
-import ProductPurchase from './ProductPurchase';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
-import { ProductListItemStyle } from '../style/ProductListItemStyle';
-import { SModalBackground } from '../style/ModalStyle';
-import { Product } from '../../@types/types';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+import { SModalBackground } from '../style/ModalStyle';
+import { ProductListItemStyle } from '../style/ProductListItemStyle';
+
+import ProductPurchase from './ProductPurchase';
 
 interface ProductItemBoxProps {
   product: Product;
@@ -23,14 +26,14 @@ export default function ProductItemBox({ product }: ProductItemBoxProps) {
     <SProductDetailLayout>
       <ProductDataImg productImg={product.image} imgName={product.product_name} />
       <div className="product-info-container">
-        <ProductDataInfo product={product} isDelivery={true} />
+        <ProductDataInfo product={product} isDelivery />
         {/* 구매부분 */}
         <SPurchaseModalBackground
           className={isPurchaseClick ? 'open' : ''}
           onClick={handlePurchaseClick}
-        ></SPurchaseModalBackground>
+        />
         <div className={`${isPurchaseClick ? 'open' : ''} product-purchase-wrapper`}>
-          <span className="modal-close-btn" onClick={handlePurchaseClick}></span>
+          <span className="modal-close-btn" onClick={handlePurchaseClick} />
           <ProductPurchase product={product} />
         </div>
       </div>

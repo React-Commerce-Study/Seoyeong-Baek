@@ -9,7 +9,7 @@ import { useTypedSelector } from './UseTypedSelector';
 
 // useSelector를 사용하여 isLogin 값을 가져옴
 export const useIsLogin = () => {
-  const isLogin = useTypedSelector((state) => state.isLoggedIn.isLogin);
+  const isLogin = useTypedSelector((state) => { return state.isLoggedIn.isLogin; });
 
   return isLogin;
 };

@@ -1,10 +1,13 @@
 import { useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import SignUpForm from './SignUpForm';
-import LoginForm from './LoginForm';
-import Logo from '../Header/logo/Logo';
+
 import styled from 'styled-components';
+
 import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
+import Logo from '../Header/logo/Logo';
+
+import LoginForm from './LoginForm';
+import SignUpForm from './SignUpForm';
 
 interface FormContainer {
   setSuccessUserName?: React.Dispatch<React.SetStateAction<string>>;
@@ -25,33 +28,35 @@ export default function FormContainer({ setSuccessUserName }: FormContainer) {
   console.log(userType);
 
   return (
-    <>
-      <SFormLayout>
-        <Logo />
-        <section className="contents-container">
-          <div className="login-type-btn-wrapper">
-            <SUserTypeBtn value="BUYER" onClick={handleLoginType} clickChange={userType === 'BUYER'}>
-              구매회원 {setSuccessUserName ? '회원가입' : '로그인'}
-            </SUserTypeBtn>
-            <SUserTypeBtn value="SELLER" onClick={handleLoginType} clickChange={userType === 'SELLER'}>
-              판매회원 {setSuccessUserName ? '회원가입' : '로그인'}
-            </SUserTypeBtn>
-          </div>
+    <SFormLayout>
+      <Logo />
+      <section className="contents-container">
+        <div className="login-type-btn-wrapper">
+          <SUserTypeBtn value="BUYER" onClick={handleLoginType} clickChange={userType === 'BUYER'}>
+            구매회원
+            {' '}
+            {setSuccessUserName ? '회원가입' : '로그인'}
+          </SUserTypeBtn>
+          <SUserTypeBtn value="SELLER" onClick={handleLoginType} clickChange={userType === 'SELLER'}>
+            판매회원
+            {' '}
+            {setSuccessUserName ? '회원가입' : '로그인'}
+          </SUserTypeBtn>
+        </div>
 
-          {setSuccessUserName ? (
-            <SignUpForm setSuccessUserName={setSuccessUserName} userType={userType} />
-          ) : (
-            <>
-              <LoginForm userType={userType} />
-              <SJoinFindWrapper>
-                <Link to="/signup">회원가입</Link>
-                <Link to="">비밀번호 찾기</Link>
-              </SJoinFindWrapper>
-            </>
-          )}
-        </section>
-      </SFormLayout>
-    </>
+        {setSuccessUserName ? (
+          <SignUpForm setSuccessUserName={setSuccessUserName} userType={userType} />
+        ) : (
+          <>
+            <LoginForm userType={userType} />
+            <SJoinFindWrapper>
+              <Link to="/signup">회원가입</Link>
+              <Link to="">비밀번호 찾기</Link>
+            </SJoinFindWrapper>
+          </>
+        )}
+      </section>
+    </SFormLayout>
   );
 }
 
@@ -100,8 +105,8 @@ const SUserTypeBtn = styled.button`
   line-height: 1.375rem;
   border-radius: 10px 10px 0 0;
   border: 1px solid var(--middle-gray-color);
-  border-bottom: ${(props: ClickChangeType) => (props.clickChange ? 'none' : '')};
-  background-color: ${(props: ClickChangeType) => (props.clickChange ? '#fff' : '#F2F2F2')};
+  border-bottom: ${(props: ClickChangeType) => { return (props.clickChange ? 'none' : ''); }};
+  background-color: ${(props: ClickChangeType) => { return (props.clickChange ? '#fff' : '#F2F2F2'); }};
   padding: 1.25rem 0;
 `;
 

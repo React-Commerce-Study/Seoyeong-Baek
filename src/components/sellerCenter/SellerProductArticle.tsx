@@ -1,12 +1,16 @@
-import styled from 'styled-components';
-import Button from '../common/Buttons/Button';
-import { Product } from '../../@types/types';
+import {
+  Dispatch, SetStateAction, useEffect, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Modal from '../modal/Modal';
-import ProductDataImg from '../common/product/ProductDataImg';
-// import { deleteSaleItem } from '../../services/ResponseApi';
+
+import styled from 'styled-components';
+
+import { Product } from '../../@types/types';
 import { deleteItem } from '../../utils/deleteItem';
+import Button from '../common/Buttons/Button';
+import ProductDataImg from '../common/product/ProductDataImg';
+import Modal from '../modal/Modal';
+// import { deleteSaleItem } from '../../services/ResponseApi';
 import { mediaQuery, BREAKPOINT_TABLET, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
 interface SellerProductArticleProps {
@@ -42,16 +46,22 @@ export default function SellerProductArticle({ item, setIsDeleteItem }: SellerPr
           <ProductDataImg productImg={item.image} imgName={item.product_name} handleClick={handleClick} />
           <div className="product-name-stock">
             <p>{item.product_name}</p>
-            <span>재고 : {item.stock}</span>
+            <span>
+              재고 :
+              {item.stock}
+            </span>
           </div>
         </div>
-        <p>{item.price.toLocaleString()}원</p>
+        <p>
+          {item.price.toLocaleString()}
+          원
+        </p>
         <div className="btn-wrapper">
           <Button
             padding="10px 0"
             fontSize="var(--font-size-ml)"
             fontWeight="var(--font-weight-light)"
-            onClick={() => navigate('/seller/edit/product', { state: item })}
+            onClick={() => { return navigate('/seller/edit/product', { state: item }); }}
           >
             수정
           </Button>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import MinusIcon from '../../assets/icon/minus-icon_2.svg';
 import PlusIcon from '../../assets/icon/plus-icon_2.svg';
 import { useTotalPrice, useTotalDeliveryPrice } from '../../hooks/UseFinalPrice';
@@ -14,25 +15,33 @@ export default function TotalPriceBox() {
       <li className="price-box">
         <p>총 상품금액</p>
         <p>
-          <strong>{totalPrice ? totalPrice.toLocaleString() : 0}</strong> 원
+          <strong>{totalPrice ? totalPrice.toLocaleString() : 0}</strong>
+          {' '}
+          원
         </p>
       </li>
       <li className="discount-price">
         <p>상품 할인</p>
         <p>
-          <strong>0</strong> 원
+          <strong>0</strong>
+          {' '}
+          원
         </p>
       </li>
       <li className="delivery-price">
         <p>배송비</p>
         <p>
-          <strong>{totalDeliveryFee ? totalDeliveryFee.toLocaleString() : 0}</strong> 원
+          <strong>{totalDeliveryFee ? totalDeliveryFee.toLocaleString() : 0}</strong>
+          {' '}
+          원
         </p>
       </li>
       <li className="final-total-price">
         <p>결제 예정 금액</p>
         <p>
-          <strong>{finalPrice ? finalPrice.toLocaleString() : 0}</strong> 원
+          <strong>{finalPrice ? finalPrice.toLocaleString() : 0}</strong>
+          {' '}
+          원
         </p>
       </li>
     </SCartTotalPriceContainer>

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
-import SearchImg from '../../../assets/icon/search.svg';
+
 import { Product } from '../../../@types/types';
-import { getSearchProduct } from '../../../services/ResponseApi';
 import BackBtn from '../../../assets/icon/icon-rhigt-arrow.svg';
+import SearchImg from '../../../assets/icon/search.svg';
+import { getSearchProduct } from '../../../services/ResponseApi';
 
 interface SearchFormProps {
   isMobileSearch: boolean;
@@ -37,15 +39,15 @@ export default function Search({ isMobileSearch, setIsMobileSearch }: SearchForm
     // 검색어와 일치하는 부분을 찾을 때 대소문자를 구분하지 않고 모든 일치하는 부분을 찾기 위함
     return (
       <span>
-        {parts.map((part, index) =>
-          part.toLowerCase() === searchWord.toLowerCase() ? (
+        {parts.map((part, index) => {
+          return (part.toLowerCase() === searchWord.toLowerCase() ? (
             <span key={index} style={{ color: 'var(--point-color)' }}>
               {part}
             </span>
           ) : (
             <span key={index}>{part}</span>
-          )
-        )}
+          ));
+        })}
       </span>
     );
   }
@@ -88,13 +90,15 @@ export default function Search({ isMobileSearch, setIsMobileSearch }: SearchForm
 
       {productList.length > 0 && (
         <ul className="autocomplete">
-          {productList.map((product) => (
-            <li>
-              <Link to={`/product/${product.product_id}`} state={product} key={product.product_id} onClick={handleLinkClick}>
-                {highlightMatchedText(product.product_name, searchWord)}
-              </Link>
-            </li>
-          ))}
+          {productList.map((product) => {
+            return (
+              <li>
+                <Link to={`/product/${product.product_id}`} state={product} key={product.product_id} onClick={handleLinkClick}>
+                  {highlightMatchedText(product.product_name, searchWord)}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
     </SSearchForm>

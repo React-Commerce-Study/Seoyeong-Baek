@@ -27,7 +27,9 @@ async function fetchWithToken(url: string, options = {}) {
 
 // 상품 리스트 가져오기
 export async function getProductList(fetchPage?: number) {
-  const getProductUrl = fetchPage ? `${BASE_URL}products/?page=${fetchPage}` : `${BASE_URL}products/`;
+  const getProductUrl = fetchPage
+    ? `${BASE_URL}products/?page=${fetchPage}`
+    : `${BASE_URL}products/`;
   try {
     const response = await fetch(getProductUrl, {
       method: 'GET',
@@ -87,21 +89,21 @@ export async function getSearchProduct(keyword: string) {
 
 // 장바구니 리스트 가져오기
 export async function fetchCartItemList() {
-  try {
-    const response = await fetchWithToken(`${BASE_URL}cart/`, {
-      method: 'GET',
-    });
-    console.log(response);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data.results);
-      return data.results;
-    } else {
-      throw new Error('네트워크에 문제가 있습니다.');
-    }
-  } catch (error) {
-    console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
-  }
+  // try {
+  const response = await fetchWithToken(`${BASE_URL}cart/`, {
+    method: 'GET',
+  });
+  // console.log(response);
+  // if (response.ok) {
+  const data = await response.json();
+  // console.log(data.results);
+  return data.results;
+  //   } else {
+  //     throw new Error("네트워크에 문제가 있습니다.");
+  //   }
+  // } catch (error) {
+  //   console.log("데이터를 가져오는데 문제가 생겼습니다.", error);
+  // }
 }
 
 // 장바구니에 담기
@@ -169,9 +171,8 @@ export async function getOrderList() {
       const data = await response.json();
       //   console.log(data.results);
       return data.results;
-    } else {
-      throw new Error('네트워크에 문제가 있습니다.');
     }
+    throw new Error('네트워크에 문제가 있습니다.');
   } catch (error) {
     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
   }
@@ -186,9 +187,8 @@ export async function getProductItem(productId: number) {
     if (response.ok) {
       const data = await response.json();
       return data;
-    } else {
-      throw new Error('네트워크에 문제가 있습니다.');
     }
+    throw new Error('네트워크에 문제가 있습니다.');
   } catch (error) {
     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
   }
@@ -199,7 +199,10 @@ interface postOrderListProps {
   oneOrderData?: ExtendedOrderData;
 }
 // 카트에서 주문하기
-export async function postOrderList({ orderData, oneOrderData }: postOrderListProps) {
+export async function postOrderList({
+  orderData,
+  oneOrderData,
+}: postOrderListProps) {
   console.log(orderData);
   console.log(token);
 
@@ -217,9 +220,8 @@ export async function postOrderList({ orderData, oneOrderData }: postOrderListPr
       const data = await response.json();
       console.log(data);
       return data;
-    } else {
-      throw new Error('네트워크에 문제가 있습니다.');
     }
+    throw new Error('네트워크에 문제가 있습니다.');
   } catch (error) {
     console.log('데이터를 가져오는데 문제가 생겼습니다.', error);
   }
@@ -244,9 +246,12 @@ export async function putCartItem({ urlId, orderData }: PutItemProps) {
 }
 
 // 회원가입
-export async function postSignUp(userType: string, signUpData: SignUpData | ExtendedSignUpData) {
+export async function postSignUp(
+  userType: string,
+  signUpData: SignUpData | ExtendedSignUpData,
+) {
   try {
-    const URL = BASE_URL + `accounts/signup${userType === 'SELLER' ? '_seller' : ''}/`;
+    const URL = `${BASE_URL}accounts/signup${userType === 'SELLER' ? '_seller' : ''}/`;
     const res = await fetch(URL, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -264,10 +269,10 @@ export async function postSignUp(userType: string, signUpData: SignUpData | Exte
 // 회원가입 아이디 및 사업자등록번호 검증 체크
 export async function postValidCheck(
   validType: string,
-  validData: { company_registration_number: string } | { username: string }
+  validData: { company_registration_number: string } | { username: string },
 ) {
   try {
-    const URL = BASE_URL + `accounts/signup/valid/${validType}/`;
+    const URL = `${BASE_URL}accounts/signup/valid/${validType}/`;
     const res = await fetch(URL, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -281,10 +286,10 @@ export async function postValidCheck(
   }
 }
 
-//로그인
+// 로그인
 export async function postLogin(loginData: LoginData) {
   try {
-    const res = await fetch(BASE_URL + 'accounts/login/', {
+    const res = await fetch(`${BASE_URL}accounts/login/`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(loginData),
@@ -300,9 +305,8 @@ export async function postLogin(loginData: LoginData) {
       localStorage.setItem('user_type', user_type);
       localStorage.setItem('token', token);
       return data;
-    } else {
-      throw new Error();
     }
+    throw new Error();
   } catch (error) {
     console.error('Login failed!', error);
   }
@@ -320,11 +324,10 @@ export async function getRandomImages(): Promise<string[]> {
 
     if (res.ok) {
       const data = await res.json();
-      const urls = data.map((item: UnsplashPhoto) => item.urls.regular);
+      const urls = data.map((item: UnsplashPhoto) => { return item.urls.regular; });
       return urls;
-    } else {
-      throw new Error('Request failed!');
     }
+    throw new Error('Request failed!');
   } catch (error) {
     console.error('Request failed!', error);
     throw error;
@@ -390,7 +393,10 @@ export async function putEditProduct({ urlId, editData }: PutItemProps) {
     formData.append('product_name', String(editData && editData.product_name));
     formData.append('product_info', String(editData && editData.product_info));
     formData.append('shipping_fee', String(editData && editData.shipping_fee));
-    formData.append('shipping_method', String(editData && editData.shipping_method));
+    formData.append(
+      'shipping_method',
+      String(editData && editData.shipping_method),
+    );
     formData.append('stock', String(editData && editData.stock));
 
     const response = await fetch(`${BASE_URL}products/${urlId}/`, {

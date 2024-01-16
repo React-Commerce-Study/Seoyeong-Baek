@@ -1,6 +1,8 @@
-import LinkSnsBtn from './LinkSnsBtn';
 import styled from 'styled-components';
+
 import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
+
+import LinkSnsBtn from './LinkSnsBtn';
 
 export default function Footer() {
   return (
@@ -33,10 +35,13 @@ export default function Footer() {
         <section className="about-section">
           <strong>(주)HODU SHOP</strong>
           <br />
-          제주특별자치도 제주시 동광고 137 제주코딩베이스캠프 <br />
+          제주특별자치도 제주시 동광고 137 제주코딩베이스캠프
+          {' '}
+          <br />
           사업자 번호 : 000-0000-0000 | 통신판매업
           <br />
-          대표 : 김호두{' '}
+          대표 : 김호두
+          {' '}
         </section>
       </div>
     </FooterStyle>

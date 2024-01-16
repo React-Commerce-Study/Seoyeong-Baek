@@ -1,12 +1,14 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Button from '../Buttons/Button';
-import styled from 'styled-components';
-import { postLogin } from '../../../services/ResponseApi';
-import { LoginData } from '../../../@types/types';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import { LoginData } from '../../../@types/types';
 import { login } from '../../../features/loginSlice';
+import { postLogin } from '../../../services/ResponseApi';
 import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
+import Button from '../Buttons/Button';
 
 type LoginFormProps = {
   userType: string;
@@ -24,10 +26,12 @@ export default function LoginForm({ userType }: LoginFormProps) {
 
   // userType이 변경될 때 loginData를 업데이트(loginData의 login_type을 동적으로 업데이트하려면 부모 컴포넌트에서 userType이 변경될 때 loginData도 업데이트)
   useEffect(() => {
-    setLoginData((prevLoginData) => ({
-      ...prevLoginData,
-      login_type: userType,
-    }));
+    setLoginData((prevLoginData) => {
+      return {
+        ...prevLoginData,
+        login_type: userType,
+      };
+    });
   }, [userType]);
 
   const [isUsernameError, setIsUsernameError] = useState(false);
@@ -55,36 +59,34 @@ export default function LoginForm({ userType }: LoginFormProps) {
   };
 
   return (
-    <>
-      <SLoginForm action="" onSubmit={handleSubmit}>
-        <label htmlFor="id">
-          <input
-            type="text"
-            id="id"
-            placeholder="아이디"
-            value={loginData.username}
-            onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-          />
-          {isUsernameError && <MessageError>아이디를 입력해 주세요.</MessageError>}
-        </label>
+    <SLoginForm action="" onSubmit={handleSubmit}>
+      <label htmlFor="id">
+        <input
+          type="text"
+          id="id"
+          placeholder="아이디"
+          value={loginData.username}
+          onChange={(e) => { return setLoginData({ ...loginData, username: e.target.value }); }}
+        />
+        {isUsernameError && <MessageError>아이디를 입력해 주세요.</MessageError>}
+      </label>
 
-        <label htmlFor="pw">
-          <input
-            type="password"
-            id="pw"
-            placeholder="비밀번호"
-            value={loginData.password}
-            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-          />
-          {isPasswordError && <MessageError>비밀번호를 입력해 주세요.</MessageError>}
-          {isLoginError && <MessageError>아이디 또는 비밀번호가 일치하지 않습니다.</MessageError>}
-        </label>
+      <label htmlFor="pw">
+        <input
+          type="password"
+          id="pw"
+          placeholder="비밀번호"
+          value={loginData.password}
+          onChange={(e) => { return setLoginData({ ...loginData, password: e.target.value }); }}
+        />
+        {isPasswordError && <MessageError>비밀번호를 입력해 주세요.</MessageError>}
+        {isLoginError && <MessageError>아이디 또는 비밀번호가 일치하지 않습니다.</MessageError>}
+      </label>
 
-        <div className="btn-box">
-          <Button type="submit">로그인</Button>
-        </div>
-      </SLoginForm>
-    </>
+      <div className="btn-box">
+        <Button type="submit">로그인</Button>
+      </div>
+    </SLoginForm>
   );
 }
 

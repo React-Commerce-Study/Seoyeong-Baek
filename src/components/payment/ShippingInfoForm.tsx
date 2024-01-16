@@ -1,7 +1,9 @@
 import { useState, ChangeEvent, useEffect } from 'react';
+
 import styled from 'styled-components';
-import Button from '../common/Buttons/Button';
+
 import { OrderData, ExtendedOrderData, TelData } from '../../@types/types';
+import Button from '../common/Buttons/Button';
 import AddressModal from '../modal/AddressModal';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
@@ -25,8 +27,8 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
   useEffect(() => {
     const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
     order_kind !== 'cart_order'
-      ? setOneOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }))
-      : setOrderData((prevData) => ({ ...prevData, receiver_phone_number: combinedTel.toString() }));
+      ? setOneOrderData((prevData) => { return { ...prevData, receiver_phone_number: combinedTel.toString() }; })
+      : setOrderData((prevData) => { return { ...prevData, receiver_phone_number: combinedTel.toString() }; });
   }, [tel]);
 
   // 우편번호검색
@@ -43,20 +45,20 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
   useEffect(() => {
     const combinedAddress = `${address} ${extraAddress}`;
     order_kind !== 'cart_order'
-      ? setOneOrderData((prevData) => ({ ...prevData, address: combinedAddress }))
-      : setOrderData((prevData) => ({ ...prevData, address: combinedAddress }));
+      ? setOneOrderData((prevData) => { return { ...prevData, address: combinedAddress }; })
+      : setOrderData((prevData) => { return { ...prevData, address: combinedAddress }; });
   }, [address, extraAddress]);
 
   const handleReceiverChange = (e: ChangeEvent<HTMLInputElement>) => {
     order_kind !== 'cart_order'
-      ? setOneOrderData((prevData) => ({ ...prevData, receiver: e.target.value }))
-      : setOrderData((prevData) => ({ ...prevData, receiver: e.target.value }));
+      ? setOneOrderData((prevData) => { return { ...prevData, receiver: e.target.value }; })
+      : setOrderData((prevData) => { return { ...prevData, receiver: e.target.value }; });
   };
 
   const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     order_kind !== 'cart_order'
-      ? setOneOrderData((prevData) => ({ ...prevData, address_message: e.target.value }))
-      : setOrderData((prevData) => ({ ...prevData, address_message: e.target.value }));
+      ? setOneOrderData((prevData) => { return { ...prevData, address_message: e.target.value }; })
+      : setOrderData((prevData) => { return { ...prevData, address_message: e.target.value }; });
   };
 
   return (
@@ -119,7 +121,7 @@ export default function ShippingInfoForm({ setOrderData, setOneOrderData, order_
                 id="recipientAddr"
                 name="recipientAddr"
                 required
-                onChange={(e) => setExtraAddress(e.target.value)}
+                onChange={(e) => { return setExtraAddress(e.target.value); }}
               />
             </div>
           </li>

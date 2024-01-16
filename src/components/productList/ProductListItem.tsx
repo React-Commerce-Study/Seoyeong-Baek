@@ -1,9 +1,10 @@
-import { ProductListItemStyle } from '../style/ProductListItemStyle';
 import ProductDataImg from 'components/common/product/ProductDataImg';
 import ProductDataInfo from 'components/common/product/ProductDataInfo';
-import { Product } from '../../@types/types';
 import styled from 'styled-components';
+
+import { Product } from '../../@types/types';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+import { ProductListItemStyle } from '../style/ProductListItemStyle';
 
 interface ProductItemBoxProps {
   product: Product;

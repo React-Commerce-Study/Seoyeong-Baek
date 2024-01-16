@@ -1,11 +1,13 @@
 import { useLocation } from 'react-router-dom';
-import ScrollTop from '../components/scroll/ScrollTop';
-import Header from '../components/common/Header/Header';
-import Footer from '../components/common/Footer/Footer';
+
 import styled from 'styled-components';
+
+import ScrollTopButton from '../components/common/Buttons/ScrollTopButton';
+import Footer from '../components/common/Footer/Footer';
+import Header from '../components/common/Header/Header';
 import ProductDetailItem from '../components/productDetail/ProductDetailItem';
 import ProductDetailNav from '../components/productDetail/ProductDetailNav';
-import ScrollTopButton from '../components/common/Buttons/ScrollTopButton';
+import ScrollTop from '../components/scroll/ScrollTop';
 
 export default function ProductDetails() {
   const location = useLocation();

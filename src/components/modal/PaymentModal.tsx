@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+
 import { OrderData, ExtendedOrderData } from '../../@types/types';
 import Button from '../common/Buttons/Button';
-import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 import CloseButton from '../common/Buttons/CloseButton';
+import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 
 interface SModalBackgroundProps {
   postOrder: () => void;

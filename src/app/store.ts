@@ -3,8 +3,8 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // 로컬 스토리지 사용
 
 // import modalReducer from '../features/modalSlice';
-import isLoggedInReducer from '../features/loginSlice';
 import finalPriceReducer from '../features/finalPriceSlice';
+import isLoggedInReducer from '../features/loginSlice';
 
 const persistConfig = {
   key: 'root', // 저장 키
@@ -21,7 +21,7 @@ export const store = configureStore({
     isLoggedIn: persistedLoginReducer,
     finalPrice: persistedPriceReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+  middleware: (getDefaultMiddleware) => { return getDefaultMiddleware({ serializableCheck: false }); },
 });
 // Redux의 serializableStateInvariantMiddleware에서 오류 발생. 이 오류는 액션 객체에 직렬화할 수 없는 값이 포함되어 있을 때 발생. 직렬화 가능한 값은 일반적으로 문자열, 숫자, 불리언, 배열 및 객체와 같은 기본 데이터 유형.
 

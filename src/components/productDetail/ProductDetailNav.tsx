@@ -1,5 +1,7 @@
 import { useState } from 'react';
+
 import styled from 'styled-components';
+
 import ProductDescriptionBtn from '../common/Buttons/ProductDescriptionBtn';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
@@ -14,15 +16,17 @@ export default function ProductInfoDescription() {
 
   return (
     <DescriptionStyle>
-      {buttons.map((button, index) => (
-        <ProductDescriptionBtn
-          key={index}
-          className={`${activeIndex === index ? 'active' : ''} description-btn`}
-          onClick={() => handleClick(index)}
-        >
-          {button}
-        </ProductDescriptionBtn>
-      ))}
+      {buttons.map((button, index) => {
+        return (
+          <ProductDescriptionBtn
+            key={index}
+            className={`${activeIndex === index ? 'active' : ''} description-btn`}
+            onClick={() => { return handleClick(index); }}
+          >
+            {button}
+          </ProductDescriptionBtn>
+        );
+      })}
     </DescriptionStyle>
   );
 }

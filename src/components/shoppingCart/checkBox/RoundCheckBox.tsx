@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import CheckBox from '../../../assets/icon/check-round.svg';
+
 import CheckBoxFill from '../../../assets/icon/check-round-Fill.svg';
+import CheckBox from '../../../assets/icon/check-round.svg';
 
 interface RoundCheckBoxProps {
   className?: string;
@@ -10,7 +11,7 @@ interface RoundCheckBoxProps {
 export default function RoundCheckBox({ ...props }: RoundCheckBoxProps) {
   return (
     <>
-      <SRoundCheckBox htmlFor="checkBox" {...props}></SRoundCheckBox>
+      <SRoundCheckBox htmlFor="checkBox" {...props} />
       <input type="checkbox" id="checkBox" />
     </>
   );

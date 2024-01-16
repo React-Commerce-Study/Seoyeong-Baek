@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import AgreeCheckBox from '../common/form/checkBox/AgreeCheckBox';
 import { AgreeCheckBoxStyle } from '../common/form/checkBox/AgreeCheckBoxStyle';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
@@ -17,25 +18,32 @@ export default function FinalPaymentInfo({ totalPrice, totalDeliveryFee }: Final
           <li>
             <p>- 상품금액</p>
             <p>
-              <strong>{totalPrice.toLocaleString()}</strong>원
+              <strong>{totalPrice.toLocaleString()}</strong>
+              원
             </p>
           </li>
           <li>
             <p>- 할인금액</p>
             <p>
-              <strong>0</strong>원
+              <strong>0</strong>
+              원
             </p>
           </li>
           <li>
             <p>- 배송비</p>
             <p>
-              <strong>{totalDeliveryFee.toLocaleString()}</strong>원
+              <strong>{totalDeliveryFee.toLocaleString()}</strong>
+              원
             </p>
           </li>
           <li className="final-total-money">
             <p>- 결제금액</p>
             <p>
-              <strong>{(totalPrice + totalDeliveryFee).toLocaleString()} 원</strong>
+              <strong>
+                {(totalPrice + totalDeliveryFee).toLocaleString()}
+                {' '}
+                원
+              </strong>
             </p>
           </li>
         </SPaymentInfoList>

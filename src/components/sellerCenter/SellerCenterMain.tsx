@@ -1,7 +1,10 @@
-import SellerCenterSaleList from './SellerCenterSaleList';
-import styled from 'styled-components';
 import { useState } from 'react';
+
+import styled from 'styled-components';
+
 import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
+
+import SellerCenterSaleList from './SellerCenterSaleList';
 
 export default function SellerCenterMain() {
   const [saleCount, setSaleCount] = useState(0);
@@ -15,11 +18,13 @@ export default function SellerCenterMain() {
     <SSellerCenterSection>
       <nav className="category-nav">
         <ul>
-          {categories.map((category) => (
-            <li key={category}>
-              <button onClick={handleClickNav}>{category}</button>
-            </li>
-          ))}
+          {categories.map((category) => {
+            return (
+              <li key={category}>
+                <button onClick={handleClickNav}>{category}</button>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 

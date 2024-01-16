@@ -1,7 +1,9 @@
+import styled from 'styled-components';
+
+import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
+
 import PostNotice from './PostNotice';
 import PostProductForm from './PostProductForm';
-import styled from 'styled-components';
-import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
 export default function PostEditProductSection() {
   return (

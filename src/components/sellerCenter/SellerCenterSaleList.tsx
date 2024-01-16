@@ -1,9 +1,14 @@
+import {
+  Dispatch, SetStateAction, useEffect, useState,
+} from 'react';
+
 import styled from 'styled-components';
-import SellerProductArticle from './SellerProductArticle';
-import { getSaleItems } from '../../services/ResponseApi';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+
 import { Product } from '../../@types/types';
+import { getSaleItems } from '../../services/ResponseApi';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+
+import SellerProductArticle from './SellerProductArticle';
 
 interface SellerCenterSaleListProps {
   setSaleCount: Dispatch<SetStateAction<number>>;
@@ -42,9 +47,11 @@ export default function SellerCenterSaleList({ setSaleCount }: SellerCenterSaleL
         <li>삭제</li>
       </SSaleInfoCategoryList>
 
-      {saleItems.map((item) => (
-        <SellerProductArticle setIsDeleteItem={setIsDeleteItem} item={item} key={item.product_id} />
-      ))}
+      {saleItems.map((item) => {
+        return (
+          <SellerProductArticle setIsDeleteItem={setIsDeleteItem} item={item} key={item.product_id} />
+        );
+      })}
     </>
   );
 }

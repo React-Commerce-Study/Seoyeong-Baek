@@ -1,16 +1,19 @@
 import { useState, FormEvent, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import PaymentList from './PaymentList';
-import ShippingInfoForm from './ShippingInfoForm';
-import PaymentMethod from './PaymentMethod';
-import FinalPaymentInfo from './FinalPaymentInfo';
+
 import styled from 'styled-components';
+
 import { OrderData, ExtendedOrderData, ReqOrderData } from '../../@types/types';
-import { postOrderList } from '../../services/ResponseApi';
-import ConfirmModal from '../modal/PaymentModal';
-import OrderCompleteModal from '../modal/OrderCompleteModal';
 import { useTotalPrice, useTotalDeliveryPrice } from '../../hooks/UseFinalPrice';
+import { postOrderList } from '../../services/ResponseApi';
+import OrderCompleteModal from '../modal/OrderCompleteModal';
+import ConfirmModal from '../modal/PaymentModal';
 import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
+
+import FinalPaymentInfo from './FinalPaymentInfo';
+import PaymentList from './PaymentList';
+import PaymentMethod from './PaymentMethod';
+import ShippingInfoForm from './ShippingInfoForm';
 
 export default function PaymentMain() {
   const location = useLocation();
@@ -23,7 +26,7 @@ export default function PaymentMain() {
 
   const [orderData, setOrderData] = useState<OrderData>({
     total_price: totalPrice + totalDeliveryFee,
-    order_kind: order_kind,
+    order_kind,
     receiver: '',
     receiver_phone_number: '',
     address: '',
@@ -35,7 +38,7 @@ export default function PaymentMain() {
     product_id: orderListId[0],
     quantity: orderListQuantity[0],
     total_price: totalPrice + totalDeliveryFee,
-    order_kind: order_kind,
+    order_kind,
     receiver: '',
     receiver_phone_number: '',
     address: '',
@@ -48,10 +51,10 @@ export default function PaymentMain() {
 
   useEffect(() => {
     if (cartOrder) {
-      setOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
+      setOrderData((prevData) => { return { ...prevData, total_price: totalPrice + totalDeliveryFee }; });
       console.log(orderData);
     } else {
-      setOneOrderData((prevData) => ({ ...prevData, total_price: totalPrice + totalDeliveryFee }));
+      setOneOrderData((prevData) => { return { ...prevData, total_price: totalPrice + totalDeliveryFee }; });
       console.log(oneOrderData);
     }
   }, []);

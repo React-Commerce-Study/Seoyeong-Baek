@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import Modal from '../components/modal/Modal';
+
 import FormContainer from '../components/common/form/FormContainer';
+import Modal from '../components/modal/Modal';
 
 export default function SignUp() {
   const [successUserName, setSuccessUserName] = useState<string>('');
@@ -8,7 +9,7 @@ export default function SignUp() {
   return (
     <>
       <FormContainer setSuccessUserName={setSuccessUserName} />
-      {successUserName !== '' && <Modal type={'successSignUp'} successUserName={successUserName} />}
+      {successUserName !== '' && <Modal type="successSignUp" successUserName={successUserName} />}
     </>
   );
 }

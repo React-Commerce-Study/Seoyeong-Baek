@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import ThumbsUpIcon from '../../assets/icon/icon-thumbs-up.gif';
 import { useNavigate } from 'react-router-dom';
+
+import styled from 'styled-components';
+
 import { ReqOrderData } from '../../@types/types';
-import Button from '../common/Buttons/Button';
+import ThumbsUpIcon from '../../assets/icon/icon-thumbs-up.gif';
 import { getProductItem } from '../../services/ResponseApi';
+import Button from '../common/Buttons/Button';
 import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 
 interface OrderCompleteModalProps {
@@ -39,7 +41,9 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
       <SOrderCompleteLayout>
         <h3>주문이 완료되었습니다!</h3>
         <time>
-          {reqOrderResult.created_at.slice(0, 10)} {reqOrderResult.created_at.slice(11, 19)}
+          {reqOrderResult.created_at.slice(0, 10)}
+          {' '}
+          {reqOrderResult.created_at.slice(11, 19)}
         </time>
         <img src={ThumbsUpIcon} alt="주문성공 이미지" />
         <SOrderInfoList>
@@ -58,7 +62,10 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
           <SPriceListContainer>
             <li>
               <p>총 상품금액</p>
-              <p>{totalPrice.toLocaleString()}원</p>
+              <p>
+                {totalPrice.toLocaleString()}
+                원
+              </p>
             </li>
             <li>
               <p>총 할인금액</p>
@@ -66,16 +73,19 @@ export default function OrderCompleteModal({ reqOrderResult, totalPrice, totalDe
             </li>
             <li>
               <p>배송비</p>
-              <p>{totalDeliveryFee !== 0 ? totalDeliveryFee.toLocaleString() : 0}원</p>
+              <p>
+                {totalDeliveryFee !== 0 ? totalDeliveryFee.toLocaleString() : 0}
+                원
+              </p>
             </li>
           </SPriceListContainer>
         </SOrderInfoList>
         <SButtonWrapper>
           {/* TODO: 주문내역 보기로 이동 */}
-          <Button bgColor="var(--dark-gray-color)" onClick={() => navigate('/')}>
+          <Button bgColor="var(--dark-gray-color)" onClick={() => { return navigate('/'); }}>
             주문 내역 보기
           </Button>
-          <Button onClick={() => navigate('/')}>홈 화면 가기</Button>
+          <Button onClick={() => { return navigate('/'); }}>홈 화면 가기</Button>
         </SButtonWrapper>
       </SOrderCompleteLayout>
     </SModalBackground>

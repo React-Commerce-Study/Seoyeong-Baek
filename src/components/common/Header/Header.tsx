@@ -1,12 +1,19 @@
 import { useState } from 'react';
+
+import styled from 'styled-components';
+
+import {
+  mediaQuery,
+  BREAKPOINT_PC,
+  BREAKPOINT_TABLET,
+} from '../../style/mediaQuery/MediaQueryType';
+
+import Logo from './logo/Logo';
 import Nav from './Nav';
 import Search from './Search';
-import Logo from './logo/Logo';
-import styled from 'styled-components';
-import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
 
 interface HeaderProps {
-  page?: string;
+  page?: 'cart';
 }
 
 export default function Header({ page }: HeaderProps) {
@@ -16,7 +23,10 @@ export default function Header({ page }: HeaderProps) {
     <SHeaderLayout>
       <SHeader>
         <Logo className={isMobileSearch ? 'hide-logo' : ''} />
-        <Search isMobileSearch={isMobileSearch} setIsMobileSearch={setIsMobileSearch} />
+        <Search
+          isMobileSearch={isMobileSearch}
+          setIsMobileSearch={setIsMobileSearch}
+        />
         <Nav page={page} />
       </SHeader>
     </SHeaderLayout>

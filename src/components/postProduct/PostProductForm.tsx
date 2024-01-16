@@ -1,11 +1,14 @@
-import { useLocation } from 'react-router-dom';
-import { useState, FormEvent, ChangeEvent, MouseEvent, useEffect } from 'react';
+import {
+  useState, FormEvent, ChangeEvent, MouseEvent, useEffect,
+} from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
-import Button from '../common/Buttons/Button';
-import IconImg from '../../assets/icon/icon-img.png';
+
 import { PostProductData } from '../../@types/types';
+import IconImg from '../../assets/icon/icon-img.png';
 import { postProduct, putEditProduct } from '../../services/ResponseApi';
-import { useNavigate } from 'react-router-dom';
+import Button from '../common/Buttons/Button';
 import Modal from '../modal/Modal';
 import { mediaQuery, BREAKPOINT_PC } from '../style/mediaQuery/MediaQueryType';
 
@@ -42,25 +45,25 @@ export default function PostProductForm() {
 
     if (e.target.files) {
       const img = e.target.files[0];
-      setPostProductData((prevData) => ({ ...prevData, [name]: img }));
+      setPostProductData((prevData) => { return { ...prevData, [name]: img }; });
       const newFileURL = URL.createObjectURL(img);
       setFileURL(newFileURL);
     } else if (name === 'product_name') {
       console.log(value);
-      setPostProductData((prevData) => ({ ...prevData, [name]: value }));
+      setPostProductData((prevData) => { return { ...prevData, [name]: value }; });
     } else {
-      setPostProductData((prevData) => ({ ...prevData, [name]: parseInt(value) }));
+      setPostProductData((prevData) => { return { ...prevData, [name]: parseInt(value) }; });
     }
   };
 
   const handleShippingMethod = (e: MouseEvent<HTMLButtonElement>) => {
     const shippingMethod = e.currentTarget.getAttribute('data-value');
-    if (shippingMethod) setPostProductData((prevData) => ({ ...prevData, shipping_method: shippingMethod }));
+    if (shippingMethod) setPostProductData((prevData) => { return { ...prevData, shipping_method: shippingMethod }; });
   };
 
   const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setPostProductData((prevData) => ({ ...prevData, [name]: value }));
+    setPostProductData((prevData) => { return { ...prevData, [name]: value }; });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

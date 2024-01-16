@@ -1,7 +1,9 @@
 import React from 'react';
+
+import styled from 'styled-components';
+
 import MinusImg from '../../../assets/icon/icon-minus-line.svg';
 import plusImg from '../../../assets/icon/icon-plus-line.svg';
-import styled from 'styled-components';
 
 interface ProductCountProps {
   count: number;
@@ -11,7 +13,9 @@ interface ProductCountProps {
   setCountChange?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function ProductCount({ count, setCount, productStock, isCheck, setCountChange }: ProductCountProps) {
+export default function ProductCount({
+  count, setCount, productStock, isCheck, setCountChange,
+}: ProductCountProps) {
   if (productStock === 0) {
     return <ZeroCount>해당상품은 재고가 없습니다.</ZeroCount>;
   }

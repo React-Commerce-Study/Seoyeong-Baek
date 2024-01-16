@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import UseScrollChecker from '../../hooks/UseScrollChecker';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import ProductInfoCard from './ProductListItem';
+
+import styled from 'styled-components';
+
 import { Product } from '../../@types/types';
+import UseScrollChecker from '../../hooks/UseScrollChecker';
 import { getProductList } from '../../services/ResponseApi';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+
+import ProductInfoCard from './ProductListItem';
 
 export default function ProductList() {
   const navigate = useNavigate();
@@ -16,7 +19,7 @@ export default function ProductList() {
 
   useEffect(() => {
     if (isBottom) {
-      setFetchPage((page) => page + 1);
+      setFetchPage((page) => { return page + 1; });
     }
   }, [isBottom]);
 
@@ -26,17 +29,17 @@ export default function ProductList() {
     async function fetchProducts() {
       const productData = await getProductList(fetchPage);
       console.log(productData);
-      if (productData) setProductList((preProductList) => [...preProductList, ...productData.results]);
+      if (productData) setProductList((preProductList) => { return [...preProductList, ...productData.results]; });
     }
   }, [fetchPage]);
 
   return (
     <MainStyle>
       <ProductListContainerStyle>
-        {productList &&
-          productList.map((product) => {
+        {productList
+          && productList.map((product) => {
             return (
-              <li key={product.product_id} onClick={() => navigate(`/product/${product.product_id}`, { state: product })}>
+              <li key={product.product_id} onClick={() => { return navigate(`/product/${product.product_id}`, { state: product }); }}>
                 <ProductInfoCard product={product} />
               </li>
             );

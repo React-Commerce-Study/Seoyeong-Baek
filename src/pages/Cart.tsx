@@ -1,13 +1,14 @@
-import Header from '../components/common/Header/Header';
 import CartList from 'components/shoppingCart/CartList';
-import Footer from '../components/common/Footer/Footer';
 import styled from 'styled-components';
+
 import ScrollTopButton from '../components/common/Buttons/ScrollTopButton';
+import Footer from '../components/common/Footer/Footer';
+import Header from '../components/common/Header/Header';
 
 export default function Cart() {
   return (
     <>
-      <Header page={'cart'} />
+      <Header page="cart" />
       <SCartListMain>
         <h2 className="title">장바구니</h2>
         <CartList />

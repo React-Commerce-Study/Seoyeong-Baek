@@ -1,20 +1,27 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import {
+  Dispatch, SetStateAction, useEffect, useState,
+} from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import RoundCheckBox from './checkBox/RoundCheckBox';
+
+import styled from 'styled-components';
+
+import {
+  Product, CartProduct, CartActiveData, PutItemProps,
+} from '../../@types/types';
 import DeleteIcon from '../../assets/icon/icon-delete.svg';
-import ProductCountButton from '../common/Buttons/ProductCountButton';
+import { plusPrice, minusPrice, resetPrice } from '../../features/finalPriceSlice';
+import { putCartItem, getProductItem } from '../../services/ResponseApi';
+import { deleteItem } from '../../utils/deleteItem';
 import Button from '../common/Buttons/Button';
-import { ProductListItemStyle } from '../style/ProductListItemStyle';
+import ProductCountButton from '../common/Buttons/ProductCountButton';
 import ProductDataImg from '../common/product/ProductDataImg';
 import ProductDataInfo from '../common/product/ProductDataInfo';
-import { Product, CartProduct, CartActiveData, PutItemProps } from '../../@types/types';
-import { putCartItem, getProductItem } from '../../services/ResponseApi';
-import Modal from '../../components/modal/Modal';
-import { useDispatch } from 'react-redux';
-import { plusPrice, minusPrice, resetPrice } from '../../features/finalPriceSlice';
-import { deleteItem } from '../../utils/deleteItem';
+import Modal from '../modal/Modal';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+import { ProductListItemStyle } from '../style/ProductListItemStyle';
+
+import RoundCheckBox from './checkBox/RoundCheckBox';
 
 type CartItemProps = {
   cartProduct: CartProduct;
@@ -58,7 +65,7 @@ export default function CartItem({
   useEffect(() => {
     if (cartProduct.is_active && product) {
       setIsActive(true);
-      dispatch(plusPrice({ price: price, deliveryFee: product.shipping_fee }));
+      dispatch(plusPrice({ price, deliveryFee: product.shipping_fee }));
     } else {
       setIsActive(false);
       dispatch(resetPrice());
@@ -75,20 +82,16 @@ export default function CartItem({
   const handleCheckBoxClick = () => {
     if (cartProduct.is_active && product) {
       setIsActive(false);
-      setCartItemList((prevCartItems) =>
-        prevCartItems.map((item) =>
-          item.product_id === cartProduct.product_id && item.is_active ? { ...item, is_active: false } : item
-        )
-      );
-      dispatch(minusPrice({ price: price, deliveryFee: product.shipping_fee }));
+      setCartItemList((prevCartItems) => {
+        return prevCartItems.map((item) => { return (item.product_id === cartProduct.product_id && item.is_active ? { ...item, is_active: false } : item); });
+      });
+      dispatch(minusPrice({ price, deliveryFee: product.shipping_fee }));
     } else if (!cartProduct.is_active && product) {
       setIsActive(true);
-      setCartItemList((prevCartItems) =>
-        prevCartItems.map((item) =>
-          item.product_id === cartProduct.product_id && !item.is_active ? { ...item, is_active: true } : item
-        )
-      );
-      dispatch(plusPrice({ price: price, deliveryFee: product.shipping_fee }));
+      setCartItemList((prevCartItems) => {
+        return prevCartItems.map((item) => { return (item.product_id === cartProduct.product_id && !item.is_active ? { ...item, is_active: true } : item); });
+      });
+      dispatch(plusPrice({ price, deliveryFee: product.shipping_fee }));
     }
   };
 
@@ -110,10 +113,12 @@ export default function CartItem({
 
   useEffect(() => {
     // 카운트가 변경될때마다 orderData의 수량도 변경
-    setOrderData((prevOrderData) => ({
-      ...prevOrderData,
-      quantity: count,
-    }));
+    setOrderData((prevOrderData) => {
+      return {
+        ...prevOrderData,
+        quantity: count,
+      };
+    });
 
     // 수량 변동 시 가격 빼고 더해주기
     if (countChange === '-' && product) {
@@ -122,19 +127,19 @@ export default function CartItem({
       dispatch(plusPrice({ price: product.price, deliveryFee: 0 }));
     }
 
-    setCartItemList((prevCartItems) =>
-      prevCartItems.map((item) =>
-        item.product_id === cartProduct.product_id && item.quantity !== count ? { ...item, quantity: count } : item
-      )
-    );
+    setCartItemList((prevCartItems) => {
+      return prevCartItems.map((item) => { return (item.product_id === cartProduct.product_id && item.quantity !== count ? { ...item, quantity: count } : item); });
+    });
   }, [count]);
 
   // isActive 값이 변경될 때마다 orderData의 active도 변경
   useEffect(() => {
-    setOrderData((prevOrderData) => ({
-      ...prevOrderData,
-      is_active: isActive,
-    }));
+    setOrderData((prevOrderData) => {
+      return {
+        ...prevOrderData,
+        is_active: isActive,
+      };
+    });
   }, [isActive]);
 
   const [isOneOrderBtnClick, setIsOneOrderBtnClick] = useState(false);
@@ -157,7 +162,7 @@ export default function CartItem({
 
       // 주문하려는 상품의 가격으로 바꿔주기
       dispatch(resetPrice());
-      dispatch(plusPrice({ price: price, deliveryFee: product.shipping_fee }));
+      dispatch(plusPrice({ price, deliveryFee: product.shipping_fee }));
     }
   }, [isOneOrderBtnClick]);
 
@@ -167,7 +172,7 @@ export default function CartItem({
       setIsDeleteItem?.(true);
       console.log('delete');
 
-      isActive && product && dispatch(minusPrice({ price: price, deliveryFee: product.shipping_fee }));
+      isActive && product && dispatch(minusPrice({ price, deliveryFee: product.shipping_fee }));
     }
   }, [isConfigModal]);
 
@@ -178,7 +183,7 @@ export default function CartItem({
           <RoundCheckBox className={cartProduct.is_active ? 'checked' : ''} onClick={handleCheckBoxClick} />
           <div className="product-info-wrapper">
             <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
-            <ProductDataInfo product={product} isDelivery={true} />
+            <ProductDataInfo product={product} isDelivery />
           </div>
           <div className="mobile-mode-wrapper">
             <div className="product-count-wrapper">
@@ -191,7 +196,10 @@ export default function CartItem({
               />
             </div>
             <div className="total-price-wrapper">
-              <p className="total-price">{price.toLocaleString()}원</p>
+              <p className="total-price">
+                {price.toLocaleString()}
+                원
+              </p>
               <Button
                 disabled={!cartProduct.is_active}
                 padding="10px 35px"
@@ -203,7 +211,7 @@ export default function CartItem({
               </Button>
             </div>
           </div>
-          <button className="delete-btn" onClick={() => setIsShowModal(true)}></button>
+          <button className="delete-btn" onClick={() => { return setIsShowModal(true); }} />
         </SCartItemContainer>
       )}
 

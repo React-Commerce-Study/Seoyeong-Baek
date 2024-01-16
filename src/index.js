@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { createRoot } from 'react-dom/client';
-import App from './App';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+import { createRoot } from 'react-dom/client';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import App from './App';
 import { store, persistor } from './app/store';
 // import ScrollTop from './components/scroll/ScrollTop';
 
@@ -18,5 +19,5 @@ root.render(
         <App />
       </PersistGate>
     </Provider>
-  </BrowserRouter>
+  </BrowserRouter>,
 );

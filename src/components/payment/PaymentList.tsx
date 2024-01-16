@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import PaymentItem from './PaymentItem';
+
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+
+import PaymentItem from './PaymentItem';
 
 interface PaymentListProps {
   orderListId: number[];
@@ -22,15 +24,19 @@ export default function PaymentList({ orderListId, finalPrice, orderListQuantity
       </SCategoryList>
 
       <SCartListContainer>
-        {orderListId.length !== 0 &&
-          orderListId.map((orderId, i) => {
+        {orderListId.length !== 0
+          && orderListId.map((orderId, i) => {
             return <PaymentItem key={i} orderId={orderId} quantity={orderListQuantity?.[i] || 1} />;
           })}
       </SCartListContainer>
 
       <STotalPrice>
         <p>
-          총 주문금액<strong>{finalPrice?.toLocaleString()}원</strong>
+          총 주문금액
+          <strong>
+            {finalPrice?.toLocaleString()}
+            원
+          </strong>
         </p>
       </STotalPrice>
     </section>

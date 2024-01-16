@@ -1,7 +1,8 @@
+import styled from 'styled-components';
+
 import Header from '../components/common/Header/Header';
 import SellerCenterMain from '../components/sellerCenter/SellerCenterMain';
 import SellerCenterTitleWrapper from '../components/sellerCenter/SellerCenterTitleWrapper';
-import styled from 'styled-components';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../components/style/mediaQuery/MediaQueryType';
 
 export default function SellerCenter() {

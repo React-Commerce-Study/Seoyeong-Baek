@@ -1,8 +1,11 @@
 import { useState } from 'react';
+
 import styled from 'styled-components';
+
 import Bubble from '../../assets/icon/Union.png';
-import Modal from './Modal';
 import { mediaQuery, BREAKPOINT_PC, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
+
+import Modal from './Modal';
 
 export default function MyPageModal() {
   const [isShowModal, setIsShowModal] = useState(false);

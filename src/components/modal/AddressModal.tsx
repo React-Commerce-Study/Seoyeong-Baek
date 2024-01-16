@@ -1,8 +1,10 @@
 import DaumPostcodeEmbed from 'react-daum-postcode';
+
 import styled from 'styled-components';
 import { handleModalLayoutClick } from 'utils/modalFunction';
-import { SModalBackground, SModalLayout } from '../style/ModalStyle';
+
 import CloseButton from '../common/Buttons/CloseButton';
+import { SModalBackground, SModalLayout } from '../style/ModalStyle';
 
 interface AddressModalProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;

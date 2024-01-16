@@ -1,8 +1,10 @@
-import Button from '../common/Buttons/Button';
-import { handleModalLayoutClick } from 'utils/modalFunction';
 import { useNavigate } from 'react-router-dom';
-import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
+
+import { handleModalLayoutClick } from 'utils/modalFunction';
+
+import Button from '../common/Buttons/Button';
 import CloseButton from '../common/Buttons/CloseButton';
+import { SModalBackground, SModalLayout, SButtonWrapper } from '../style/ModalStyle';
 
 interface ModalProps {
   type: string;
@@ -11,7 +13,9 @@ interface ModalProps {
   successUserName?: string;
 }
 
-export default function Modal({ type, setIsConfigModal, setIsShowModal, successUserName }: ModalProps) {
+export default function Modal({
+  type, setIsConfigModal, setIsShowModal, successUserName,
+}: ModalProps) {
   const navigate = useNavigate();
 
   const closeModal = () => {
@@ -42,13 +46,13 @@ export default function Modal({ type, setIsConfigModal, setIsShowModal, successU
     { type: 'post', value: '상품을 등록하시겠습니까?', event: configItem },
     { type: 'delete', value: '상품을 삭제하시겠습니까?', event: configItem },
     { type: 'deleteAll', value: '정말로 전체 삭제하시겠습니까?', event: configItem },
-    { type: 'requiredLogin', value: '로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?', event: () => navigatePath('/login') },
+    { type: 'requiredLogin', value: '로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?', event: () => { return navigatePath('/login'); } },
     { type: 'logout', value: '정말로 로그아웃 하시겠습니까?', event: logout },
-    { type: 'addToCart', value: '장바구니에 담겼습니다.\n장바구니로 이동 하시겠습니까?', event: () => navigatePath('/cart') },
+    { type: 'addToCart', value: '장바구니에 담겼습니다.\n장바구니로 이동 하시겠습니까?', event: () => { return navigatePath('/cart'); } },
     {
       type: 'includedCart',
       value: '이미 장바구니에 담긴 상품입니다.\n장바구니로 이동 하시겠습니까?',
-      event: () => navigatePath('/cart'),
+      event: () => { return navigatePath('/cart'); },
     },
     {
       type: 'successSignUp',
@@ -65,7 +69,7 @@ export default function Modal({ type, setIsConfigModal, setIsShowModal, successU
     }
   };
 
-  const typeCheck = contents.find((content) => content.type === type);
+  const typeCheck = contents.find((content) => { return content.type === type; });
 
   return (
     <SModalBackground onClick={closeModal}>

@@ -1,5 +1,6 @@
-import DeleteIcon from '../../../assets/icon/icon-delete.svg';
 import styled from 'styled-components';
+
+import DeleteIcon from '../../../assets/icon/icon-delete.svg';
 
 interface CloseButtonProps {
   onClick?: () => void;

@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
-import CartItem from './CartItem';
-import TotalPriceBox from './TotalPriceBox';
-import Button from '../common/Buttons/Button';
+
 import { CartProduct } from '../../@types/types';
 import { fetchCartItemList } from '../../services/ResponseApi';
-import RoundCheckBox from './checkBox/RoundCheckBox';
-import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
-import Modal from '../../components/modal/Modal';
 import { deleteAllItem } from '../../utils/deleteItem';
+import Button from '../common/Buttons/Button';
+import Modal from '../modal/Modal';
+import {
+  mediaQuery,
+  BREAKPOINT_TABLET,
+} from '../style/mediaQuery/MediaQueryType';
+
+import CartItem from './CartItem';
+import RoundCheckBox from './checkBox/RoundCheckBox';
+import TotalPriceBox from './TotalPriceBox';
 
 export default function ShoppingCart() {
   const navigate = useNavigate();
@@ -53,7 +59,7 @@ export default function ShoppingCart() {
 
   // 장바구니 아이템이 하나라도 비활성화 시 전체 체크박스 상태 변경
   useEffect(() => {
-    const isCheckArr = cartItemList.map((cartItem) => cartItem.is_active);
+    const isCheckArr = cartItemList.map((cartItem) => { return cartItem.is_active; });
     // console.log(isCheckArr);
     isCheckArr.includes(false) ? setAllIsCheck(false) : setAllIsCheck(true);
   }, [cartItemList]);
@@ -88,22 +94,27 @@ export default function ShoppingCart() {
   useEffect(() => {
     if (isOrderBtnClick) {
       // is_active가 true인 아이템만 필터링
-      const orderList = cartItemList.filter((cartItem) => cartItem.is_active);
-      const orderListId = orderList.map((cartItem) => cartItem.product_id);
-      const orderListQuantity = orderList.map((cartItem) => cartItem.quantity);
+      const orderList = cartItemList.filter((cartItem) => { return cartItem.is_active; });
+      const orderListId = orderList.map((cartItem) => { return cartItem.product_id; });
+      const orderListQuantity = orderList.map((cartItem) => { return cartItem.quantity; });
       const order_kind = 'cart_order';
-      navigate('/payment', { state: { orderListId, orderListQuantity, order_kind } });
+      navigate('/payment', {
+        state: { orderListId, orderListQuantity, order_kind },
+      });
     }
   }, [isOrderBtnClick]);
 
-  const btnActive = cartItemList && cartItemList.some((cartItem) => cartItem.is_active);
+  const btnActive = cartItemList && cartItemList.some((cartItem) => { return cartItem.is_active; });
 
   return (
     <>
       <SMainLayout>
         <SCategoryList>
           <li>
-            <RoundCheckBox className={isAllCheck ? 'checked' : ''} onClick={handleCheckBoxClick} />
+            <RoundCheckBox
+              className={isAllCheck ? 'checked' : ''}
+              onClick={handleCheckBoxClick}
+            />
           </li>
           <li>상품정보</li>
           <li>수량</li>
@@ -137,18 +148,33 @@ export default function ShoppingCart() {
             <TotalPriceBox />
 
             <SButtonContainer>
-              <Button onClick={handleOrderBtnClick} padding="19px 64px" fontSize="var(--font-size-xl)" disabled={!btnActive}>
+              <Button
+                onClick={handleOrderBtnClick}
+                padding="19px 64px"
+                fontSize="var(--font-size-xl)"
+                disabled={!btnActive}
+              >
                 주문하기
               </Button>
             </SButtonContainer>
           </>
         )}
 
-        <Button className={`${isAllCheck ? 'active' : ''} all-delete-btn`} disabled={!isAllCheck} onClick={handleDeleteAllItem}>
+        <Button
+          className={`${isAllCheck ? 'active' : ''} all-delete-btn`}
+          disabled={!isAllCheck}
+          onClick={handleDeleteAllItem}
+        >
           전체삭제
         </Button>
       </SMainLayout>
-      {isShowModal && <Modal type="deleteAll" setIsShowModal={setIsShowModal} setIsConfigModal={setIsConfigModal} />}
+      {isShowModal && (
+        <Modal
+          type="deleteAll"
+          setIsShowModal={setIsShowModal}
+          setIsConfigModal={setIsConfigModal}
+        />
+      )}
     </>
   );
 }

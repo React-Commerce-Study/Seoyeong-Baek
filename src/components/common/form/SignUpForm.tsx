@@ -1,13 +1,18 @@
-import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
-import ValidInputBox from './formInput/ValidInputBox';
+import {
+  useState, FormEvent, ChangeEvent, useEffect,
+} from 'react';
+
 import styled from 'styled-components';
+
+import { SignUpData, ExtendedSignUpData, TelData } from '../../../@types/types';
 import checkOffIcon from '../../../assets/icon/icon-check-off.svg';
 import checkOnIcon from '../../../assets/icon/icon-check-on.svg';
 import { postSignUp } from '../../../services/ResponseApi';
-import { SignUpData, ExtendedSignUpData, TelData } from '../../../@types/types';
+import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
+
 import AgreeCheckBox from './checkBox/AgreeCheckBox';
 import { AgreeCheckBoxStyle } from './checkBox/AgreeCheckBoxStyle';
-import { mediaQuery, BREAKPOINT_TABLET } from '../../style/mediaQuery/MediaQueryType';
+import ValidInputBox from './formInput/ValidInputBox';
 
 interface SignUpFormProps {
   setSuccessUserName: React.Dispatch<React.SetStateAction<string>>;
@@ -22,7 +27,7 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
     phone_number: '',
     name: '',
   });
-  console.log('form', userType);
+  // console.log('form', userType);
 
   const [sellerSignUpData, setSellerSignUpData] = useState<ExtendedSignUpData>({
     username: '',
@@ -71,15 +76,13 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     userType === 'SELLER'
-      ? setSellerSignUpData((prevData) => ({ ...prevData, password: newPassword }))
-      : setSignUpData((prevData) => ({ ...prevData, password: newPassword }));
+      ? setSellerSignUpData((prevData) => { return { ...prevData, password: newPassword }; })
+      : setSignUpData((prevData) => { return { ...prevData, password: newPassword }; });
     setPasswordError('');
 
-    if (newPassword.length < 8) setPasswordError((prevErr) => `비밀번호는 8자 이상이어야 합니다. \n ${prevErr}`);
-    if (newPassword.match(/[a-z]/g) === null)
-      setPasswordError((prevErr) => `비밀번호는 한개 이상의 영소문자가 필수적으로 들어가야 합니다. \n ${prevErr}`);
-    if (newPassword.match(/[0-9]/g) === null)
-      setPasswordError((prevErr) => `비밀번호는 한개 이상의 숫자가 필수적으로 들어가야 합니다. \n ${prevErr}`);
+    if (newPassword.length < 8) setPasswordError((prevErr) => { return `비밀번호는 8자 이상이어야 합니다. \n ${prevErr}`; });
+    if (newPassword.match(/[a-z]/g) === null) setPasswordError((prevErr) => { return `비밀번호는 한개 이상의 영소문자가 필수적으로 들어가야 합니다. \n ${prevErr}`; });
+    if (newPassword.match(/[0-9]/g) === null) setPasswordError((prevErr) => { return `비밀번호는 한개 이상의 숫자가 필수적으로 들어가야 합니다. \n ${prevErr}`; });
 
     // if (newPassword.length >= 8 && /[a-z]/.test(newPassword) && /[0-9]/.test(newPassword)) {
     //   setIsConfirmPassword(true);
@@ -93,8 +96,8 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
   const onChangePassword2 = (e: ChangeEvent<HTMLInputElement>) => {
     const newPassword2 = e.target.value;
     userType === 'SELLER'
-      ? setSellerSignUpData((prevData) => ({ ...prevData, password2: newPassword2 }))
-      : setSignUpData((prevData) => ({ ...prevData, password2: newPassword2 }));
+      ? setSellerSignUpData((prevData) => { return { ...prevData, password2: newPassword2 }; })
+      : setSignUpData((prevData) => { return { ...prevData, password2: newPassword2 }; });
   };
 
   useEffect(() => {
@@ -113,28 +116,30 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
   });
 
   const handleTel1Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    setTel((tel) => ({
-      ...tel,
-      tel1: e.target.value,
-    }));
+    setTel((tel) => {
+      return {
+        ...tel,
+        tel1: e.target.value,
+      };
+    });
   };
 
   const handleTelChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPhoneNumberError('');
     const { name, value } = e.target;
-    if (/^\d*$/.test(value))
+    if (/^\d*$/.test(value)) {
       setTel({
         ...tel,
         [name]: value,
       });
-    else setPhoneNumberError('숫자만 입력 가능합니다.');
+    } else setPhoneNumberError('숫자만 입력 가능합니다.');
   };
 
   useEffect(() => {
     const combinedTel = tel.tel1 + tel.tel2 + tel.tel3;
     userType === 'SELLER'
-      ? setSellerSignUpData((prevData) => ({ ...prevData, phone_number: combinedTel }))
-      : setSignUpData((prevData) => ({ ...prevData, phone_number: combinedTel }));
+      ? setSellerSignUpData((prevData) => { return { ...prevData, phone_number: combinedTel }; })
+      : setSignUpData((prevData) => { return { ...prevData, phone_number: combinedTel }; });
   }, [tel]);
 
   return (
@@ -182,11 +187,11 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
           <input
             type="text"
             id="name"
-            onChange={(e) =>
-              userType === 'SELLER'
+            onChange={(e) => {
+              return (userType === 'SELLER'
                 ? setSellerSignUpData({ ...sellerSignUpData, name: e.target.value })
-                : setSignUpData({ ...signUpData, name: e.target.value })
-            }
+                : setSignUpData({ ...signUpData, name: e.target.value }));
+            }}
             value={userType === 'SELLER' ? sellerSignUpData.name : signUpData.name}
             required
           />
@@ -229,7 +234,7 @@ export default function SignUpForm({ setSuccessUserName, userType }: SignUpFormP
                 type="text"
                 id="storeName"
                 value={sellerSignUpData.store_name}
-                onChange={(e) => setSellerSignUpData({ ...sellerSignUpData, store_name: e.target.value })}
+                onChange={(e) => { return setSellerSignUpData({ ...sellerSignUpData, store_name: e.target.value }); }}
                 required
               />
               {nameError && <MessageError>{nameError}</MessageError>}
@@ -296,10 +301,11 @@ const SPasswordWrapper = styled.div`
   &::after {
     position: absolute;
     content: '';
-    background: ${(props: { isConfirmPassword: boolean; isConfirmPassword2: boolean }) =>
-      props.isConfirmPassword || props.isConfirmPassword2
-        ? `url(${checkOnIcon}) center no-repeat`
-        : `url(${checkOffIcon}) center no-repeat`};
+    background: ${(props: { isConfirmPassword: boolean; isConfirmPassword2: boolean }) => {
+    return (props.isConfirmPassword || props.isConfirmPassword2
+      ? `url(${checkOnIcon}) center no-repeat`
+      : `url(${checkOffIcon}) center no-repeat`);
+  }};
 
     display: inline-block;
     width: 1.75rem;
@@ -361,7 +367,7 @@ const MessageError = styled.p`
   white-space: pre-line;
 
   /* .success */
-  color: ${(props: { usernameSuccess: boolean }) => (props.usernameSuccess ? 'var(--point-color)' : 'red')};
+  color: ${(props: { usernameSuccess: boolean }) => { return (props.usernameSuccess ? 'var(--point-color)' : 'red'); }};
   margin-top: 10px;
   line-height: normal;
 `;

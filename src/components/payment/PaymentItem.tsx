@@ -1,9 +1,11 @@
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import ProductDataImg from '../common/product/ProductDataImg';
+import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
+
 import { Product } from '../../@types/types';
 import { getProductItem } from '../../services/ResponseApi';
+import ProductDataImg from '../common/product/ProductDataImg';
 import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 interface PaymentItemProps {
@@ -22,13 +24,14 @@ export default function PaymentItem({ orderId, quantity }: PaymentItemProps) {
   };
 
   useEffect(() => {
-    if (orderId)
+    if (orderId) {
       (async () => {
         const fetchedProduct = await getProductItem(orderId);
         // console.log(fetchedProduct);
         setProduct(fetchedProduct);
         console.log(product);
       })();
+    }
     // 즉시 실행함수
   }, []);
 
@@ -41,15 +44,22 @@ export default function PaymentItem({ orderId, quantity }: PaymentItemProps) {
           <div className="img-info-wrapper">
             <ProductDataImg productImg={product.image} imgName={product.product_name} handleClick={handleClick} />
             <div className="info-box">
-              <p className="store-name">{product.store_name}</p> <p className="product-name">{product.product_name}</p>
-              <p className="product-quantity">수량 : {quantity}개</p>
+              <p className="store-name">{product.store_name}</p>
+              {' '}
+              <p className="product-name">{product.product_name}</p>
+              <p className="product-quantity">
+                수량 :
+                {quantity}
+                개
+              </p>
             </div>
           </div>
           <p className="discount">-</p>
           <p className="delivery">{product.shipping_fee === 0 ? '무료배송' : `${product.shipping_fee.toLocaleString()}원`}</p>
           {product.price && (
             <p className="product-price">
-              <strong>{product.price.toLocaleString()}</strong>원
+              <strong>{product.price.toLocaleString()}</strong>
+              원
             </p>
           )}
         </SOrderItemContainer>

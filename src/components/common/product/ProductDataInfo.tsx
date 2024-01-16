@@ -13,13 +13,18 @@ export default function ProductInfoText({ product, isDelivery }: ProductItemBoxP
         <p className="product-name">{product.product_name}</p>
         {product.price && (
           <p className="product-price">
-            <strong>{product.price.toLocaleString()}</strong>원
+            <strong>{product.price.toLocaleString()}</strong>
+            원
           </p>
         )}
       </div>
       {isDelivery && (
         <div>
-          <p className="delivery">택배배송 / {product.shipping_fee.toLocaleString()}원</p>
+          <p className="delivery">
+            택배배송 /
+            {product.shipping_fee.toLocaleString()}
+            원
+          </p>
         </div>
       )}
     </div>

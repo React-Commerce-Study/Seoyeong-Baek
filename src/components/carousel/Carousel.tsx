@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
+
 import LeftBtn from '../../assets/icon/icon-swiper-1.svg';
 import RightBtn from '../../assets/icon/icon-swiper-2.svg';
-import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 import { getRandomImages } from '../../services/ResponseApi';
+import { mediaQuery, BREAKPOINT_TABLET } from '../style/mediaQuery/MediaQueryType';
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [images, setImages] = useState<string[]>([]);
 
   const handlePrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) => { return (prevIndex === 0 ? images.length - 1 : prevIndex - 1); });
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) => { return (prevIndex === images.length - 1 ? 0 : prevIndex + 1); });
   };
 
   useEffect(() => {
@@ -45,13 +47,15 @@ export default function Carousel() {
             <img src={images[currentIndex]} alt="Slideshow" />
           </div>
           <div className="dots-box">
-            {images.map((_, index) => (
-              <DotStyle key={index} indication={index === currentIndex}></DotStyle>
-            ))}
+            {images.map((_, index) => {
+              return (
+                <DotStyle key={index} indication={index === currentIndex} />
+              );
+            })}
           </div>
         </CarouselContainer>
-        <button className="pre-btn" type="button" onClick={handlePrevious}></button>
-        <button className="next-btn" type="button" onClick={handleNext}></button>
+        <button className="pre-btn" type="button" onClick={handlePrevious} />
+        <button className="next-btn" type="button" onClick={handleNext} />
       </article>
     </CarouselStyle>
   );
@@ -158,16 +162,16 @@ type DotStyleProps = {
 };
 
 const DotStyle = styled.div<DotStyleProps>`
-  background: ${(props: DotStyleProps) => (props.indication ? 'var(--point-color)' : 'var(--light-gray-color)')};
+  background: ${(props: DotStyleProps) => { return (props.indication ? 'var(--point-color)' : 'var(--light-gray-color)'); }};
   border-radius: 50%;
-  height: ${(props: DotStyleProps) => (props.indication ? '0.7rem' : '0.375rem')};
-  width: ${(props: DotStyleProps) => (props.indication ? '0.7rem' : '0.375rem')};
+  height: ${(props: DotStyleProps) => { return (props.indication ? '0.7rem' : '0.375rem'); }};
+  width: ${(props: DotStyleProps) => { return (props.indication ? '0.7rem' : '0.375rem'); }};
   transition: all 0.25s ease-in-out;
 
   ${mediaQuery(BREAKPOINT_TABLET)} {
     height: 0.4rem;
     width: 0.4rem;
-    height: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.25rem')};
-    width: ${(props: DotStyleProps) => (props.indication ? '0.55rem' : '0.25rem')};
+    height: ${(props: DotStyleProps) => { return (props.indication ? '0.55rem' : '0.25rem'); }};
+    width: ${(props: DotStyleProps) => { return (props.indication ? '0.55rem' : '0.25rem'); }};
   }
 `;

@@ -1,8 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
-import { postValidCheck } from '../../../../services/ResponseApi';
-import { UserNameData, SignUpData, CompanyRegistrationNumberData, ExtendedSignUpData } from '../../../../@types/types';
-import Button from '../../Buttons/Button';
+
 import styled from 'styled-components';
+
+import {
+  UserNameData, SignUpData, CompanyRegistrationNumberData, ExtendedSignUpData,
+} from '../../../../@types/types';
+import { postValidCheck } from '../../../../services/ResponseApi';
+import Button from '../../Buttons/Button';
 
 interface ValidInputProps {
   children: React.ReactNode;
@@ -32,7 +36,7 @@ export default function ValidInputBox({
   // 아이디, 사업자등록번호
   const onChangeValidData = (e: ChangeEvent<HTMLInputElement>) => {
     if (children === '아이디') {
-      setUserNameData(() => ({ username: e.target.value }));
+      setUserNameData(() => { return { username: e.target.value }; });
     } else if (children === '사업자 등록번호') setCompanyRegistrationNumberData({ company_registration_number: e.target.value });
   };
 
@@ -55,8 +59,8 @@ export default function ValidInputBox({
         setUsernameError('');
         setUsernameSuccess(result.Success);
         userType === 'SELLER'
-          ? setSellerSignUpData?.((prevData) => ({ ...prevData, username: usernameData.username }))
-          : setSignUpData?.((prevData) => ({ ...prevData, username: usernameData.username }));
+          ? setSellerSignUpData?.((prevData) => { return { ...prevData, username: usernameData.username }; })
+          : setSignUpData?.((prevData) => { return { ...prevData, username: usernameData.username }; });
       } else {
         setUsernameSuccess('');
         setUsernameError(result.FAIL_Message);
@@ -80,10 +84,12 @@ export default function ValidInputBox({
       if (result.Success && setSellerSignUpData) {
         setUsernameError('');
         setUsernameSuccess(result.Success);
-        setSellerSignUpData((prevData) => ({
-          ...prevData,
-          company_registration_number: companyRegistrationNumberData.company_registration_number,
-        }));
+        setSellerSignUpData((prevData) => {
+          return {
+            ...prevData,
+            company_registration_number: companyRegistrationNumberData.company_registration_number,
+          };
+        });
       } else {
         setUsernameSuccess('');
         setUsernameError(result.FAIL_Message);

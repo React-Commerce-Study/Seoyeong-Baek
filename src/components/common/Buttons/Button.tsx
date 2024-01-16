@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+
 import styled, { css } from 'styled-components';
 
 interface ButtonProps {
@@ -24,14 +25,14 @@ export default function Button(props: ButtonProps) {
 const buttonStyles = css<ButtonProps>`
   width: 100%;
   height: 100%;
-  background-color: ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
-  color: ${(props: ButtonProps) => props.color || '#fff'};
-  font-size: ${(props: ButtonProps) => props.fontSize || 'var( --font-size-lg)'};
-  font-weight: ${(props: ButtonProps) => props.fontWeight || '700'};
-  padding: ${(props: ButtonProps) => props.padding || '1.1875rem 0'};
+  background-color: ${(props: ButtonProps) => { return props.bgColor || 'var(--point-color)'; }};
+  color: ${(props: ButtonProps) => { return props.color || '#fff'; }};
+  font-size: ${(props: ButtonProps) => { return props.fontSize || 'var( --font-size-lg)'; }};
+  font-weight: ${(props: ButtonProps) => { return props.fontWeight || '700'; }};
+  padding: ${(props: ButtonProps) => { return props.padding || '1.1875rem 0'; }};
   border-radius: 5px;
   box-sizing: border-box;
-  box-shadow: ${(props: ButtonProps) => props.boxShadow || 'none'};
+  box-shadow: ${(props: ButtonProps) => { return props.boxShadow || 'none'; }};
   transition: all 0.25s ease-out;
 
   &:disabled {
@@ -40,8 +41,8 @@ const buttonStyles = css<ButtonProps>`
 
   &:not(:disabled):hover {
     background-color: white;
-    box-shadow: inset 0 0 0 1px ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
-    color: ${(props: ButtonProps) => props.bgColor || 'var(--point-color)'};
+    box-shadow: inset 0 0 0 1px ${(props: ButtonProps) => { return props.bgColor || 'var(--point-color)'; }};
+    color: ${(props: ButtonProps) => { return props.bgColor || 'var(--point-color)'; }};
   }
 `;
 

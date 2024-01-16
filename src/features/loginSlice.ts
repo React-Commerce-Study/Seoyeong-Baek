@@ -9,7 +9,7 @@ const initialState: LoginState = {
 };
 
 export const loginSlice = createSlice({
-  name: 'isLoggedIn', //이 slice의 이름 만들기
+  name: 'isLoggedIn', // 이 slice의 이름 만들기
   initialState, // 초기 값
   reducers: {
     login: (state) => {

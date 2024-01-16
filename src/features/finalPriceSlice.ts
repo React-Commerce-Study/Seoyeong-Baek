@@ -11,7 +11,7 @@ const initialState: ModalState = {
 };
 
 export const finalPriceSlice = createSlice({
-  name: 'finalPrice', //이 slice의 이름 만들기
+  name: 'finalPrice', // 이 slice의 이름 만들기
   initialState, // 초기 값
   reducers: {
     plusPrice: (state, action: PayloadAction<{ price: number; deliveryFee: number }>) => {
